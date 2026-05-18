@@ -1,0 +1,14 @@
+CREATE TABLE order_items (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    order_id INT UNSIGNED NOT NULL,
+    product_id INT UNSIGNED,
+    product_name VARCHAR(255) NOT NULL,
+    product_sku VARCHAR(100),
+    quantity INT UNSIGNED NOT NULL DEFAULT 1,
+    price DECIMAL(15, 2) NOT NULL,
+    total DECIMAL(15, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL
+);
