@@ -1,1 +1,18 @@
 .env
+config/database.php
+config/flutterwave.php
+
+# Dependencies
+vendor/
+
+# Uploaded product images
+public/uploads/*
+!public/uploads/.gitkeep
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+error_log
