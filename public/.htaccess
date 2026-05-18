@@ -1,0 +1,15 @@
+Options -Indexes
+
+RewriteEngine On
+
+# Block access to sensitive folders
+RewriteRule ^config/ - [F,L]
+RewriteRule ^app/ - [F,L]
+RewriteRule ^database/ - [F,L]
+
+# Serve real file or folder it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Send to index.php if otherwise
+RewriteRule ^ index.php [QSA,L]
