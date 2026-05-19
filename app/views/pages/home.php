@@ -3,7 +3,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <p class="hero-subtitle">New Collection 2025</p>
+            <p class="hero-subtitle">EXCLUSIVELY YOURS</p>
             <h1 class="hero-title">Luxury Redefined <br><span>For You</span></h1>
             <p class="hero-text">Discover our exclusive collection of jewelry, perfume and glasses crafted for the discerning individual.</p>
             <div class="hero-btns">
