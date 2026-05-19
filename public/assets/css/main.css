@@ -620,18 +620,19 @@ h4 { font-size: 1.25rem; }
 }
 
 .category-card {
-    text-align: center;
-    padding: 40px 24px;
-    border-radius: var(--radius-lg);
-    border: 1px solid #eee;
-    transition: var(--transition);
-    display: block;
+  text-align: center;
+  padding: 40px 24px;
+  border-radius: var(--radius-lg);
+  border: none;
+  transition: var(--transition);
+  display: block;
+  background: var(--off-white);
 }
 
 .category-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--mustard);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  background: var(--white);
 }
 
 .category-img {
@@ -661,4 +662,109 @@ h4 { font-size: 1.25rem; }
 .category-card p {
     color: var(--text-grey);
     font-size: 13px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--ash);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    z-index: 999;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  .dropdown-menu {
+    position: static;
+    transform: none;
+    box-shadow: none;
+    background: transparent;
+    border: none;
+    padding: 8px 0 0;
+    opacity: 1;
+    visibility: visible;
+    text-align: center;
+  }
+
+  .dropdown-menu li a {
+    color: #a0a0a0 !important;
+  }
+
+  .categories-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+
+  .footer-col:last-child {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+
+  .footer-col:last-child .footer-contact {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-bottom .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .payment-icons {
+    justify-content: center;
+  }
+
+  .hero-btns {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: auto;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-actions .nav-icon-btn:nth-child(2) {
+    display: none;
+  }
+
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
 }
