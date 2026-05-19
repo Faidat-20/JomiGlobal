@@ -1,9 +1,9 @@
 <nav class="navbar">
   <div class="nav-container">
-      
+    
     <!-- Logo -->
     <a href="<?= APP_URL ?>" class="nav-logo">
-      <span class="logo-text">JOMI<span class="logo-accent">GLOBAL</span></span>
+      <img src="<?= APP_URL ?>/assets/images/logo.png" alt="JomiGlobal" class="logo-img">
     </a>
 
     <!-- Main Navigation -->
