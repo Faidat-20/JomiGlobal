@@ -40,6 +40,13 @@ switch ($url) {
         require_once ROOT . '/app/controllers/AuthController.php';
         break;
 
+    case 'logout':
+        session_name(SESSION_NAME);
+        session_start();
+        require_once ROOT . '/app/helpers/auth.php';
+        logoutUser();
+        break;
+
     case 'checkout':
         require_once ROOT . '/app/controllers/CartController.php';
         break;

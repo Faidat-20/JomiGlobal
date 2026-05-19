@@ -27,3 +27,19 @@ if (hero && heroGlow) {
     heroGlow.style.top = y + 'px';
   });
 }
+
+// Password toggle
+const togglePassword = document.getElementById('togglePassword');
+if (togglePassword) {
+  togglePassword.addEventListener('click', () => {
+    const input = document.getElementById('password');
+    const icon = togglePassword.querySelector('i');
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.classList.replace('ti-eye', 'ti-eye-off');
+    } else {
+      input.type = 'password';
+      icon.classList.replace('ti-eye-off', 'ti-eye');
+    }
+  });
+}
