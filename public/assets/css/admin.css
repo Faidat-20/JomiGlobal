@@ -554,3 +554,52 @@ img { max-width: 100%; height: auto; display: block; }
     padding: 16px;
   }
 }
+
+/* --- Image Upload --- */
+.image-upload-area {
+  border: 2px dashed #e0e0e0;
+  border-radius: var(--radius-md);
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.image-upload-area:hover {
+  border-color: var(--gold);
+  background: rgba(218,158,40,0.02);
+}
+
+.upload-placeholder i {
+  font-size: 40px;
+  color: #a0a0a0;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.upload-placeholder p {
+  font-size: 14px;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.upload-placeholder span {
+  font-size: 12px;
+  color: #a0a0a0;
+}
+
+/* --- Search Input --- */
+.admin-search-input {
+  padding: 8px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-family: var(--font-body);
+  outline: none;
+  transition: var(--transition);
+  width: 250px;
+}
+
+.admin-search-input:focus {
+  border-color: var(--gold);
+}

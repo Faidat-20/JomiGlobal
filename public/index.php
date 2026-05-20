@@ -55,6 +55,15 @@ switch ($url) {
         require_once ROOT . '/app/controllers/AdminController.php';
         break;
 
+    case 'admin/products':
+        require_once ROOT . '/app/controllers/ProductsAdminController.php';
+        break;
+
+    case 'admin/products/add':
+        $_GET['action'] = 'add';
+        require_once ROOT . '/app/controllers/ProductsAdminController.php';
+        break;
+        
     default:
         http_response_code(404);
         echo "Page not found";
