@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $pageTitle ?? 'Admin' ?> | JomiGlobal Admin</title>
+  <link rel="alternate icon" href="<?= APP_URL ?>/assets/images/Icon-54.svg">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
