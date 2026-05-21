@@ -68,6 +68,10 @@ switch ($url) {
         require_once ROOT . '/app/controllers/OrdersAdminController.php';
         break;
     
+    case 'admin/customers':
+        require_once ROOT . '/app/controllers/CustomersAdminController.php';
+        break;
+        
     default:
         http_response_code(404);
         echo "Page not found";

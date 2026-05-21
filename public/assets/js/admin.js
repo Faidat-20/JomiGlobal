@@ -77,3 +77,16 @@ if (orderSearch) {
     });
   });
 }
+
+// Customer search
+const customerSearch = document.getElementById('customerSearch');
+if (customerSearch) {
+  customerSearch.addEventListener('input', (e) => {
+    const search = e.target.value.toLowerCase();
+    const rows = document.querySelectorAll('#customersTable tbody tr');
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(search) ? '' : 'none';
+    });
+  });
+}
