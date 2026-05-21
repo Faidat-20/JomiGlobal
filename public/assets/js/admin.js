@@ -39,63 +39,28 @@ alerts.forEach(alert => {
 });
 
 // Image upload preview
-const imageUploadArea = document.getElementById('imageUploadArea');
 const imageInput = document.getElementById('imageInput');
-const imagePreview = document.getElementById('imagePreview');
-const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+const imagePreviewGrid = document.getElementById('imagePreviewGrid');
 
-if (imageUploadArea) {
-  imageUploadArea.addEventListener('click', () => imageInput.click());
-
-  imageInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        imagePreview.src = e.target.result;
-        imagePreview.style.display = 'block';
-        uploadPlaceholder.style.display = 'none';
-      };
-      reader.readAsDataURL(file);
+if (imageInput) {
+  imageInput.addEventListener('change', function() {
+    const files = this.files;
+    if (files.length > 0) {
+      imagePreviewGrid.innerHTML = '';
+      Array.from(files).forEach(function(file, index) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const div = document.createElement('div');
+          div.style.cssText = 'position:relative;width:100px;height:100px;';
+          div.innerHTML = `
+            <img src="${e.target.result}" style="width:100px;height:100px;object-fit:cover;border-radius:8px;">
+            ${index === 0 ? '<span style="position:absolute;bottom:4px;left:4px;background:var(--mustard);color:var(--ash);font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">Main</span>' : ''}
+            <button type="button" onclick="this.parentElement.remove()" style="position:absolute;top:-6px;right:-6px;background:#e74c3c;color:white;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;">×</button>
+          `;
+          imagePreviewGrid.appendChild(div);
+        };
+        reader.readAsDataURL(file);
+      });
     }
-  });
-
-  // Drag and drop
-  imageUploadArea.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    imageUploadArea.style.borderColor = 'var(--gold)';
-  });
-
-  imageUploadArea.addEventListener('dragleave', () => {
-    imageUploadArea.style.borderColor = '#e0e0e0';
-  });
-
-  imageUploadArea.addEventListener('drop', (e) => {
-    e.preventDefault();
-    imageUploadArea.style.borderColor = '#e0e0e0';
-    const file = e.dataTransfer.files[0];
-    if (file) {
-      imageInput.files = e.dataTransfer.files;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        imagePreview.src = e.target.result;
-        imagePreview.style.display = 'block';
-        uploadPlaceholder.style.display = 'none';
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-}
-
-// Product search
-const productSearch = document.getElementById('productSearch');
-if (productSearch) {
-  productSearch.addEventListener('input', (e) => {
-    const search = e.target.value.toLowerCase();
-    const rows = document.querySelectorAll('#productsTable tbody tr');
-    rows.forEach(row => {
-      const text = row.textContent.toLowerCase();
-      row.style.display = text.includes(search) ? '' : 'none';
-    });
   });
 }

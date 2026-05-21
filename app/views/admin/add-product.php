@@ -118,47 +118,6 @@
         </div>
       <?php endif; ?>
 
-    </div>
-
-    <!-- Right Column -->
-    <div>
-
-      <div class="admin-form-group">
-        <label>Description</label>
-        <textarea
-          name="description"
-          placeholder="Describe the product..."
-          rows="6"
-        ><?= htmlspecialchars($editProduct['description'] ?? $_POST['description'] ?? '') ?></textarea>
-      </div>
-
-      <div class="admin-form-group">
-        <label>Product Image</label>
-        <?php if (isset($editProduct['image']) && $editProduct['image']): ?>
-          <div style="margin-bottom:12px;">
-            <img
-              src="<?= APP_URL ?>/uploads/<?= $editProduct['image'] ?>"
-              style="width:120px;height:120px;object-fit:cover;border-radius:8px;"
-            >
-          </div>
-        <?php endif; ?>
-        <div class="image-upload-area" id="imageUploadArea">
-          <input
-            type="file"
-            name="image"
-            id="imageInput"
-            accept=".jpg,.jpeg,.png,.webp"
-            style="display:none;"
-          >
-          <div class="upload-placeholder" id="uploadPlaceholder">
-            <i class="ti ti-cloud-upload"></i>
-            <p>Click to upload or drag and drop</p>
-            <span>JPG, PNG, WEBP up to 5MB</span>
-          </div>
-          <img id="imagePreview" style="display:none;width:100%;height:200px;object-fit:cover;border-radius:8px;">
-        </div>
-      </div>
-
       <div class="admin-form-group">
         <label>Collections</label>
         <?php
@@ -201,8 +160,51 @@
           <span>Active (visible in shop)</span>
         </label>
       </div>
-
     </div>
+
+    <!-- Right Column -->
+    <div>
+      <div class="admin-form-group">
+        <label>Description</label>
+        <textarea
+          name="description"
+          placeholder="Describe the product..."
+          rows="6"
+        ><?= htmlspecialchars($editProduct['description'] ?? $_POST['description'] ?? '') ?></textarea>
+      </div>
+
+      <div class="admin-form-group">
+        <label>Product Images</label>
+        <?php if (isset($editProduct['image']) && $editProduct['image']): ?>
+          <div style="margin-bottom:12px;">
+            <img
+              src="<?= APP_URL ?>/uploads/<?= $editProduct['image'] ?>"
+              style="width:120px;height:120px;object-fit:cover;border-radius:8px;"
+            >
+          </div>
+        <?php endif; ?>
+        <div id="imagePreviewGrid" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;"></div>
+        <input
+          type="file"
+          name="images[]"
+          id="imageInput"
+          accept=".jpg,.jpeg,.png,.webp"
+          multiple
+          style="display:none;"
+        >
+        <button
+          type="button"
+          onclick="document.getElementById('imageInput').click()"
+          style="padding:10px 20px;border:1px dashed #ccc;border-radius:8px;background:white;cursor:pointer;font-size:13px;font-family:inherit;"
+        >
+          + Add Image
+        </button>
+        <p style="font-size:12px;color:#a0a0a0;margin-top:8px;">
+          You can select multiple images. First image will be the main image.
+        </p>
+      </div>
+    </div>
+
   </div>
 
   <div style="margin-top:32px;padding-top:24px;border-top:1px solid #eee;display:flex;gap:12px;">

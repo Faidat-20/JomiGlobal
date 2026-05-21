@@ -49,8 +49,8 @@ class Product {
       INSERT INTO products (
         category_id, name, slug, description,
         price, sale_price, stock, sku,
-        brand, is_featured, is_active
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        brand, is_featured, is_active, image
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ');
     $stmt->execute([
       $data['category_id'],
@@ -58,12 +58,13 @@ class Product {
       $data['slug'],
       $data['description'],
       $data['price'],
-      $data['sale_price'] ?: null,
+      $data['sale_price'],
       $data['stock'],
       $data['sku'] ?: null,
       $data['brand'] ?: null,
-      $data['is_featured'] ?? 0,
-      $data['is_active'] ?? 1
+      $data['is_featured'],
+      $data['is_active'],
+      $data['image'] ?? null
     ]);
     return $this->pdo->lastInsertId();
   }

@@ -53,9 +53,9 @@
         <?php foreach ($products as $p): ?>
           <tr>
             <td>
-              <?php if ($p['image']): ?>
+              <?php if (!empty($p['image'])): ?>
                 <img
-                  src="<?= APP_URL ?>/uploads/<?= $p['image'] ?>"
+                  src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($p['image']) ?>"
                   alt="<?= htmlspecialchars($p['name']) ?>"
                   style="width:50px;height:50px;object-fit:cover;border-radius:8px;"
                 >
@@ -108,22 +108,15 @@
               <?php endif; ?>
             </td>
             <td>
-              <div style="display:flex;gap:8px;">
-                
-                  href="<?= APP_URL ?>/admin/products?action=edit&id=<?= $p['id'] ?>"
-                  class="btn-admin btn-admin-secondary btn-sm"
-                >
-                  <i class="ti ti-edit"></i>
-                </a>
-                
-                  href="<?= APP_URL ?>/admin/products?action=delete&id=<?= $p['id'] ?>"
-                  class="btn-admin btn-admin-danger btn-sm"
-                  onclick="return confirmDelete('Are you sure you want to delete <?= htmlspecialchars($p['name']) ?>?')"
-                >
-                  <i class="ti ti-trash"></i>
-                </a>
-              </div>
-            </td>
+  <div style="display:flex;gap:8px;">
+    <a href="<?= APP_URL ?>/admin/products?action=edit&id=<?= $p['id'] ?>" class="btn-admin btn-admin-secondary btn-sm">
+      <i class="ti ti-edit"></i>
+    </a>
+    <a href="<?= APP_URL ?>/admin/products?action=delete&id=<?= $p['id'] ?>" class="btn-admin btn-admin-danger btn-sm" onclick="return confirmDelete('Are you sure you want to delete this product?')">
+      <i class="ti ti-trash"></i>
+    </a>
+  </div>
+</td>
           </tr>
         <?php endforeach; ?>
       <?php endif; ?>
