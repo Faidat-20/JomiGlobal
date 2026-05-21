@@ -47,13 +47,14 @@ class Product {
   public function create($data) {
     $stmt = $this->pdo->prepare('
       INSERT INTO products (
-        category_id, name, slug, description,
+        category_id, subcategory_id, name, slug, description,
         price, sale_price, stock, sku,
         brand, is_featured, is_active, image
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ');
     $stmt->execute([
       $data['category_id'],
+      $data['subcategory_id'] ?? null,
       $data['name'],
       $data['slug'],
       $data['description'],
@@ -74,6 +75,7 @@ class Product {
     $stmt = $this->pdo->prepare('
       UPDATE products SET
         category_id = ?,
+        subcategory_id = ?,
         name = ?,
         slug = ?,
         description = ?,
@@ -88,16 +90,17 @@ class Product {
     ');
     return $stmt->execute([
       $data['category_id'],
+      $data['subcategory_id'] ?? null,
       $data['name'],
       $data['slug'],
       $data['description'],
       $data['price'],
-      $data['sale_price'] ?: null,
+      $data['sale_price'],
       $data['stock'],
       $data['sku'] ?: null,
       $data['brand'] ?: null,
-      $data['is_featured'] ?? 0,
-      $data['is_active'] ?? 1,
+      $data['is_featured'],
+      $data['is_active'],
       $id
     ]);
   }
@@ -143,6 +146,26 @@ class Product {
   public function getCategories() {
     $stmt = $this->pdo->prepare('SELECT * FROM categories WHERE is_active = 1');
     $stmt->execute();
+    return $stmt->fetchAll();
+  }
+
+  public function getSubcategories($category_id = null) {
+    if ($category_id) {
+      $stmt = $this->pdo->prepare('
+        SELECT * FROM subcategories 
+        WHERE category_id = ? AND is_active = 1
+      ');
+      $stmt->execute([$category_id]);
+    } else {
+      $stmt = $this->pdo->prepare('
+        SELECT s.*, c.name as category_name 
+        FROM subcategories s
+        LEFT JOIN categories c ON s.category_id = c.id
+        WHERE s.is_active = 1
+        ORDER BY s.category_id
+      ');
+      $stmt->execute();
+    }
     return $stmt->fetchAll();
   }
 

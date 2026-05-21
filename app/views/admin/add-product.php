@@ -53,6 +53,13 @@
       </div>
 
       <div class="admin-form-group">
+        <label>Subcategory</label>
+        <select name="subcategory_id" id="subcategorySelect">
+          <option value="">Select Subcategory</option>
+        </select>
+      </div>
+      
+      <div class="admin-form-group">
         <label>Brand</label>
         <input
           type="text"
@@ -218,5 +225,33 @@
   </div>
 
 </form>
+
+<script>
+const subcategoriesData = <?= json_encode($subcategories ?? []) ?>;
+const categorySelect = document.querySelector('select[name="category_id"]');
+const subcategorySelect = document.getElementById('subcategorySelect');
+
+if (categorySelect && subcategorySelect) {
+  function loadSubcategories(catId) {
+    subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+    const filtered = subcategoriesData.filter(s => s.category_id == catId);
+    filtered.forEach(sub => {
+      const option = document.createElement('option');
+      option.value = sub.id;
+      option.textContent = sub.name;
+      subcategorySelect.appendChild(option);
+    });
+  }
+
+  categorySelect.addEventListener('change', function() {
+    loadSubcategories(this.value);
+  });
+
+  // Load on page load if editing
+  if (categorySelect.value) {
+    loadSubcategories(categorySelect.value);
+  }
+}
+</script>
 
 <?php require_once ROOT . '/app/views/layouts/admin-layout-end.php'; ?>

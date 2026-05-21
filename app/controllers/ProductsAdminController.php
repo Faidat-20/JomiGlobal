@@ -61,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($action === 'edit' && $id) {
     $data = [
       'category_id' => $_POST['category_id'],
+      'subcategory_id' => $_POST['subcategory_id'] ?: null,
       'name'        => trim($_POST['name']),
       'slug'        => $_POST['slug'],
       'description' => trim($_POST['description']),
@@ -140,10 +141,12 @@ $activePage = 'products';
 if ($action === 'add') {
   $pageTitle = 'Add Product';
   $categories = $product->getCategories();
+  $subcategories = $product->getSubcategories();
   require_once ROOT . '/app/views/admin/add-product.php';
 } elseif ($action === 'edit' && $id) {
   $pageTitle = 'Edit Product';
   $categories = $product->getCategories();
+  $subcategories = $product->getSubcategories();
   $editProduct = $product->getById($id);
   require_once ROOT . '/app/views/admin/add-product.php';
 } else {
