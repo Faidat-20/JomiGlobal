@@ -64,3 +64,16 @@ if (imageInput) {
     }
   });
 }
+
+// Order search
+const orderSearch = document.getElementById('orderSearch');
+if (orderSearch) {
+  orderSearch.addEventListener('input', (e) => {
+    const search = e.target.value.toLowerCase();
+    const rows = document.querySelectorAll('#ordersTable tbody tr');
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(search) ? '' : 'none';
+    });
+  });
+}
