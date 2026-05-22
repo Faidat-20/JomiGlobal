@@ -35,6 +35,22 @@ switch ($url) {
         require_once ROOT . '/app/controllers/CartController.php';
         break;
 
+        case 'cart/add':
+        require_once ROOT . '/app/controllers/CartController.php';
+        break;
+
+        case 'cart/update':
+        require_once ROOT . '/app/controllers/CartController.php';
+        break;
+
+        case 'cart/remove':
+        require_once ROOT . '/app/controllers/CartController.php';
+        break;
+
+        case 'cart/clear':
+        require_once ROOT . '/app/controllers/CartController.php';
+        break;
+
     case 'login':
     case 'register':
         require_once ROOT . '/app/controllers/AuthController.php';

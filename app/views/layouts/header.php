@@ -17,7 +17,18 @@ $pageDescription = $pageDescription ?? 'Luxury Jewelry, Perfume and Glasses';
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/animate.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/shop.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/product.css">
+    <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/cart.css">
     <link rel="icon" type="image/svg+xml" href="<?= APP_URL ?>/assets/images/icon.svg">
     <link rel="alternate icon" href="<?= APP_URL ?>/assets/images/Icon-54.svg">
+    <script>
+        const APP_URL = '<?= APP_URL ?>';
+        <?php
+            $cartIds = [];
+            if (isset($_SESSION['cart'])) {
+            $cartIds = array_keys($_SESSION['cart']);
+            }
+        ?>
+        const cartItemIds = <?= json_encode(array_map('intval', $cartIds)) ?>;
+    </script>
 </head>
 <body>

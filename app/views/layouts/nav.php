@@ -50,7 +50,9 @@
       <!-- Cart -->
       <a href="<?= APP_URL ?>/cart" class="nav-icon-btn cart-btn">
         <i class="ti ti-shopping-bag"></i>
-        <span class="cart-count">0</span>
+        <span class="cart-count">
+          <?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>
+        </span>
       </a>
 
       <!-- Account -->
