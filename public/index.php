@@ -73,6 +73,10 @@ switch ($url) {
         break;
         
     default:
+        if (strpos($url, 'product/') === 0) {
+            require_once ROOT . '/app/controllers/ProductDetailController.php';
+            break;
+        }
         http_response_code(404);
         echo "Page not found";
         break;
