@@ -15,6 +15,7 @@ $pageDescription = $pageDescription ?? 'Luxury Jewelry, Perfume and Glasses';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/main.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/animate.css">
+    <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/shop.css">
     <link rel="icon" type="image/svg+xml" href="<?= APP_URL ?>/assets/images/icon.svg">
     <link rel="alternate icon" href="<?= APP_URL ?>/assets/images/Icon-54.svg">
 </head>

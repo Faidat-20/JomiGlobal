@@ -28,7 +28,7 @@ switch ($url) {
         break;
 
     case 'shop':
-        require_once ROOT . '/app/controllers/ProductController.php';
+        require_once ROOT . '/app/controllers/ShopController.php';
         break;
 
     case 'cart':
