@@ -43,3 +43,29 @@ if (togglePassword) {
     }
   });
 }
+const mobileMenuBtn = document.getElementById('mobileMenuToggle');
+const navLinks = document.querySelector('.nav-links');
+
+if (mobileMenuBtn && navLinks) {
+  mobileMenuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    navLinks.classList.toggle('open');
+    const icon = mobileMenuBtn.querySelector('i');
+    if (icon) {
+      icon.classList.toggle('ti-menu-2');
+      icon.classList.toggle('ti-x');
+    }
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+      navLinks.classList.remove('open');
+      const icon = mobileMenuBtn.querySelector('i');
+      if (icon) {
+        icon.classList.add('ti-menu-2');
+        icon.classList.remove('ti-x');
+      }
+    }
+  });
+}

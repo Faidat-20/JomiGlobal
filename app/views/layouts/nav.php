@@ -10,7 +10,6 @@
     <ul class="nav-links">
       <li><a href="<?= APP_URL ?>">Home</a></li>
       
-      <!-- Shop Dropdown -->
       <li class="dropdown">
         <a href="<?= APP_URL ?>/shop">Shop <i class="ti ti-chevron-down"></i></a>
         <ul class="dropdown-menu">
@@ -20,7 +19,6 @@
         </ul>
       </li>
 
-      <!-- Collections Dropdown -->
       <li class="dropdown">
         <a href="#">Collections <i class="ti ti-chevron-down"></i></a>
         <ul class="dropdown-menu">
@@ -37,10 +35,11 @@
 
     <!-- Nav Actions -->
     <div class="nav-actions">
-      <!-- Search -->
-      <button class="nav-icon-btn" id="searchToggle">
+
+      <!-- Search — goes directly to search page -->
+      <a href="<?= APP_URL ?>/search" class="nav-icon-btn">
         <i class="ti ti-search"></i>
-      </button>
+      </a>
 
       <!-- Wishlist -->
       <a href="<?= APP_URL ?>/wishlist" class="nav-icon-btn">
@@ -69,18 +68,5 @@
     <button class="mobile-menu-btn" id="mobileMenuToggle">
       <i class="ti ti-menu-2"></i>
     </button>
-  </div>
-
-  <!-- Search Bar -->
-  <div class="search-bar" id="searchBar">
-    <div class="search-container">
-      <input type="text" placeholder="Search for jewelry, perfume, glasses..." id="searchInput">
-      <button class="search-submit">
-        <i class="ti ti-search"></i>
-      </button>
-      <button class="search-close" id="searchClose">
-        <i class="ti ti-x"></i>
-      </button>
-    </div>
   </div>
 </nav>

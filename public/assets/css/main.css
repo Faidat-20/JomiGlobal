@@ -1,11 +1,3 @@
-/* ============================================
-   JOMIGLOBAL - MAIN STYLESHEET
-   Brand Colors:
-   Mustard:  #ffd05c
-   Gold:     #da9e28
-   Ash:      #414042
-============================================ */
-
 /* --- CSS Variables --- */
 :root {
     --mustard: #ffd05c;
@@ -333,52 +325,6 @@ h4 { font-size: 1.25rem; }
 .nav-btn:hover {
     background: var(--gold) !important;
 }
-
-/* Search Bar */
-.search-bar {
-    background: var(--ash-dark);
-    padding: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: var(--transition-slow);
-}
-
-.search-bar.open {
-    max-height: 80px;
-    padding: 16px 24px;
-}
-
-.search-container {
-    max-width: var(--container-width);
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.search-container input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--ash-light);
-    color: var(--white);
-    font-size: 16px;
-    padding: 8px 0;
-}
-
-.search-container input::placeholder {
-    color: var(--ash-light);
-}
-
-.search-submit,
-.search-close {
-    color: var(--white);
-    font-size: 20px;
-    transition: var(--transition);
-}
-
-.search-submit:hover { color: var(--mustard); }
-.search-close:hover { color: var(--error); }
 
 /* Mobile Menu */
 .mobile-menu-btn {

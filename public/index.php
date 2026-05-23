@@ -91,7 +91,10 @@ switch ($url) {
     case 'admin/shipping':
         require_once ROOT . '/app/controllers/ShippingAdminController.php';
         break;
-        
+    case 'search':
+        require_once ROOT . '/app/controllers/SearchController.php';
+        break;
+
     default:
         if (strpos($url, 'product/') === 0) {
             require_once ROOT . '/app/controllers/ProductDetailController.php';
