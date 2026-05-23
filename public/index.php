@@ -64,7 +64,7 @@ switch ($url) {
         break;
 
     case 'checkout':
-        require_once ROOT . '/app/controllers/CartController.php';
+        require_once ROOT . '/app/controllers/CheckoutController.php';
         break;
 
     case 'admin':
@@ -86,6 +86,10 @@ switch ($url) {
     
     case 'admin/customers':
         require_once ROOT . '/app/controllers/CustomersAdminController.php';
+        break;
+
+    case 'admin/shipping':
+        require_once ROOT . '/app/controllers/ShippingAdminController.php';
         break;
         
     default:

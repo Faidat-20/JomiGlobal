@@ -603,3 +603,70 @@ img { max-width: 100%; height: auto; display: block; }
 .admin-search-input:focus {
   border-color: var(--gold);
 }
+
+/* --- Shipping Modal --- */
+.shipping-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.shipping-modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.shipping-modal-content {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  width: 100%;
+  max-width: 500px;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+}
+
+.shipping-modal.open .shipping-modal-content {
+  transform: translateY(0);
+}
+
+.shipping-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.shipping-modal-header h3 {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-grey);
+  font-size: 16px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: var(--light-grey);
+  color: var(--text-dark);
+}

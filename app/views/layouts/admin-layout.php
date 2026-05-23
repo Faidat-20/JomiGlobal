@@ -54,6 +54,12 @@
             <span>Customers</span>
           </a>
         </li>
+        <li>
+          <a href="<?= APP_URL ?>/admin/shipping" class="<?= $activePage === 'shipping' ? 'active' : '' ?>">
+            <i class="ti ti-truck"></i>
+            <span>Shipping</span>
+          </a>
+        </li>
       </ul>
     </nav>
 
