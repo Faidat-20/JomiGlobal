@@ -62,7 +62,7 @@
                   <i class="ti ti-edit"></i>
                 </button>
                 
-                  href="<?= APP_URL ?>/admin/shipping?action=delete&id=<?= $rate['id'] ?>"
+                <a  href="<?= APP_URL ?>/admin/shipping?action=delete&id=<?= $rate['id'] ?>"
                   class="btn-admin btn-admin-danger btn-sm"
                   onclick="return confirmDelete('Delete this shipping rate?')"
                 >
