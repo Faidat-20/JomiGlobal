@@ -311,6 +311,22 @@ h4 { font-size: 1.25rem; }
     justify-content: center;
 }
 
+.wishlist-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--error);
+    color: var(--ash);
+    font-size: 10px;
+    font-weight: 600;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .nav-btn {
     background: var(--mustard);
     color: var(--ash) !important;

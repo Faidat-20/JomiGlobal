@@ -45,7 +45,7 @@
       <a href="<?= APP_URL ?>/wishlist" class="nav-icon-btn">
         <i class="ti ti-heart"></i>
         <?php $wishlistCount = isset($_SESSION['wishlist']) ? count($_SESSION['wishlist']) : 0; ?>
-        <span class="wishlist-count cart-count" style="background:var(--error);<?= $wishlistCount < 1 ? 'display:none;' : '' ?>">
+        <span class="wishlist-count" style="<?= $wishlistCount < 1 ? 'display:none;' : '' ?>">
           <?= $wishlistCount ?>
         </span>
       </a>

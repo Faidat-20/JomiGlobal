@@ -21,7 +21,7 @@ function showToast(message, type = 'success') {
 
 // ============ CART COUNT ============
 function updateCartCount(count) {
-  const cartCount = document.querySelector('.cart-count');
+  const cartCount = document.querySelector('.cart-btn .cart-count');
   if (cartCount) cartCount.textContent = count;
 }
 

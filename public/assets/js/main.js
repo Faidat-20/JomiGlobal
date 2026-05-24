@@ -72,21 +72,10 @@ if (mobileMenuBtn && navLinks) {
 
 // ============ WISHLIST ============
 function updateWishlistCount(count) {
-  let badge = document.querySelector('.nav-icon-btn .wishlist-badge');
-  const heartLink = document.querySelector('a[href*="/wishlist"].nav-icon-btn');
-  if (!heartLink) return;
-
-  if (count > 0) {
-    if (!badge) {
-      badge = document.createElement('span');
-      badge.className = 'cart-count wishlist-badge';
-      badge.style.background = 'var(--error)';
-      heartLink.appendChild(badge);
-    }
-    badge.textContent = count;
-  } else {
-    if (badge) badge.remove();
-  }
+  const badge = document.querySelector('.wishlist-count');
+  if (!badge) return;
+  badge.textContent = count;
+  badge.style.display = count > 0 ? 'inline-flex' : 'none';
 }
 
 function setWishlistState(btn, inWishlist) {
