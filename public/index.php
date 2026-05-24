@@ -110,7 +110,10 @@ switch ($url) {
     case 'wishlist/toggle':
         require_once ROOT . '/app/controllers/WishlistController.php';
         break;
-        
+
+    case 'account':
+        require_once ROOT . '/app/controllers/AccountController.php';
+        break;
     default:
         if (strpos($url, 'product/') === 0) {
             require_once ROOT . '/app/controllers/ProductDetailController.php';
