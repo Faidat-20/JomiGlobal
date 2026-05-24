@@ -122,7 +122,7 @@
                     <button class="product-action-btn" title="Quick View">
                       <i class="ti ti-eye"></i>
                     </button>
-                    <button class="product-action-btn" title="Add to Wishlist">
+                    <button class="product-action-btn wishlist-btn" title="Add to Wishlist" data-id="<?= $p['id'] ?>">
                       <i class="ti ti-heart"></i>
                     </button>
                     <button class="product-action-btn add-to-cart-btn" title="Add to Cart" data-id="<?= $p['id'] ?>">

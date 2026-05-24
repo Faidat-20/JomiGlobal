@@ -20,6 +20,7 @@ $pageDescription = $pageDescription ?? 'Luxury Jewelry, Perfume and Glasses';
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/cart.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/checkout.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/pages.css">
+    <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/wishlist.css">
     <link rel="icon" type="image/svg+xml" href="<?= APP_URL ?>/assets/images/icon.svg">
     <link rel="alternate icon" href="<?= APP_URL ?>/assets/images/Icon-54.svg">
     <script>
@@ -29,8 +30,13 @@ $pageDescription = $pageDescription ?? 'Luxury Jewelry, Perfume and Glasses';
             if (isset($_SESSION['cart'])) {
             $cartIds = array_keys($_SESSION['cart']);
             }
+            $wishlistIds = [];
+            if (isset($_SESSION['wishlist'])) {
+            $wishlistIds = array_keys($_SESSION['wishlist']);
+            }
         ?>
         const cartItemIds = <?= json_encode(array_map('intval', $cartIds)) ?>;
-    </script>
+        const wishlistIds = <?= json_encode(array_map('intval', $wishlistIds)) ?>;
+        </script>
 </head>
 <body>

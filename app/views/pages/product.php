@@ -95,7 +95,7 @@
             >
               <i class="ti ti-shopping-bag"></i> Add to Cart
             </button>
-            <button class="btn btn-secondary wishlist-btn">
+            <button class="btn btn-secondary wishlist-btn" data-id="<?= $currentProduct['id'] ?>">
               <i class="ti ti-heart"></i>
             </button>
           </div>

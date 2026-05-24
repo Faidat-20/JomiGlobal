@@ -95,6 +95,22 @@ switch ($url) {
         require_once ROOT . '/app/controllers/SearchController.php';
         break;
 
+    case 'wishlist':
+        require_once ROOT . '/app/controllers/WishlistController.php';
+        break;
+
+    case 'wishlist/add':
+        require_once ROOT . '/app/controllers/WishlistController.php';
+        break;
+
+    case 'wishlist/remove':
+        require_once ROOT . '/app/controllers/WishlistController.php';
+        break;
+
+    case 'wishlist/toggle':
+        require_once ROOT . '/app/controllers/WishlistController.php';
+        break;
+        
     default:
         if (strpos($url, 'product/') === 0) {
             require_once ROOT . '/app/controllers/ProductDetailController.php';
