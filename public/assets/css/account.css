@@ -166,86 +166,6 @@
   margin-bottom: 7px;
 }
 
-/* Orders */
-.account-empty {
-  text-align: center;
-  padding: 60px 24px;
-  color: var(--text-grey);
-}
-
-.account-empty i {
-  font-size: 48px;
-  display: block;
-  margin-bottom: 16px;
-  color: #ddd;
-}
-
-.account-empty p {
-  margin-bottom: 20px;
-}
-
-.orders-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.order-card {
-  border: 1px solid #f0f0f0;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  transition: var(--transition);
-}
-
-.order-card:hover {
-  border-color: var(--mustard);
-}
-
-.order-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px;
-  background: var(--off-white);
-  gap: 12px;
-}
-
-.order-card-header div {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.order-date {
-  font-size: 12px;
-  color: var(--text-grey);
-}
-
-.order-card-body {
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 13px;
-}
-
-.order-total {
-  display: flex;
-  gap: 8px;
-  color: var(--text-grey);
-  align-items: center;
-}
-
-.order-total strong {
-  color: var(--text-dark);
-  font-size: 15px;
-}
-
-.order-tracking {
-  font-size: 12px;
-  color: var(--gold);
-}
-
 /* Address Grid */
 .address-grid {
   display: grid;
@@ -446,11 +366,6 @@
   color: #fff;
 }
 
-.acc-wl-cart-btn:hover {
-  background: var(--mustard);
-  color: var(--text-dark);
-}
-
 .acc-wishlist-empty {
   text-align: center;
   padding: 60px 24px;
@@ -474,6 +389,71 @@
   font-size: 13px;
   color: var(--text-grey);
   margin-bottom: 24px;
+}
+
+.orders-table-wrap {
+  overflow-x: auto;
+}
+
+.acc-orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.acc-orders-table thead tr {
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.acc-orders-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-grey);
+}
+
+.acc-orders-table tbody tr {
+  border-bottom: 1px solid #f4f4f4;
+  transition: background 0.15s;
+}
+
+.acc-orders-table tbody tr:hover {
+  background: var(--off-white);
+}
+
+.acc-orders-table td {
+  padding: 18px 14px;
+  vertical-align: middle;
+}
+
+.acc-order-num {
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.acc-order-date {
+  color: var(--text-grey);
+}
+
+.acc-order-price {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.acc-order-tracking-row td {
+  padding: 4px 14px 14px;
+}
+
+.acc-order-tracking-cell {
+  font-size: 12px;
+  color: var(--gold);
+}
+
+.acc-order-tracking-cell i {
+  margin-right: 4px;
 }
 
 /* Responsive */

@@ -185,49 +185,57 @@
 
         <!-- Orders Tab -->
         <div class="account-tab" id="tab-orders">
-          <h2 class="account-tab-title">My Orders</h2>
+          <h2 class="account-tab-title">Orders History</h2>
+          
           <?php if (empty($orders)): ?>
-            <div class="account-empty">
+            <div class="acc-wishlist-empty">
               <i class="ti ti-shopping-bag"></i>
-              <p>You haven't placed any orders yet.</p>
-              <a href="<?= APP_URL ?>/shop" class="btn btn-primary">Start Shopping</a>
+              <h3>No orders yet</h3>
+              <p>You haven't placed any orders yet. Start shopping!</p>
+              <a href="<?= APP_URL ?>/shop" class="btn btn-primary">Continue Shopping</a>
             </div>
+
           <?php else: ?>
-            <div class="orders-list">
-              <?php foreach ($orders as $order): ?>
-                <?php
-                  $badges = [
-                    'pending'    => 'badge-warning',
-                    'confirmed'  => 'badge-info',
-                    'processing' => 'badge-info',
-                    'shipped'    => 'badge-gold',
-                    'delivered'  => 'badge-success',
-                    'cancelled'  => 'badge-error',
-                    'refunded'   => 'badge-error',
-                  ];
-                  $badge = $badges[$order['status']] ?? 'badge-info';
-                ?>
-                <div class="order-card">
-                  <div class="order-card-header">
-                    <div>
-                      <strong><?= htmlspecialchars($order['order_number']) ?></strong>
-                      <span class="badge <?= $badge ?>"><?= ucfirst($order['status']) ?></span>
-                    </div>
-                    <span class="order-date"><?= date('M j, Y', strtotime($order['created_at'])) ?></span>
-                  </div>
-                  <div class="order-card-body">
-                    <div class="order-total">
-                      <span>Total</span>
-                      <strong><?= CURRENCY_SYMBOL . number_format($order['total'], 2) ?></strong>
-                    </div>
-                    <?php if ($order['tracking_number']): ?>
-                      <div class="order-tracking">
-                        <span>Tracking: <?= htmlspecialchars($order['tracking_number']) ?></span>
-                      </div>
+            <div class="orders-table-wrap">
+              <table class="acc-orders-table">
+                <thead>
+                  <tr>
+                    <th>Number ID</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach ($orders as $order): ?>
+                    <?php
+                      $badges = [
+                        'pending'    => 'badge-warning',
+                        'confirmed'  => 'badge-info',
+                        'processing' => 'badge-info',
+                        'shipped'    => 'badge-gold',
+                        'delivered'  => 'badge-success',
+                        'cancelled'  => 'badge-error',
+                        'refunded'   => 'badge-error',
+                      ];
+                      $badge = $badges[$order['status']] ?? 'badge-info';
+                    ?>
+                    <tr>
+                      <td class="acc-order-num"><?= htmlspecialchars($order['order_number']) ?></td>
+                      <td class="acc-order-date"><?= date('F j, Y', strtotime($order['created_at'])) ?></td>
+                      <td><span class="badge <?= $badge ?>"><?= ucfirst($order['status']) ?></span></td>
+                      <td class="acc-order-price"><?= CURRENCY_SYMBOL . number_format($order['total'], 2) ?></td>
+                    </tr>
+                    <?php if (!empty($order['tracking_number'])): ?>
+                      <tr class="acc-order-tracking-row">
+                        <td colspan="4" class="acc-order-tracking-cell">
+                          <i class="ti ti-truck"></i> Tracking: <?= htmlspecialchars($order['tracking_number']) ?>
+                        </td>
+                      </tr>
                     <?php endif; ?>
-                  </div>
-                </div>
-              <?php endforeach; ?>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
             </div>
           <?php endif; ?>
         </div>
