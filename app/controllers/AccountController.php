@@ -13,12 +13,12 @@ $user_id = $_SESSION['user_id'];
 
 // Handle profile update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'update') {
-  $first_name = trim($_POST['first_name']);
-  $last_name  = trim($_POST['last_name']);
-  $phone      = trim($_POST['phone']);
-  $address    = trim($_POST['address']);
-  $city       = trim($_POST['city']);
-  $state      = trim($_POST['state']);
+  $first_name = trim($_POST['first_name'] ?? '');
+  $last_name  = trim($_POST['last_name'] ?? '');
+  $phone      = trim($_POST['phone'] ?? '');
+  $address    = trim($_POST['address'] ?? '');
+  $city       = trim($_POST['city'] ?? '');
+  $state      = trim($_POST['state'] ?? '');
 
   $stmt = $pdo->prepare('
     UPDATE users SET
