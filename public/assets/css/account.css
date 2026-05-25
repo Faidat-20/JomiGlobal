@@ -1,3 +1,12 @@
+.account-page-title {
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 32px;
+  color: var(--text-dark);
+  font-family: var(--font-body);
+}
+
 .account-page {
   padding-top: 100px;
   padding-bottom: 80px;
@@ -237,6 +246,236 @@
   color: var(--gold);
 }
 
+/* Address Grid */
+.address-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.address-card {
+  border: 1px solid #e8e8e8;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.address-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+}
+
+.address-card-header strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.address-edit-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-grey);
+  transition: var(--transition);
+}
+
+.address-edit-btn:hover {
+  color: var(--mustard);
+}
+
+.address-card-body {
+  padding: 4px 18px 18px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.address-card-body p {
+  font-size: 13px;
+  color: var(--text-grey);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.address-edit-form {
+  padding: 4px 18px 18px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.address-edit-form .checkout-field {
+  margin-bottom: 12px;
+}
+
+.address-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.btn-cancel {
+  font-size: 13px;
+  color: var(--text-grey);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-cancel:hover {
+  color: var(--error);
+}
+
+.btn-sm {
+  padding: 9px 20px !important;
+  font-size: 13px !important;
+}
+
+/* Account Wishlist Table */
+.wishlist-table-wrap {
+  overflow-x: auto;
+}
+
+.acc-wishlist-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.acc-wishlist-table thead tr {
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.acc-wishlist-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-grey);
+}
+
+.acc-wishlist-table tbody tr {
+  border-bottom: 1px solid #f4f4f4;
+  transition: background 0.15s;
+}
+
+.acc-wishlist-table tbody tr:hover {
+  background: var(--off-white);
+}
+
+.acc-wishlist-table td {
+  padding: 14px;
+  vertical-align: middle;
+}
+
+.acc-wl-remove-cell {
+  width: 36px;
+  padding-right: 0;
+}
+
+.acc-wl-remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #bbb;
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+.acc-wl-remove-btn:hover {
+  background: #fef2f2;
+  color: var(--error);
+}
+
+.acc-wl-product {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.acc-wl-img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+.acc-wl-product a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+  transition: var(--transition);
+}
+
+.acc-wl-product a:hover {
+  color: var(--mustard);
+}
+
+.acc-wl-price {
+  font-weight: 600;
+  color: var(--text-dark);
+  white-space: nowrap;
+}
+
+.acc-wl-cart-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: var(--mustard);
+  color: var(--text-dark);
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+  font-family: var(--font-body);
+}
+
+.acc-wl-cart-btn:hover {
+  background: var(--text-dark);
+  color: #fff;
+}
+
+.acc-wl-cart-btn:hover {
+  background: var(--mustard);
+  color: var(--text-dark);
+}
+
+.acc-wishlist-empty {
+  text-align: center;
+  padding: 60px 24px;
+}
+
+.acc-wishlist-empty i {
+  font-size: 48px;
+  color: #ddd;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.acc-wishlist-empty h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.acc-wishlist-empty p {
+  font-size: 13px;
+  color: var(--text-grey);
+  margin-bottom: 24px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .account-layout {
@@ -261,5 +500,11 @@
   .account-nav-item.active {
     border-left: none;
     border-bottom-color: var(--mustard);
+  }
+}
+
+@media (max-width: 600px) {
+  .address-grid {
+    grid-template-columns: 1fr;
   }
 }

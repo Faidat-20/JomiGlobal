@@ -81,6 +81,7 @@ $stmt = $pdo->prepare('
 $stmt->execute([$user_id]);
 $orders = $stmt->fetchAll();
 
+$wishlistItems = isset($_SESSION['wishlist']) ? $_SESSION['wishlist'] : [];
 $pageTitle = 'My Account';
 
 require_once ROOT . '/app/views/layouts/header.php';
