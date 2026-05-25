@@ -110,12 +110,10 @@ document.querySelectorAll('.wishlist-btn').forEach(btn => {
     .then(res => res.json())
     .then(data => {
       if (data.success) {
-        // Update all buttons with same product id
         document.querySelectorAll('.wishlist-btn[data-id="' + productId + '"]').forEach(b => {
           setWishlistState(b, data.in_wishlist);
         });
 
-        // Update local ids array
         if (data.in_wishlist) {
           if (!window.wishlistIds) window.wishlistIds = [];
           if (!window.wishlistIds.includes(parseInt(productId))) {
@@ -125,17 +123,26 @@ document.querySelectorAll('.wishlist-btn').forEach(btn => {
           if (window.wishlistIds) {
             window.wishlistIds = window.wishlistIds.filter(id => id !== parseInt(productId));
           }
-          // Remove from wishlist page if on it
-          const card = document.getElementById('wishlist-item-' + productId);
-          if (card) {
-            card.style.opacity = '0';
-            card.style.transform = 'scale(0.9)';
-            card.style.transition = 'all 0.3s ease';
+
+          // Remove row from wishlist page table
+          const row = document.getElementById('wishlist-item-' + productId);
+          if (row) {
+            row.style.opacity = '0';
+            row.style.transition = 'opacity 0.3s ease';
             setTimeout(() => {
-              card.remove();
-              const grid = document.querySelector('.wishlist-grid');
-              if (grid && grid.children.length === 0) {
-                grid.outerHTML = `
+              row.remove();
+
+              // Update "X items saved" text
+              const savedText = document.querySelector('.wishlist-header p');
+              if (savedText) {
+                const remaining = data.wishlist_count;
+                savedText.textContent = remaining + ' item' + (remaining !== 1 ? 's' : '') + ' saved';
+              }
+
+              // Check if table is now empty
+              const tbody = document.querySelector('.wishlist-main-table tbody');
+              if (tbody && tbody.querySelectorAll('tr').length === 0) {
+                document.querySelector('.wishlist-card').outerHTML = `
                   <div class="wishlist-empty">
                     <div class="wishlist-empty-icon"><i class="ti ti-heart"></i></div>
                     <h2>Your wishlist is empty</h2>

@@ -24,68 +24,62 @@
       </div>
 
     <?php else: ?>
-      <div class="products-grid wishlist-grid">
-        <?php foreach ($wishlistItems as $item): ?>
-          <div class="product-card" id="wishlist-item-<?= $item['id'] ?>">
-            <a href="<?= APP_URL ?>/product/<?= htmlspecialchars($item['slug']) ?>">
 
-              <!-- Image -->
-              <div class="product-card-image">
-                <?php if (!empty($item['image'])): ?>
-                  <img
-                    src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($item['image']) ?>"
-                    alt="<?= htmlspecialchars($item['name']) ?>"
-                  >
-                <?php else: ?>
-                  <div class="product-no-image">
-                    <i class="ti ti-photo"></i>
-                  </div>
-                <?php endif; ?>
+      <div class="wishlist-card">
+        <div class="wishlist-table-wrap">
+          <table class="wishlist-main-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($wishlistItems as $item): ?>
+                <tr id="wishlist-item-<?= $item['id'] ?>">
 
-                <div class="product-card-actions">
-                  <a href="<?= APP_URL ?>/product/<?= $item['slug'] ?>" 
-                      class="product-action-btn" 
-                      title="View Product"
-                      onclick="event.stopPropagation()">
-                      <i class="ti ti-eye"></i>
-                  </a>
-                  <button
-                    class="product-action-btn wishlist-btn"
-                    data-id="<?= $item['id'] ?>"
-                    title="Remove from Wishlist"
-                    style="background:var(--mustard);color:var(--ash);"
-                    onclick="event.preventDefault();event.stopPropagation();"
-                  >
-                    <i class="ti ti-heart"></i>
-                  </button>
-                  <button
-                    class="product-action-btn add-to-cart-btn"
-                    data-id="<?= $item['id'] ?>"
-                    title="Add to Cart"
-                    onclick="event.preventDefault();event.stopPropagation();"
-                  >
-                    <i class="ti ti-shopping-bag"></i>
-                  </button>
-                </div>
-              </div>
+                  <!-- Remove -->
+                  <td class="wl-remove-cell">
+                    <button class="wl-remove-btn wishlist-btn" data-id="<?= $item['id'] ?>" title="Remove">
+                      <i class="ti ti-x"></i>
+                    </button>
+                  </td>
 
-            </a>
+                  <!-- Product -->
+                  <td class="wl-product-cell">
+                    <div class="wl-product">
+                      <?php if (!empty($item['image'])): ?>
+                        <img src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="wl-img">
+                      <?php else: ?>
+                        <div class="wl-no-img"><i class="ti ti-photo"></i></div>
+                      <?php endif; ?>
+                      <a href="<?= APP_URL ?>/product/<?= htmlspecialchars($item['slug']) ?>">
+                        <?= htmlspecialchars($item['name']) ?>
+                      </a>
+                    </div>
+                  </td>
 
-            <!-- Info -->
-            <div class="product-card-info">
-              <?php if (!empty($item['category_name'])): ?>
-                <p class="product-category"><?= htmlspecialchars($item['category_name']) ?></p>
-              <?php endif; ?>
-              <a href="<?= APP_URL ?>/product/<?= htmlspecialchars($item['slug']) ?>">
-                <h3 class="product-name"><?= htmlspecialchars($item['name']) ?></h3>
-              </a>
-              <div class="product-price">
-                <span class="price-regular"><?= CURRENCY_SYMBOL . number_format($item['price'], 2) ?></span>
-              </div>
-            </div>
-          </div>
-        <?php endforeach; ?>
+                  <!-- Price -->
+                  <td class="wl-price">
+                    <?= CURRENCY_SYMBOL . number_format($item['price'], 2) ?>
+                  </td>
+
+                  <!-- Action -->
+                  <td class="wl-action-cell">
+                    <button class="wl-cart-btn add-to-cart-btn" data-id="<?= $item['id'] ?>">
+                      <i class="ti ti-shopping-bag"></i> Add to Cart
+                    </button>
+                  </td>
+
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
       </div>
+
     <?php endif; ?>
 
   </div>
