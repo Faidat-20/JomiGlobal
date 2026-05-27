@@ -79,17 +79,12 @@ function updateWishlistCount(count) {
 }
 
 function setWishlistState(btn, inWishlist) {
-  if (inWishlist) {
-    btn.style.background = 'var(--mustard)';
-    btn.style.color = 'var(--ash)';
-  } else {
-    btn.style.background = '';
-    btn.style.color = '';
-  }
+  if (btn.classList.contains('wl-remove-btn')) return;
 }
 
 // Mark buttons on page load
 document.querySelectorAll('.wishlist-btn').forEach(btn => {
+  if (btn.classList.contains('wl-remove-btn')) return;
   const id = parseInt(btn.getAttribute('data-id'));
   if (wishlistIds && wishlistIds.includes(id)) {
     setWishlistState(btn, true);

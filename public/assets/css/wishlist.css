@@ -130,7 +130,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #bbb;
+  color: var(--text-dark);
   border-radius: 50%;
   transition: var(--transition);
 }
