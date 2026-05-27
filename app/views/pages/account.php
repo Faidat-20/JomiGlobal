@@ -302,7 +302,7 @@
                         <button
                           class="acc-wl-cart-btn add-to-cart-btn"
                           data-id="<?= $item['id'] ?>">
-                          Add to cart
+                          <i class="ti ti-shopping-bag"></i> Add to Cart
                         </button>
                       </td>
 

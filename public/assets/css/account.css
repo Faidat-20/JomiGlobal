@@ -347,14 +347,16 @@
 }
 
 .acc-wl-cart-btn {
-  display: inline-block;
-  padding: 10px 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
   background: var(--mustard);
-  color: var(--text-dark);
+  color: var(--ash);
   font-size: 13px;
   font-weight: 500;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: 30px;
   cursor: pointer;
   white-space: nowrap;
   transition: var(--transition);
@@ -362,8 +364,7 @@
 }
 
 .acc-wl-cart-btn:hover {
-  background: var(--text-dark);
-  color: #fff;
+  background: var(--gold);
 }
 
 .acc-wishlist-empty {
