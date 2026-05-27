@@ -286,9 +286,12 @@
                               alt="<?= htmlspecialchars($item['name']) ?>"
                               class="acc-wl-img">
                           <?php endif; ?>
-                          <a href="<?= APP_URL ?>/product/<?= htmlspecialchars($item['slug']) ?>">
-                            <?= htmlspecialchars($item['name']) ?>
-                          </a>
+                          <div>
+                            <a href="<?= APP_URL ?>/product/<?= htmlspecialchars($item['slug']) ?>">
+                              <?= htmlspecialchars($item['name']) ?>
+                            </a>
+                            <span class="acc-wl-price-mobile"><?= CURRENCY_SYMBOL . number_format($item['price'], 2) ?></span>
+                          </div>
                         </div>
                       </td>
 
@@ -299,10 +302,9 @@
 
                       <!-- Add to Cart -->
                       <td>
-                        <button
-                          class="acc-wl-cart-btn add-to-cart-btn"
-                          data-id="<?= $item['id'] ?>">
-                          <i class="ti ti-shopping-bag"></i> Add to Cart
+                        <button class="acc-wl-cart-btn add-to-cart-btn" data-id="<?= $item['id'] ?>">
+                          <i class="ti ti-shopping-bag"></i>
+                          <span class="acc-wl-cart-text">Add to Cart</span>
                         </button>
                       </td>
 
