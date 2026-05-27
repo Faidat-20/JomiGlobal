@@ -134,6 +134,12 @@ document.querySelectorAll('.wishlist-btn').forEach(btn => {
                 savedText.textContent = remaining + ' item' + (remaining !== 1 ? 's' : '') + ' saved';
               }
 
+              // Hide Clear All when empty
+              const clearBtn = document.querySelector('.wishlist-clear-btn');
+              if (clearBtn && data.wishlist_count === 0) {
+                clearBtn.style.display = 'none';
+              }
+
               // Check if table is now empty
               const tbody = document.querySelector('.wishlist-main-table tbody');
               if (tbody && tbody.querySelectorAll('tr').length === 0) {
