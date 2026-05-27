@@ -223,43 +223,138 @@
 }
 
 /* Responsive */
+.wl-price-mobile {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .wishlist-page .container {
     padding-left: 16px;
     padding-right: 16px;
   }
 
-  .wl-img {
-    width: 52px;
-    height: 52px;
+  .wishlist-card {
+    padding: 0 12px;
+  }
+
+  .wishlist-main-table thead {
+    display: none;
+  }
+
+  .wishlist-main-table tbody,
+  .wishlist-main-table tbody tr {
+    display: block;
+    width: 100%;
+  }
+
+  .wishlist-main-table tbody tr {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .wishlist-main-table tbody td {
+    display: block !important;
+    padding: 0;
+    border: none;
+  }
+
+  .wl-remove-cell {
+    flex-shrink: 0;
+    width: auto;
+  }
+
+  .wl-remove-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+
+  .wl-product-cell {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .wl-product {
+    gap: 10px;
+    align-items: center;
+  }
+
+  .wl-img,
+  .wl-no-img {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+
+  .wl-product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .wl-product-info a {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .wl-price-mobile {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dark);
+  }
+
+  /* Hide desktop price td */
+  .wl-price {
+    display: none !important;
+  }
+
+  /* Action */
+  .wl-action-cell {
+    flex-shrink: 0;
+    width: auto !important;
+    text-align: right;
   }
 
   .wl-cart-btn {
-    padding: 9px 16px;
-    font-size: 12px;
+    width: auto;
+    padding: 8px 12px;
+    font-size: 11px;
+    gap: 4px;
+    border-radius: 30px;
+  }
+
+  .wishlist-main-table td.wl-price {
+    display: none !important;
   }
 }
 
-@media (max-width: 480px) {
-  .wishlist-main-table th:nth-child(3) {
-    display: none;
-  }
-
-  .wishlist-main-table td:nth-child(3) {
-    display: none;
-  }
-
-  .wl-img {
-    width: 44px;
-    height: 44px;
-  }
-
-  .wl-product a {
-    font-size: 12px;
+@media (max-width: 360px) {
+  .wl-img,
+  .wl-no-img {
+    width: 40px;
+    height: 40px;
   }
 
   .wl-cart-btn {
-    padding: 8px 12px;
-    font-size: 11px;
+    padding: 7px 10px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 390px) {
+  .wl-cart-text {
+    display: none;
+  }
+
+  .wl-cart-btn {
+    padding: 8px 10px;
+    font-size: 15px;
   }
 }

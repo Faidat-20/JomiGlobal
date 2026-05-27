@@ -55,9 +55,12 @@
                       <?php else: ?>
                         <div class="wl-no-img"><i class="ti ti-photo"></i></div>
                       <?php endif; ?>
-                      <a href="<?= APP_URL ?>/product/<?= htmlspecialchars($item['slug']) ?>">
-                        <?= htmlspecialchars($item['name']) ?>
-                      </a>
+                      <div class="wl-product-info">
+                        <a href="<?= APP_URL ?>/product/<?= htmlspecialchars($item['slug']) ?>">
+                          <?= htmlspecialchars($item['name']) ?>
+                        </a>
+                        <span class="wl-price-mobile"><?= CURRENCY_SYMBOL . number_format($item['price'], 2) ?></span>
+                      </div>
                     </div>
                   </td>
 
@@ -69,7 +72,8 @@
                   <!-- Action -->
                   <td class="wl-action-cell">
                     <button class="wl-cart-btn add-to-cart-btn" data-id="<?= $item['id'] ?>">
-                      <i class="ti ti-shopping-bag"></i> Add to Cart
+                      <i class="ti ti-shopping-bag"></i>
+                      <span class="wl-cart-text"> Add to Cart</span>
                     </button>
                   </td>
 
