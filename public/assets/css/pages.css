@@ -142,7 +142,7 @@
 
 /* Suggestions */
 .search-suggestions {
-  padding: 40px 0;
+  padding: 20px 0;
 }
 
 .search-suggestions h3 {
@@ -181,7 +181,7 @@
   box-shadow: var(--shadow-sm);
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 1680px) {
   .search-page .products-grid {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -215,8 +215,34 @@
   }
 }
 
+
+@media (max-width: 500px) {
+  .search-page-form .btn {
+    display: none;
+  }
+}
+
 @media (max-width: 480px) {
   .search-page .products-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 400px) {
+
+ .search-page-form .btn {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .search-page-input-wrapper input {
+    font-size: 11px;
+    padding: 12px 0;
+  }
+
+  .search-page-input-wrapper i {
+    padding: 0 8px;
+    font-size: 14px;
   }
 }

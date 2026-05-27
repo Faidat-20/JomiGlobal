@@ -46,11 +46,14 @@
               </a>
             <?php endforeach; ?>
           </div>
-          <select onchange="window.location=this.value" class="sort-select">
-            <option value="<?= APP_URL ?>/search?q=<?= urlencode($query) ?>&sort=newest" <?= $sort === 'newest' ? 'selected' : '' ?>>Newest</option>
-            <option value="<?= APP_URL ?>/search?q=<?= urlencode($query) ?>&sort=price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>Price: Low to High</option>
-            <option value="<?= APP_URL ?>/search?q=<?= urlencode($query) ?>&sort=price_desc" <?= $sort === 'price_desc' ? 'selected' : '' ?>>Price: High to Low</option>
-          </select>
+          <div class="sort-wrapper">
+            <label>Sort by:</label>
+            <select onchange="window.location=this.value" class="sort-select">
+              <option value="<?= APP_URL ?>/search?q=<?= urlencode($query) ?>&sort=newest" <?= $sort === 'newest' ? 'selected' : '' ?>>Newest</option>
+              <option value="<?= APP_URL ?>/search?q=<?= urlencode($query) ?>&sort=price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>Price: Low to High</option>
+              <option value="<?= APP_URL ?>/search?q=<?= urlencode($query) ?>&sort=price_desc" <?= $sort === 'price_desc' ? 'selected' : '' ?>>Price: High to Low</option>
+            </select>
+          </div>
         </div>
       </div>
 
