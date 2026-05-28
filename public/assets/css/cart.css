@@ -78,12 +78,14 @@
   margin: 0 12px;
 }
 
-/* ── Underline under active step ── */
+.step-line.done {
+  background: var(--success);
+}
+
 .cart-steps {
   position: relative;
 }
 
-/* ── Empty ── */
 .cart-empty {
   text-align: center;
   padding: 100px 24px;
