@@ -1,26 +1,22 @@
 <main class="checkout-page">
   <div class="container">
 
-    <!-- Header -->
-    <div class="checkout-header">
-      <a href="<?= APP_URL ?>" class="checkout-logo">
-        <img src="<?= APP_URL ?>/assets/images/logo.png" alt="JomiGlobal">
-      </a>
-      <div class="checkout-steps">
-        <div class="step active">
-          <span class="step-num">1</span>
-          <span class="step-label">Shipping</span>
-        </div>
-        <div class="step-line"></div>
-        <div class="step">
-          <span class="step-num">2</span>
-          <span class="step-label">Payment</span>
-        </div>
-        <div class="step-line"></div>
-        <div class="step">
-          <span class="step-num">3</span>
-          <span class="step-label">Confirmation</span>
-        </div>
+    <!-- Step Indicator (matching cart page style) -->
+    <h1 class="cart-title">Check Out</h1>
+    <div class="cart-steps">
+      <div class="cart-step done">
+        <div class="step-num"><i class="ti ti-check"></i></div>
+        <span class="step-label">Shopping cart</span>
+      </div>
+      <div class="step-line done"></div>
+      <div class="cart-step active">
+        <div class="step-num">2</div>
+        <span class="step-label">Checkout details</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="cart-step">
+        <div class="step-num">3</div>
+        <span class="step-label">Order complete</span>
       </div>
     </div>
 
@@ -54,7 +50,7 @@
           <?php endif; ?>
         </div>
 
-        <!-- Shipping Rate -->
+        <!-- Shipping Method -->
         <div class="checkout-block">
           <div class="checkout-block-header">
             <div class="checkout-block-title">
@@ -71,9 +67,63 @@
           </div>
         </div>
 
+        <!-- Payment Method -->
+        <div class="checkout-block">
+          <div class="checkout-block-header">
+            <div class="checkout-block-title">
+              <span class="checkout-block-num">3</span>
+              <h3>Payment Method</h3>
+            </div>
+          </div>
+
+          <div class="payment-methods">
+
+            <!-- Card Option -->
+            <label class="payment-option" id="payCardOption">
+              <input type="radio" name="payment_method" value="card" checked>
+              <div class="payment-option-info">
+                <div class="payment-option-top">
+                  <strong>Pay by Card Credit</strong>
+                  <i class="ti ti-credit-card payment-option-icon"></i>
+                </div>
+              </div>
+            </label>
+
+            <!-- Card Fields -->
+            <div class="payment-card-fields" id="cardFields">
+              <div class="checkout-field">
+                <label>Card Number</label>
+                <input type="text" id="cardNumber" placeholder="1234 1234 1234 1234" maxlength="19">
+              </div>
+              <div class="form-grid-2">
+                <div class="checkout-field">
+                  <label>Expiration Date</label>
+                  <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+                </div>
+                <div class="checkout-field">
+                  <label>CVV</label>
+                  <input type="text" id="cardCvv" placeholder="CVC code" maxlength="4">
+                </div>
+              </div>
+            </div>
+
+            <!-- PayPal Option -->
+            <label class="payment-option" id="payPaypalOption">
+              <input type="radio" name="payment_method" value="paypal">
+              <div class="payment-option-info">
+                <div class="payment-option-top">
+                  <strong>PayPal</strong>
+                  <i class="ti ti-brand-paypal payment-option-icon"></i>
+                </div>
+              </div>
+            </label>
+
+          </div>
+        </div>
+
         <!-- Place Order -->
         <button class="btn btn-primary checkout-place-btn" id="placeOrderBtn">
-          Proceed to Payment <i class="ti ti-arrow-right"></i>
+          Place Order <i class="ti ti-arrow-right"></i>
         </button>
 
         <div class="checkout-secure">
@@ -212,15 +262,12 @@
     </div>
     <div class="checkout-modal-body">
       <?php
-        $pdo = connectDB();
         $stmt = $pdo->prepare('SELECT * FROM shipping_rates WHERE is_active = 1 ORDER BY price ASC');
         $stmt->execute();
         $shippingRates = $stmt->fetchAll();
       ?>
       <?php if (empty($shippingRates)): ?>
-        <p style="text-align:center;color:var(--text-grey);padding:40px 0;">
-          No shipping rates available yet.
-        </p>
+        <p style="text-align:center;color:var(--text-grey);padding:40px 0;">No shipping rates available yet.</p>
       <?php else: ?>
         <div class="shipping-options">
           <?php foreach ($shippingRates as $rate): ?>
@@ -254,65 +301,57 @@ const subtotal = <?= $subtotal ?>;
 const CURRENCY = '<?= CURRENCY_SYMBOL ?>';
 let selectedShipping = null;
 let deliveryDetails = null;
+let selectedPayment = 'card';
 
-// Open/Close Delivery Modal
+// ── Delivery Modal ──
 document.getElementById('openDeliveryBtn').addEventListener('click', () => {
   document.getElementById('deliveryModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 });
-
 document.getElementById('closeDeliveryModal').addEventListener('click', closeDeliveryModal);
 document.getElementById('closeDeliveryOverlay').addEventListener('click', closeDeliveryModal);
-
 function closeDeliveryModal() {
   document.getElementById('deliveryModal').classList.remove('open');
   document.body.style.overflow = '';
 }
 
-// Open/Close Shipping Modal
+// ── Shipping Modal ──
 document.getElementById('openShippingBtn').addEventListener('click', () => {
   document.getElementById('shippingModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 });
-
 document.getElementById('closeShippingModal').addEventListener('click', closeShippingModal);
 document.getElementById('closeShippingOverlay').addEventListener('click', closeShippingModal);
 document.getElementById('changeShippingBtn').addEventListener('click', () => {
   document.getElementById('shippingModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 });
-
 function closeShippingModal() {
   document.getElementById('shippingModal').classList.remove('open');
   document.body.style.overflow = '';
 }
 
-// Delivery Form Submit
+// ── Delivery Form ──
 document.getElementById('deliveryForm').addEventListener('submit', function(e) {
   e.preventDefault();
   deliveryDetails = {
     first_name: document.getElementById('del_first_name').value,
-    last_name: document.getElementById('del_last_name').value,
-    email: document.getElementById('del_email').value,
-    phone: document.getElementById('del_phone').value,
-    address: document.getElementById('del_address').value,
-    city: document.getElementById('del_city').value,
-    state: document.getElementById('del_state').value,
-    country: document.getElementById('del_country').value,
-    zip: document.getElementById('del_zip').value,
-    notes: document.getElementById('del_notes').value,
+    last_name:  document.getElementById('del_last_name').value,
+    email:      document.getElementById('del_email').value,
+    phone:      document.getElementById('del_phone').value,
+    address:    document.getElementById('del_address').value,
+    city:       document.getElementById('del_city').value,
+    state:      document.getElementById('del_state').value,
+    country:    document.getElementById('del_country').value,
+    zip:        document.getElementById('del_zip').value,
+    notes:      document.getElementById('del_notes').value,
   };
-
-  // Update delivery block
-  document.querySelector('.checkout-block:first-child .checkout-add-btn') &&
-  document.querySelector('.checkout-block:first-child').querySelector('#openDeliveryBtn').textContent;
 
   const block = document.querySelector('.checkout-block:first-child');
   const existing = block.querySelector('.checkout-filled-info');
   if (existing) existing.remove();
-
   const btn = block.querySelector('#openDeliveryBtn');
-  btn.style.display = 'none';
+  if (btn) btn.style.display = 'none';
 
   const info = document.createElement('div');
   info.className = 'checkout-filled-info';
@@ -333,7 +372,7 @@ document.getElementById('deliveryForm').addEventListener('submit', function(e) {
   showToast('Delivery details saved!');
 });
 
-// Shipping selection
+// ── Shipping Options ──
 document.querySelectorAll('.shipping-option').forEach(option => {
   option.addEventListener('click', function() {
     document.querySelectorAll('.shipping-option').forEach(o => o.classList.remove('selected'));
@@ -342,32 +381,26 @@ document.querySelectorAll('.shipping-option').forEach(option => {
   });
 });
 
-// Confirm shipping
 document.getElementById('confirmShippingBtn') && document.getElementById('confirmShippingBtn').addEventListener('click', () => {
   const selected = document.querySelector('input[name="shipping_rate"]:checked');
   if (!selected) {
     showToast('Please select a shipping method', 'error');
     return;
   }
-
   selectedShipping = {
-    id: selected.value,
-    name: selected.getAttribute('data-name'),
+    id:    selected.value,
+    name:  selected.getAttribute('data-name'),
     price: parseFloat(selected.getAttribute('data-price'))
   };
 
-  // Update shipping display
   document.getElementById('shippingDisplay').innerHTML = `
     <div class="checkout-filled-info">
       <p><strong>${selectedShipping.name}</strong></p>
       <p>${CURRENCY}${selectedShipping.price.toLocaleString()}</p>
     </div>
   `;
-
   document.getElementById('changeShippingBtn').style.display = 'block';
-  document.getElementById('openShippingBtn') && (document.getElementById('openShippingBtn').style.display = 'none');
 
-  // Update totals
   const total = subtotal + selectedShipping.price;
   document.getElementById('shippingCost').textContent = CURRENCY + selectedShipping.price.toLocaleString();
   document.getElementById('shippingCost').style.color = 'var(--text-dark)';
@@ -377,7 +410,63 @@ document.getElementById('confirmShippingBtn') && document.getElementById('confir
   showToast('Shipping method selected!');
 });
 
-// Load countries
+// ── Payment Method Toggle ──
+document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    selectedPayment = this.value;
+    const cardFields = document.getElementById('cardFields');
+    // Mark selected option
+    document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+    this.closest('.payment-option').classList.add('selected');
+    if (this.value === 'card') {
+      cardFields.style.display = 'block';
+    } else {
+      cardFields.style.display = 'none';
+    }
+  });
+});
+
+// Mark card as selected by default
+document.querySelector('.payment-option').classList.add('selected');
+
+// Card number formatting
+document.getElementById('cardNumber') && document.getElementById('cardNumber').addEventListener('input', function() {
+  let val = this.value.replace(/\D/g, '').substring(0, 16);
+  this.value = val.replace(/(.{4})/g, '$1 ').trim();
+});
+
+document.getElementById('cardExpiry') && document.getElementById('cardExpiry').addEventListener('input', function() {
+  let val = this.value.replace(/\D/g, '').substring(0, 4);
+  if (val.length >= 2) val = val.substring(0,2) + '/' + val.substring(2);
+  this.value = val;
+});
+
+// ── Place Order ──
+document.getElementById('placeOrderBtn').addEventListener('click', () => {
+  if (!deliveryDetails) {
+    showToast('Please add your delivery details', 'error');
+    return;
+  }
+  if (!selectedShipping) {
+    showToast('Please select a shipping method', 'error');
+    return;
+  }
+  if (selectedPayment === 'card') {
+    const cardNum = document.getElementById('cardNumber').value.replace(/\s/g, '');
+    const expiry  = document.getElementById('cardExpiry').value;
+    const cvv     = document.getElementById('cardCvv').value;
+    if (cardNum.length < 16 || !expiry || cvv.length < 3) {
+      showToast('Please fill in your card details', 'error');
+      return;
+    }
+  }
+  showToast('Placing your order...');
+  setTimeout(() => {
+    window.location.href = APP_URL + '/payment';
+  }, 1000);
+});
+
+// ── Load Countries ──
 async function loadCountries() {
   try {
     const res = await fetch('https://countriesnow.space/api/v0.1/countries');
@@ -407,21 +496,4 @@ async function loadCountries() {
   }
 }
 loadCountries();
-
-// Place order
-document.getElementById('placeOrderBtn').addEventListener('click', () => {
-  if (!deliveryDetails) {
-    showToast('Please add your delivery details', 'error');
-    return;
-  }
-  if (!selectedShipping) {
-    showToast('Please select a shipping method', 'error');
-    return;
-  }
-  // Store in session and proceed to payment
-  showToast('Proceeding to payment...');
-  setTimeout(() => {
-    window.location.href = APP_URL + '/payment';
-  }, 1000);
-});
 </script>

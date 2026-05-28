@@ -534,6 +534,67 @@ background: var(--mustard);
   gap: 4px;
 }
 
+/* ── Payment Methods ── */
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.payment-option:hover {
+  border-color: var(--gold);
+}
+
+.payment-option.selected {
+  border-color: var(--mustard);
+  background: rgba(255,208,92,0.04);
+}
+
+.payment-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--gold);
+  flex-shrink: 0;
+}
+
+.payment-option-info {
+  flex: 1;
+}
+
+.payment-option-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.payment-option-top strong {
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+.payment-option-icon {
+  font-size: 20px;
+  color: var(--text-grey);
+}
+
+.payment-card-fields {
+  padding: 16px;
+  background: var(--off-white);
+  border-radius: var(--radius-md);
+  margin-top: -4px;
+}
+
 /* --- Responsive --- */
 @media (max-width: 1024px) {
   .checkout-layout {
