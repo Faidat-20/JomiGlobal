@@ -14,6 +14,13 @@
       </div>
     </div>
 
+    <!-- Mobile Sidebar Toggle -->
+    <button class="account-sidebar-toggle" id="accountSidebarToggle">
+      <i class="ti ti-menu-2"></i> Menu
+    </button>
+
+    <div class="account-sidebar-overlay" id="accountSidebarOverlay"></div>
+
     <div class="account-layout">
 
       <!-- Sidebar -->
@@ -285,6 +292,10 @@
                               src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($item['image']) ?>"
                               alt="<?= htmlspecialchars($item['name']) ?>"
                               class="acc-wl-img">
+                          <?php else: ?>
+                            <div class="acc-wl-no-img">
+                              <i class="ti ti-photo"></i>
+                            </div>
                           <?php endif; ?>
                           <div>
                             <a href="<?= APP_URL ?>/product/<?= htmlspecialchars($item['slug']) ?>">
@@ -397,6 +408,30 @@ function accRemoveWishlist(productId) {
       updateWishlistCount(data.wishlist_count);
       showToast('Removed from wishlist', 'error');
     }
+  });
+}
+
+const sidebarToggle = document.getElementById('accountSidebarToggle');
+const accountSidebar = document.querySelector('.account-sidebar');
+const sidebarOverlay = document.getElementById('accountSidebarOverlay');
+
+if (sidebarToggle && accountSidebar) {
+  sidebarToggle.addEventListener('click', function() {
+    accountSidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('open');
+  });
+
+  sidebarOverlay.addEventListener('click', function() {
+    accountSidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('open');
+  });
+
+  // Close sidebar
+  document.querySelectorAll('.account-nav-item[data-tab]').forEach(item => {
+    item.addEventListener('click', function() {
+      accountSidebar.classList.remove('open');
+      sidebarOverlay.classList.remove('open');
+    });
   });
 }
 </script>
