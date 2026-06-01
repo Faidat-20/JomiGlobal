@@ -176,7 +176,7 @@
 
               <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                 
-                  href="<?= APP_URL ?>/shop?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>"
+                <a href="<?= APP_URL ?>/shop?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>"
                   class="page-btn <?= $i === $page ? 'active' : '' ?>"
                 >
                   <?= $i ?>

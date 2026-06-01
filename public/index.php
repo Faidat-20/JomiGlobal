@@ -114,9 +114,15 @@ switch ($url) {
     case 'account':
         require_once ROOT . '/app/controllers/AccountController.php';
         break;
+        
     default:
         if (strpos($url, 'product/') === 0) {
             require_once ROOT . '/app/controllers/ProductDetailController.php';
+            break;
+        }
+        // ✅ Add this block
+        if (strpos($url, 'category/') === 0) {
+            require_once ROOT . '/app/controllers/CategoryController.php';
             break;
         }
         http_response_code(404);

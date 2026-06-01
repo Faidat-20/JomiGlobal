@@ -26,21 +26,21 @@
     <div class="container">
       <h2 class="section-title reveal">Shop By Category</h2>
       <div class="categories-grid">
-        <a href="<?= APP_URL ?>/shop/jewelry" class="category-card reveal">
+        <a href="<?= APP_URL ?>/category/jewelry" class="category-card reveal">
           <div class="category-img" style="background: var(--ash);">
             <i class="ti ti-diamond"></i>
           </div>
           <h3>Jewelry</h3>
           <p>Rings, Necklaces & More</p>
         </a>
-        <a href="<?= APP_URL ?>/shop/perfume" class="category-card reveal">
+        <a href="<?= APP_URL ?>/category/perfume" class="category-card reveal">
           <div class="category-img" style="background: var(--ash);">
             <i class="ti ti-bottle"></i>
           </div>
           <h3>Perfume</h3>
           <p>Exclusive Fragrances</p>
         </a>
-        <a href="<?= APP_URL ?>/shop/glasses" class="category-card reveal">
+        <a href="<?= APP_URL ?>/category/glasses" class="category-card reveal">
           <div class="category-img" style="background: var(--ash);">
             <i class="ti ti-eyeglass"></i>
           </div>

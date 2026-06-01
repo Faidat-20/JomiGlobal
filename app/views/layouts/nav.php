@@ -10,12 +10,13 @@
     <ul class="nav-links">
       <li><a href="<?= APP_URL ?>">Home</a></li>
       
+      <!-- Shop Dropdown -->
       <li class="dropdown">
         <a href="<?= APP_URL ?>/shop">Shop <i class="ti ti-chevron-down"></i></a>
         <ul class="dropdown-menu">
-          <li><a href="<?= APP_URL ?>/shop/jewelry">Jewelry</a></li>
-          <li><a href="<?= APP_URL ?>/shop/perfume">Perfume</a></li>
-          <li><a href="<?= APP_URL ?>/shop/glasses">Glasses</a></li>
+          <li><a href="<?= APP_URL ?>/category/jewelry">Jewelry</a></li>
+          <li><a href="<?= APP_URL ?>/category/perfume">Perfume</a></li>
+          <li><a href="<?= APP_URL ?>/category/glasses">Glasses</a></li>
         </ul>
       </li>
 

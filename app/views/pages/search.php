@@ -63,9 +63,9 @@
           <h3>No products found</h3>
           <p>Try different keywords or browse our categories</p>
           <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px;">
-            <a href="<?= APP_URL ?>/shop/jewelry" class="btn btn-secondary">Jewelry</a>
-            <a href="<?= APP_URL ?>/shop/perfume" class="btn btn-secondary">Perfume</a>
-            <a href="<?= APP_URL ?>/shop/glasses" class="btn btn-secondary">Glasses</a>
+            <a href="<?= APP_URL ?>/category/jewelry" class="btn btn-secondary">Jewelry</a>
+            <a href="<?= APP_URL ?>/category/perfume" class="btn btn-secondary">Perfume</a>
+            <a href="<?= APP_URL ?>/category/glasses" class="btn btn-secondary">Glasses</a>
           </div>
         </div>
 
@@ -156,15 +156,15 @@
       <div class="search-suggestions">
         <h3>Popular Categories</h3>
         <div class="suggestion-categories">
-          <a href="<?= APP_URL ?>/shop/jewelry" class="suggestion-card">
+          <a href="<?= APP_URL ?>/category/jewelry" class="suggestion-card">
             <i class="ti ti-diamond"></i>
             <span>Jewelry</span>
           </a>
-          <a href="<?= APP_URL ?>/shop/perfume" class="suggestion-card">
+          <a href="<?= APP_URL ?>/category/perfume" class="suggestion-card">
             <i class="ti ti-bottle"></i>
             <span>Perfume</span>
           </a>
-          <a href="<?= APP_URL ?>/shop/glasses" class="suggestion-card">
+          <a href="<?= APP_URL ?>/category/glasses" class="suggestion-card">
             <i class="ti ti-eyeglass"></i>
             <span>Glasses</span>
           </a>

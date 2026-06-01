@@ -23,9 +23,9 @@
       <div class="footer-col">
         <h4 class="footer-heading">Shop</h4>
         <ul class="footer-links">
-          <li><a href="<?= APP_URL ?>/shop/jewelry">Jewelry</a></li>
-          <li><a href="<?= APP_URL ?>/shop/perfume">Perfume</a></li>
-          <li><a href="<?= APP_URL ?>/shop/glasses">Glasses</a></li>
+          <li><a href="<?= APP_URL ?>/category/jewelry">Jewelry</a></li>
+          <li><a href="<?= APP_URL ?>/category/perfume">Perfume</a></li>
+          <li><a href="<?= APP_URL ?>/category/glasses">Glasses</a></li>
           <li><a href="<?= APP_URL ?>/collections/for-her">For Her</a></li>
           <li><a href="<?= APP_URL ?>/collections/for-him">For Him</a></li>
           <li><a href="<?= APP_URL ?>/collections/gift-ideas">Gift Ideas</a></li>
