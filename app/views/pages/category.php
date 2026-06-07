@@ -15,16 +15,20 @@
   <!-- Groups Grid -->
   <div class="container">
     <div class="category-groups">
-      <?php foreach ($groups as $group): ?>
-        
+      <?php foreach ($groups as $group): $i = 0; ?>
         <a href="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>"
-          class="category-group-card"
-        >
-          <div class="category-group-image">
-            <?php if (!empty($group['image'])): ?>
-              <img src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($group['image']) ?>" alt="<?= htmlspecialchars($group['name']) ?>">
+           class="category-group-card">
+
+          <!-- Slider -->
+          <div class="cg-slider" data-offset="<?= ($i % 2) * 1500 ?>">
+            <?php if (!empty($group['images'])): ?>
+              <?php foreach ($group['images'] as $img): ?>
+                <div class="cg-slide">
+                  <img src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($img) ?>" alt="">
+                </div>
+              <?php endforeach; ?>
             <?php else: ?>
-              <div class="category-group-placeholder">
+              <div class="cg-slide cg-placeholder">
                 <?php if ($category['slug'] === 'jewelry'): ?>
                   <i class="ti ti-diamond"></i>
                 <?php elseif ($category['slug'] === 'perfume'): ?>
@@ -33,15 +37,65 @@
                   <i class="ti ti-eyeglass"></i>
                 <?php endif; ?>
               </div>
+              <div class="cg-slide cg-placeholder"><i class="ti ti-heart"></i></div>
+              <div class="cg-slide cg-placeholder"><i class="ti ti-sparkles"></i></div>
+              <div class="cg-slide cg-placeholder"><i class="ti ti-star"></i></div>
+              <div class="cg-slide cg-placeholder"><i class="ti ti-crown"></i></div>
             <?php endif; ?>
-            <div class="category-group-overlay">
+          </div>
+
+          <!-- Corner frames -->
+          <div class="cg-corner cg-tl"></div>
+          <div class="cg-corner cg-bl"></div>
+
+          <!-- Overlay -->
+          <div class="cg-overlay">
+            <div class="cg-top">
+              <span class="cg-counter">01 / 05</span>
+            </div>
+            <div class="cg-bottom">
+              <div class="cg-dots"></div>
               <h2><?= htmlspecialchars($group['name']) ?></h2>
-              <span class="category-group-cta">Shop Now <i class="ti ti-arrow-right"></i></span>
+              <span class="cg-cta"><div class="cg-bar"></div> Shop Now</span>
             </div>
           </div>
+
         </a>
-      <?php endforeach; ?>
+      <?php $i++; endforeach; ?>
     </div>
   </div>
 
 </main>
+
+<script>
+document.querySelectorAll('.category-group-card').forEach(function(card, cardIndex) {
+  const slider = card.querySelector('.cg-slider');
+  const dotsContainer = card.querySelector('.cg-dots');
+  const counter = card.querySelector('.cg-counter');
+  const slides = slider.querySelectorAll('.cg-slide');
+  const total = slides.length;
+  let current = 0;
+
+  // Build dots
+  slides.forEach(function(_, i) {
+    const d = document.createElement('div');
+    d.className = 'cg-dot' + (i === 0 ? ' active' : '');
+    dotsContainer.appendChild(d);
+  });
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function goTo(index) {
+    current = index % total;
+    slider.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dotsContainer.querySelectorAll('.cg-dot').forEach(function(d, i) {
+      d.classList.toggle('active', i === current);
+    });
+    if (counter) counter.textContent = pad(current + 1) + ' / ' + pad(total);
+  }
+
+  setTimeout(function() {
+    setInterval(function() { goTo(current + 1); }, 3000);
+  }, cardIndex * 1500);
+});
+</script>
