@@ -21,7 +21,7 @@
       </li>
 
       <li class="dropdown">
-        <a href="#">Collections <i class="ti ti-chevron-down"></i></a>
+        <a href="<?= APP_URL ?>/collections">Collections <i class="ti ti-chevron-down"></i></a>
         <ul class="dropdown-menu">
           <li><a href="<?= APP_URL ?>/collections/for-her">For Her</a></li>
           <li><a href="<?= APP_URL ?>/collections/for-him">For Him</a></li>

@@ -114,6 +114,10 @@ switch ($url) {
     case 'account':
         require_once ROOT . '/app/controllers/AccountController.php';
         break;
+
+    case 'collections':
+        require_once ROOT . '/app/controllers/CollectionsController.php';
+        break;
         
     default:
         if (strpos($url, 'product/') === 0) {
