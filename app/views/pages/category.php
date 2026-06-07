@@ -6,7 +6,7 @@
       <div class="breadcrumb" style="margin-bottom:16px;">
         <a href="<?= APP_URL ?>">Home</a>
         <span>/</span>
-        <span><?= htmlspecialchars($category['name']) ?></span>
+        <a href="<?= APP_URL ?>/category/<?= $categorySlug ?>"><?= htmlspecialchars($category['name']) ?></a>
       </div>
       <h1 class="category-hero-title"><?= htmlspecialchars($category['name']) ?></h1>
     </div>

@@ -9,11 +9,15 @@
         <a href="<?= APP_URL ?>/category/<?= $categorySlug ?>"><?= htmlspecialchars($category['name']) ?></a>
         <?php if (isset($group)): ?>
           <span>/</span>
-          <a href="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>"><?= htmlspecialchars($group['name']) ?></a>
+          <?php if (isset($subcategory)): ?>
+            <a href="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>"><?= htmlspecialchars($group['name']) ?></a>
+          <?php else: ?>
+             <a href="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>"><?= htmlspecialchars($group['name']) ?></a>
+          <?php endif; ?>
         <?php endif; ?>
         <?php if (isset($subcategory)): ?>
           <span>/</span>
-          <span><?= htmlspecialchars($subcategory['name']) ?></span>
+          <a href="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>/<?= $subcategory['slug'] ?>"><?= htmlspecialchars($subcategory['name']) ?></a>
         <?php endif; ?>
       </div>
       <h1 class="category-hero-title">

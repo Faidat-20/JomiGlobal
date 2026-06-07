@@ -120,9 +120,12 @@ switch ($url) {
             require_once ROOT . '/app/controllers/ProductDetailController.php';
             break;
         }
-        // ✅ Add this block
         if (strpos($url, 'category/') === 0) {
             require_once ROOT . '/app/controllers/CategoryController.php';
+            break;
+        }
+        if (strpos($url, 'collections/') === 0) {
+            require_once ROOT . '/app/controllers/CollectionController.php';
             break;
         }
         http_response_code(404);
