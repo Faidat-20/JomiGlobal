@@ -28,7 +28,11 @@ switch ($url) {
         break;
 
     case 'shop':
-        require_once ROOT . '/app/controllers/ShopController.php';
+        if (isset($_GET['category']) || isset($_GET['subcategory']) || isset($_GET['sort']) || isset($_GET['min_price']) || isset($_GET['max_price'])) {
+            require_once ROOT . '/app/controllers/ShopController.php';
+        } else {
+            require_once ROOT . '/app/controllers/ShopLandingController.php';
+        }
         break;
 
     case 'cart':

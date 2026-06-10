@@ -2,51 +2,95 @@
 
   <!-- Hero Section -->
   <section class="hero" id="hero">
+
+    <!-- Swap this src for your hero image later -->
+    <div class="hero-bg">
+      <!-- <img src="<?= APP_URL ?>/uploads/hero.jpg" alt="" class="hero-bg-img"> -->
+    </div>
+
     <div class="hero-glow" id="heroGlow"></div>
+
     <div class="hero-content">
-      <p class="hero-subtitle">EXCLUSIVELY YOURS</p>
+      <div class="hero-label-row">
+        <div class="hero-label-bar"></div>
+        <p class="hero-subtitle">Exclusively Yours</p>
+        <div class="hero-label-bar"></div>
+      </div>
       <h1 class="hero-title">
         Luxury Redefined <br>
         <span>For You</span>
       </h1>
+      <div class="hero-gold-divider"></div>
       <p class="hero-text">Discover our exclusive collection of jewelry, perfume and glasses crafted for the discerning individual.</p>
       <div class="hero-btns">
         <a href="<?= APP_URL ?>/shop" class="btn btn-primary">Shop Now</a>
-        <a href="<?= APP_URL ?>/collections" class="btn btn-white">Our Collections</a>
+        <a href="<?= APP_URL ?>/collections" class="btn btn-outline-white">Our Collections</a>
       </div>
     </div>
+
     <div class="scroll-indicator">
       <div class="scroll-line"></div>
       <span>Scroll</span>
     </div>
+
   </section>
 
   <!-- Categories Section -->
   <section class="section categories-section">
     <div class="container">
-      <h2 class="section-title reveal">Shop By Category</h2>
+      <div class="cat-section-header">
+        <span class="cat-section-label">Browse By Category</span>
+        <h2 class="cat-section-title reveal">Shop By Category</h2>
+        <div class="cat-section-divider"></div>
+      </div>
       <div class="categories-grid">
-        <a href="<?= APP_URL ?>/category/jewelry" class="category-card reveal">
-          <div class="category-img" style="background: var(--ash);">
-            <i class="ti ti-diamond"></i>
+
+        <a href="<?= APP_URL ?>/category/jewelry" class="cat-card reveal">
+          <div class="cat-card-bg cat-bg-1"></div>
+          <div class="cat-corner tl"></div><div class="cat-corner tr"></div>
+          <div class="cat-corner bl"></div><div class="cat-corner br"></div>
+          <!-- Swap for image later -->
+          <!-- <img src="<?= APP_URL ?>/uploads/cat-jewelry.jpg" class="cat-card-img" alt="Jewelry"> -->
+          <div class="cat-card-inner">
+            <div class="cat-icon-wrap">
+              <i class="ti ti-diamond" aria-hidden="true"></i>
+            </div>
+            <h3 class="cat-name">Jewelry</h3>
+            <p class="cat-sub">Rings · Necklaces · More</p>
           </div>
-          <h3>Jewelry</h3>
-          <p>Rings, Necklaces & More</p>
+          <div class="cat-card-overlay"></div>
         </a>
-        <a href="<?= APP_URL ?>/category/perfume" class="category-card reveal">
-          <div class="category-img" style="background: var(--ash);">
-            <i class="ti ti-bottle"></i>
+
+        <a href="<?= APP_URL ?>/category/perfume" class="cat-card reveal">
+          <div class="cat-card-bg cat-bg-2"></div>
+          <div class="cat-corner tl"></div><div class="cat-corner tr"></div>
+          <div class="cat-corner bl"></div><div class="cat-corner br"></div>
+          <!-- <img src="<?= APP_URL ?>/uploads/cat-perfume.jpg" class="cat-card-img" alt="Perfume"> -->
+          <div class="cat-card-inner">
+            <div class="cat-icon-wrap">
+              <i class="ti ti-bottle" aria-hidden="true"></i>
+            </div>
+            <h3 class="cat-name">Perfume</h3>
+            <p class="cat-sub">Exclusive Fragrances</p>
           </div>
-          <h3>Perfume</h3>
-          <p>Exclusive Fragrances</p>
+          <div class="cat-card-overlay"></div>
         </a>
-        <a href="<?= APP_URL ?>/category/glasses" class="category-card reveal">
-          <div class="category-img" style="background: var(--ash);">
-            <i class="ti ti-eyeglass"></i>
+
+        <a href="<?= APP_URL ?>/category/glasses" class="cat-card reveal">
+          <div class="cat-card-bg cat-bg-3"></div>
+          <div class="cat-corner tl"></div><div class="cat-corner tr"></div>
+          <div class="cat-corner bl"></div><div class="cat-corner br"></div>
+          <!-- <img src="<?= APP_URL ?>/uploads/cat-glasses.jpg" class="cat-card-img" alt="Glasses"> -->
+          <div class="cat-card-inner">
+            <div class="cat-icon-wrap">
+              <i class="ti ti-eyeglass" aria-hidden="true"></i>
+            </div>
+            <h3 class="cat-name">Glasses</h3>
+            <p class="cat-sub">Premium Eyewear</p>
           </div>
-          <h3>Glasses</h3>
-          <p>Premium Eyewear</p>
+          <div class="cat-card-overlay"></div>
         </a>
+
       </div>
     </div>
   </section>
@@ -61,17 +105,8 @@
 
     <div class="home-collections-grid">
 
-      <!-- For Her -->
       <a href="<?= APP_URL ?>/collections/for-her" class="hc-card reveal">
-        <?php
-          $herImages = [
-            // APP_URL . '/uploads/her-1.jpg',
-            // APP_URL . '/uploads/her-2.jpg',
-            // APP_URL . '/uploads/her-3.jpg',
-            // APP_URL . '/uploads/her-4.jpg',
-            // APP_URL . '/uploads/her-5.jpg',
-          ];
-        ?>
+        <?php $herImages = []; ?>
         <?php if (!empty($herImages)): ?>
           <div class="hc-slider">
             <?php foreach ($herImages as $index => $img): ?>
@@ -95,17 +130,8 @@
         </div>
       </a>
 
-      <!-- For Him -->
       <a href="<?= APP_URL ?>/collections/for-him" class="hc-card reveal">
-        <?php
-          $himImages = [
-            // APP_URL . '/uploads/him-1.jpg',
-            // APP_URL . '/uploads/him-2.jpg',
-            // APP_URL . '/uploads/him-3.jpg',
-            // APP_URL . '/uploads/him-4.jpg',
-            // APP_URL . '/uploads/him-5.jpg',
-          ];
-        ?>
+        <?php $himImages = []; ?>
         <?php if (!empty($himImages)): ?>
           <div class="hc-slider">
             <?php foreach ($himImages as $index => $img): ?>
@@ -129,17 +155,8 @@
         </div>
       </a>
 
-      <!-- Gift Ideas -->
       <a href="<?= APP_URL ?>/collections/gift-ideas" class="hc-card reveal">
-        <?php
-          $giftImages = [
-            // APP_URL . '/uploads/gift-1.jpg',
-            // APP_URL . '/uploads/gift-2.jpg',
-            // APP_URL . '/uploads/gift-3.jpg',
-            // APP_URL . '/uploads/gift-4.jpg',
-            // APP_URL . '/uploads/gift-5.jpg',
-          ];
-        ?>
+        <?php $giftImages = []; ?>
         <?php if (!empty($giftImages)): ?>
           <div class="hc-slider">
             <?php foreach ($giftImages as $index => $img): ?>
@@ -163,17 +180,8 @@
         </div>
       </a>
 
-      <!-- Customised -->
       <a href="<?= APP_URL ?>/collections/customised" class="hc-card reveal">
-        <?php
-          $customImages = [
-            // APP_URL . '/uploads/custom-1.jpg',
-            // APP_URL . '/uploads/custom-2.jpg',
-            // APP_URL . '/uploads/custom-3.jpg',
-            // APP_URL . '/uploads/custom-4.jpg',
-            // APP_URL . '/uploads/custom-5.jpg',
-          ];
-        ?>
+        <?php $customImages = []; ?>
         <?php if (!empty($customImages)): ?>
           <div class="hc-slider">
             <?php foreach ($customImages as $index => $img): ?>
