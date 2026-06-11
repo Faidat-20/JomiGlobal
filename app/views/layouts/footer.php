@@ -81,5 +81,6 @@
 <!-- Main JS -->
 <script src="<?= APP_URL ?>/assets/js/main.js"></script>
 <script src="<?= APP_URL ?>/assets/js/cart.js"></script>
+<script src="<?= APP_URL ?>/assets/js/shop.js"></script>
 </body>
 </html>

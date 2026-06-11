@@ -113,52 +113,56 @@
             <?php foreach ($products as $p): ?>
               <a href="<?= APP_URL ?>/product/<?= $p['slug'] ?>" class="product-card reveal">
 
-                <!-- Image -->
-                <div class="product-card-image">
+                <div class="card-corner c-tl"></div>
+                <div class="card-corner c-tr"></div>
+
+                <?php if ($p['sale_price']): ?>
+                  <span class="card-badge sale">Sale</span>
+                <?php elseif ($p['is_featured']): ?>
+                  <span class="card-badge">Featured</span>
+                <?php endif; ?>
+
+                <div class="card-img-wrap">
                   <?php if (!empty($p['image'])): ?>
-                    <img src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['name']) ?>">
+                    <img src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($p['image']) ?>"
+                        alt="<?= htmlspecialchars($p['name']) ?>">
                   <?php else: ?>
-                    <div class="product-no-image">
+                    <div class="card-img-placeholder">
                       <i class="ti ti-photo"></i>
                     </div>
                   <?php endif; ?>
+                </div>
 
-                  <?php if ($p['sale_price']): ?>
-                    <span class="product-badge sale">Sale</span>
+                <div class="card-actions">
+                  <button class="action-btn" title="Quick View">
+                    <i class="ti ti-eye"></i>
+                  </button>
+                  <button class="action-btn wishlist-btn" data-id="<?= $p['id'] ?>" title="Wishlist">
+                    <i class="ti ti-heart"></i>
+                  </button>
+                </div>
+
+                <div class="card-divider"></div>
+
+                <div class="card-info">
+                  <p class="card-cat"><?= htmlspecialchars($p['category_name']) ?></p>
+                  <h3 class="card-name"><?= htmlspecialchars($p['name']) ?></h3>
+                  <?php if ($p['stock'] <= 0): ?>
+                    <p class="pc-out-of-stock">Out of Stock</p>
                   <?php endif; ?>
-
-                  <?php if ($p['is_featured']): ?>
-                    <span class="product-badge featured">Featured</span>
-                  <?php endif; ?>
-
-                  <div class="product-card-actions">
-                    <button class="product-action-btn" title="Quick View">
-                      <i class="ti ti-eye"></i>
-                    </button>
-                    <button class="product-action-btn wishlist-btn" title="Add to Wishlist" data-id="<?= $p['id'] ?>">
-                      <i class="ti ti-heart"></i>
-                    </button>
-                    <button class="product-action-btn add-to-cart-btn" title="Add to Cart" data-id="<?= $p['id'] ?>">
+                  <div class="card-price-row">
+                    <div>
+                      <?php if ($p['sale_price']): ?>
+                        <span class="card-price-old"><?= CURRENCY_SYMBOL . number_format($p['price'], 2) ?></span>
+                        <span class="card-price" style="color:var(--gold);"><?= CURRENCY_SYMBOL . number_format($p['sale_price'], 2) ?></span>
+                      <?php else: ?>
+                        <span class="card-price"><?= CURRENCY_SYMBOL . number_format($p['price'], 2) ?></span>
+                      <?php endif; ?>
+                    </div>
+                    <button class="card-add add-to-cart-btn" data-id="<?= $p['id'] ?>" title="Add to Cart">
                       <i class="ti ti-shopping-bag"></i>
                     </button>
                   </div>
-                </div>
-
-                <!-- Info -->
-                <div class="product-card-info">
-                  <p class="product-category"><?= htmlspecialchars($p['category_name']) ?></p>
-                  <h3 class="product-name"><?= htmlspecialchars($p['name']) ?></h3>
-                  <div class="product-price">
-                    <?php if ($p['sale_price']): ?>
-                      <span class="price-original"><?= CURRENCY_SYMBOL . number_format($p['price'], 2) ?></span>
-                      <span class="price-sale"><?= CURRENCY_SYMBOL . number_format($p['sale_price'], 2) ?></span>
-                    <?php else: ?>
-                      <span class="price-regular"><?= CURRENCY_SYMBOL . number_format($p['price'], 2) ?></span>
-                    <?php endif; ?>
-                  </div>
-                  <?php if ($p['stock'] <= 0): ?>
-                    <p class="out-of-stock">Out of Stock</p>
-                  <?php endif; ?>
                 </div>
 
               </a>
@@ -196,80 +200,3 @@
     </div>
   </div>
 </main>
-
-<script>
-const filterToggle = document.getElementById('filterToggle');
-const sidebar = document.querySelector('.shop-sidebar');
-
-// Toggle sidebar
-if (filterToggle && sidebar) {
-  filterToggle.addEventListener('click', function() {
-    sidebar.classList.toggle('open');
-    if (sidebar.classList.contains('open')) {
-      filterToggle.innerHTML = '<i class="ti ti-x"></i> Close Filters';
-    } else {
-      filterToggle.innerHTML = '<i class="ti ti-adjustments-horizontal"></i> Filter & Categories';
-    }
-  });
-}
-
-// Category links
-document.querySelectorAll('.sidebar-list a').forEach(link => {
-  link.addEventListener('click', function() {
-    const isAllProducts = this.textContent.trim() === 'All Products';
-    if (isAllProducts) {
-      sessionStorage.removeItem('shopSidebarOpen');
-    } else {
-      sessionStorage.setItem('shopSidebarOpen', 'true');
-    }
-    document.querySelector('.shop-main').style.opacity = '0.3';
-    document.querySelector('.shop-main').style.transition = 'opacity 0.2s ease';
-  });
-});
-
-// Restore sidebar state after reload
-if (sessionStorage.getItem('shopSidebarOpen') === 'true' && sidebar) {
-  sidebar.classList.add('open');
-  filterToggle.innerHTML = '<i class="ti ti-x"></i> Close Filters';
-  sessionStorage.removeItem('shopSidebarOpen');
-}
-
-// Sort select
-const sortSelect = document.querySelector('.sort-select');
-if (sortSelect) {
-  sortSelect.onchange = null;
-  sortSelect.addEventListener('change', function() {
-    document.querySelector('.shop-main').style.opacity = '0.3';
-    document.querySelector('.shop-main').style.transition = 'opacity 0.2s ease';
-    window.location = this.value;
-  });
-}
-
-// Price filter
-const priceForm = document.querySelector('.toolbar-price-filter');
-if (priceForm) {
-  priceForm.addEventListener('submit', function() {
-    if (sidebar && sidebar.classList.contains('open')) {
-      sessionStorage.setItem('shopSidebarOpen', 'true');
-    }
-    document.querySelector('.shop-main').style.opacity = '0.3';
-    document.querySelector('.shop-main').style.transition = 'opacity 0.2s ease';
-  });
-}
-
-// Subcategory accordion
-const subcatToggle = document.getElementById('subcatToggle');
-const subcatList = document.getElementById('subcatList');
-
-if (subcatToggle && subcatList) {
-  if (subcatList.querySelector('a.active')) {
-    subcatToggle.classList.add('open');
-    subcatList.classList.add('open');
-  }
-
-  subcatToggle.addEventListener('click', function() {
-    this.classList.toggle('open');
-    subcatList.classList.toggle('open');
-  });
-}
-</script>
