@@ -4,16 +4,19 @@ session_name(SESSION_NAME);
 session_start();
 
 require_once ROOT . '/app/helpers/auth.php';
+require_once ROOT . '/app/helpers/wishlist.php';
 
 $pdo = connectDB();
 $action = isset($_GET['action']) ? $_GET['action'] : 'view';
+$userId = $_SESSION['user_id'] ?? null;
+$isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']);
 
-// Initialize wishlist as empty array
+// Initialize wishlist
 if (!isset($_SESSION['wishlist'])) {
   $_SESSION['wishlist'] = [];
 }
 
-// Fetch product helper
+// Helper
 function getProduct($pdo, $id) {
   $stmt = $pdo->prepare('
     SELECT p.*, c.name as category_name
@@ -25,8 +28,7 @@ function getProduct($pdo, $id) {
   return $stmt->fetch();
 }
 
-// Build wishlist item helper
-function wishlistItem($product) {
+function buildWishlistItem($product) {
   return [
     'id'            => (int)$product['id'],
     'name'          => $product['name'],
@@ -37,15 +39,11 @@ function wishlistItem($product) {
   ];
 }
 
-// JSON response helper
 function jsonResponse($data) {
   header('Content-Type: application/json');
   echo json_encode($data);
   exit;
 }
-
-// Is AJAX?
-$isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']);
 
 // ============ ADD ============
 if ($action === 'add') {
@@ -53,7 +51,8 @@ if ($action === 'add') {
   if ($productId > 0 && !isset($_SESSION['wishlist'][$productId])) {
     $product = getProduct($pdo, $productId);
     if ($product) {
-      $_SESSION['wishlist'][$productId] = wishlistItem($product);
+      $_SESSION['wishlist'][$productId] = buildWishlistItem($product);
+      if ($userId) saveWishlistToDB($pdo, $userId, $productId);
     }
   }
   if ($isAjax) {
@@ -71,6 +70,8 @@ if ($action === 'add') {
 if ($action === 'remove') {
   $productId = (int)$_GET['id'];
   unset($_SESSION['wishlist'][$productId]);
+  if ($userId) removeWishlistFromDB($pdo, $userId, $productId);
+
   if ($isAjax) {
     jsonResponse([
       'success'        => true,
@@ -86,11 +87,13 @@ if ($action === 'toggle') {
   $productId = (int)$_GET['id'];
   if (isset($_SESSION['wishlist'][$productId])) {
     unset($_SESSION['wishlist'][$productId]);
+    if ($userId) removeWishlistFromDB($pdo, $userId, $productId);
     $inWishlist = false;
   } else {
     $product = getProduct($pdo, $productId);
     if ($product) {
-      $_SESSION['wishlist'][$productId] = wishlistItem($product);
+      $_SESSION['wishlist'][$productId] = buildWishlistItem($product);
+      if ($userId) saveWishlistToDB($pdo, $userId, $productId);
     }
     $inWishlist = true;
   }
@@ -108,27 +111,22 @@ if ($action === 'toggle') {
 // ============ CLEAR ============
 if ($action === 'clear') {
   $_SESSION['wishlist'] = [];
+  if ($userId) clearWishlistFromDB($pdo, $userId);
   header('Location: ' . APP_URL . '/wishlist');
   exit;
 }
 
 // ============ VIEW ============
-// Only show valid items
-$wishlistItems = [];
-foreach ($_SESSION['wishlist'] as $key => $item) {
-  if (
-    isset($item['id'], $item['name'], $item['slug']) &&
-    $item['id'] > 0 &&
-    !empty($item['name']) &&
-    !empty($item['slug'])
-  ) {
-    $wishlistItems[$key] = $item;
-  }
+// Load from DB if logged in
+if ($userId) {
+  $_SESSION['wishlist'] = loadWishlistFromDB($pdo, $userId);
 }
 
-// Update session with clean data
-$_SESSION['wishlist'] = $wishlistItems;
+$wishlistItems = array_filter($_SESSION['wishlist'], function($item) {
+  return !empty($item['id']) && !empty($item['name']) && !empty($item['slug']);
+});
 
+$_SESSION['wishlist'] = $wishlistItems;
 $pageTitle = 'My Wishlist';
 
 require_once ROOT . '/app/views/layouts/header.php';

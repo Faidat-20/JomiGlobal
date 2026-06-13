@@ -34,15 +34,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $user = $stmt->fetch();
 
       if ($user && password_verify($password, $user['password'])) {
+        require_once ROOT . '/app/helpers/cart.php';
+        require_once ROOT . '/app/helpers/wishlist.php';
+        $pdo = connectDB();
+
+        // Merge guest cart
+        if (!empty($_SESSION['cart'])) {
+          mergeGuestCartToDB($pdo, $user['id'], $_SESSION['cart']);
+        }
+
+        // Merge guest wishlist
+        if (!empty($_SESSION['wishlist'])) {
+          mergeGuestWishlistToDB($pdo, $user['id'], $_SESSION['wishlist']);
+        }
+
         loginUser($user);
+
+        // Load fresh cart and wishlist from DB
+        $_SESSION['cart']    = loadCartFromDB($pdo, $user['id']);
+        $_SESSION['wishlist'] = loadWishlistFromDB($pdo, $user['id']);
+
         if (isAdmin()) {
           header('Location: ' . APP_URL . '/admin');
         } else {
           header('Location: ' . APP_URL);
         }
         exit;
-      } else {
-        $error = 'Invalid email or password';
       }
     }
   }

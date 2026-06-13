@@ -1,6 +1,15 @@
 <?php
 $pageTitle = $pageTitle ?? APP_NAME;
 $pageDescription = $pageDescription ?? 'Luxury Jewelry, Perfume and Glasses';
+
+if (isset($_SESSION['user_id']) && !isset($_SESSION['cart_db_loaded'])) {
+  $pdo = connectDB();
+  require_once ROOT . '/app/helpers/cart.php';
+  require_once ROOT . '/app/helpers/wishlist.php';
+  $_SESSION['cart']    = loadCartFromDB($pdo, $_SESSION['user_id']);
+  $_SESSION['wishlist'] = loadWishlistFromDB($pdo, $_SESSION['user_id']);
+  $_SESSION['cart_db_loaded'] = true;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
