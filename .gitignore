@@ -1,5 +1,6 @@
 .env
 config/database.php
+config/email.php
 config/flutterwave.php
 
 # Dependencies
