@@ -122,6 +122,10 @@ switch ($url) {
     case 'collections':
         require_once ROOT . '/app/controllers/CollectionsController.php';
         break;
+
+    case 'order-tracking':
+        require_once ROOT . '/app/controllers/OrderTrackingController.php';
+        break;
         
     default:
         if (strpos($url, 'product/') === 0) {
