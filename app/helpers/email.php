@@ -33,7 +33,15 @@ function sendEmail($to, $toName, $subject, $htmlContent) {
 
   $response = curl_exec($ch);
   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  $curlError = curl_error($ch);
   curl_close($ch);
+
+  // Debug logging
+  error_log('Brevo Response Code: ' . $httpCode);
+  error_log('Brevo Response: ' . $response);
+  if ($curlError) {
+    error_log('Curl Error: ' . $curlError);
+  }
 
   return $httpCode === 201;
 }

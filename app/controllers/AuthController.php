@@ -36,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if ($user && password_verify($password, $user['password'])) {
         require_once ROOT . '/app/helpers/cart.php';
         require_once ROOT . '/app/helpers/wishlist.php';
-        $pdo = connectDB();
 
         // Merge guest cart
         if (!empty($_SESSION['cart'])) {
@@ -60,6 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           header('Location: ' . APP_URL);
         }
         exit;
+      } else {
+        $error = 'Invalid email or password';
       }
     }
   }
@@ -105,6 +106,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           'role' => 'customer'
         ];
         loginUser($user);
+
+        // Send welcome email
+        require_once ROOT . '/app/helpers/email.php';
+        require_once ROOT . '/app/helpers/email-templates.php';
+        sendEmail(
+          $email,
+          $first_name,
+          'Welcome to JomiGlobal!',
+          welcomeEmailTemplate($first_name)
+        );
+
         header('Location: ' . APP_URL);
         exit;
       }
