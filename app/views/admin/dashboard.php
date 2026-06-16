@@ -48,6 +48,15 @@
       <p>Total Products</p>
     </div>
   </div>
+  <div class="stat-card">
+    <div class="stat-icon blue">
+      <i class="ti ti-mail"></i>
+    </div>
+    <div class="stat-info">
+      <h3><?= $totalSubscribers ?></h3>
+      <p>Newsletter Subscribers</p>
+    </div>
+  </div>
 </div>
 
 <!-- Recent Orders -->

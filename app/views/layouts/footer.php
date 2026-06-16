@@ -76,6 +76,38 @@
     </div>
   </div>
 
+  <!-- Newsletter Popup -->
+  <div class="newsletter-overlay" id="newsletterOverlay">
+    <div class="newsletter-modal">
+      <button class="newsletter-close" id="newsletterClose">
+        <i class="ti ti-x"></i>
+      </button>
+      <div class="newsletter-content">
+        <div class="newsletter-icon">✨</div>
+        <h3>Join the JomiGlobal Family</h3>
+        <p>Subscribe to receive exclusive offers, new arrivals and luxury inspiration straight to your inbox.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input
+            type="text"
+            name="name"
+            placeholder="Your name"
+            required
+          >
+          <input
+            type="email"
+            name="email"
+            placeholder="Your email address"
+            required
+          >
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+            Subscribe
+          </button>
+        </form>
+        <p class="newsletter-privacy">We respect your privacy. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </div>
+
 </footer>
 
 <!-- Main JS -->

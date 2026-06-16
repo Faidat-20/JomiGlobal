@@ -202,4 +202,94 @@ document.querySelectorAll('.hc-slider').forEach(function(slider, sliderIndex) {
       slides[current].classList.add('active');
     }, 3000);
   }, sliderIndex * 1200);
-});
+});// ============ NEWSLETTER POPUP ============
+function initNewsletter() {
+  const overlay = document.getElementById('newsletterOverlay');
+  const closeBtn = document.getElementById('newsletterClose');
+  const form = document.getElementById('newsletterForm');
+
+  if (!overlay) return;
+
+
+  const subscribedCookie = document.cookie.includes('jomi_subscribed=1');
+  if (subscribedCookie) return;
+
+
+  // Show popup after 3 seconds if not shown in last 24 hours
+  const lastShown = localStorage.getItem('jomi_newsletter_shown');
+  const now = Date.now();
+  const twentyFourHours = 24 * 60 * 60 * 1000;
+
+  if (!lastShown || now - parseInt(lastShown) > twentyFourHours) {
+    setTimeout(() => {
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }, 3000);
+  }
+
+  // Close
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      localStorage.setItem('jomi_newsletter_shown', Date.now());
+    });
+  }
+
+  // Close on overlay click
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      localStorage.setItem('jomi_newsletter_shown', Date.now());
+    }
+  });
+
+  // Submit
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="ti ti-loader"></i> Subscribing...';
+      btn.disabled = true;
+
+      fetch(APP_URL + '/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form))
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          form.innerHTML = `
+            <div style="text-align:center;padding:20px 0;">
+              <div style="font-size:40px;margin-bottom:12px;">🎉</div>
+              <p style="color:var(--success);font-weight:600;font-size:15px;">
+                ${data.message}
+              </p>
+            </div>
+          `;
+          // Set cookie and localStorage so popup doesn't show again
+          document.cookie = 'jomi_subscribed=1; max-age=31536000; path=/';
+          localStorage.setItem('jomi_newsletter_shown', Date.now() + (365 * 24 * 60 * 60 * 1000));
+          setTimeout(() => {
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+          }, 2000);
+        } else {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+          showToast(data.message, 'error');
+        }
+      })
+      .catch(() => {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        showToast('Something went wrong. Please try again.', 'error');
+      });
+    });
+  }
+}
+
+initNewsletter();

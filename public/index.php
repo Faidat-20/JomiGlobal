@@ -126,6 +126,10 @@ switch ($url) {
     case 'order-tracking':
         require_once ROOT . '/app/controllers/OrderTrackingController.php';
         break;
+
+    case 'newsletter/subscribe':
+        require_once ROOT . '/app/controllers/NewsletterController.php';
+        break;
         
     default:
         if (strpos($url, 'product/') === 0) {

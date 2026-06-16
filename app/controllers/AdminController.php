@@ -14,6 +14,7 @@ $totalOrders = $pdo->query('SELECT COUNT(*) FROM orders')->fetchColumn();
 $totalRevenue = $pdo->query('SELECT COALESCE(SUM(total), 0) FROM orders WHERE status != "cancelled"')->fetchColumn();
 $totalCustomers = $pdo->query('SELECT COUNT(*) FROM users WHERE role = "customer"')->fetchColumn();
 $totalProducts = $pdo->query('SELECT COUNT(*) FROM products')->fetchColumn();
+$totalSubscribers = $pdo->query('SELECT COUNT(*) FROM newsletter_subscribers WHERE is_active = 1')->fetchColumn();
 
 // Get recent orders
 $stmt = $pdo->prepare('

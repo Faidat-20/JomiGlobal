@@ -1724,3 +1724,111 @@ h4 { font-size: 1.25rem; }
     aspect-ratio: 4/3;
   }
 }
+
+/* NEWSLETTER POPUP */
+
+.newsletter-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.newsletter-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.newsletter-modal {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  transform: translateY(20px) scale(0.98);
+  transition: transform 0.4s ease;
+  text-align: center;
+  margin: 16px;
+}
+
+.newsletter-overlay.open .newsletter-modal {
+  transform: translateY(0) scale(1);
+}
+
+.newsletter-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--light-grey);
+  color: var(--text-grey);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: var(--transition);
+}
+
+.newsletter-close:hover {
+  background: var(--ash);
+  color: var(--white);
+}
+
+.newsletter-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+}
+
+.newsletter-modal h3 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  color: var(--text-dark);
+}
+
+.newsletter-modal p {
+  font-size: 13px;
+  color: var(--text-grey);
+  margin-bottom: 24px;
+  line-height: 1.7;
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.newsletter-form input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: var(--font-body);
+  outline: none;
+  transition: var(--transition);
+}
+
+.newsletter-form input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(218,158,40,0.1);
+}
+
+.newsletter-privacy {
+  font-size: 11px !important;
+  color: #ccc !important;
+  margin-top: 12px !important;
+  margin-bottom: 0 !important;
+}
