@@ -106,7 +106,11 @@
             <i class="ti ti-package"></i>
             <h3>No products found</h3>
             <p>Try adjusting your filters or browse all products</p>
-            <a href="<?= APP_URL ?>/shop" class="btn btn-primary">Browse All</a>
+            <a href="<?= APP_URL ?>/shop?category=" class="btn-browse-all">
+              <div class="btn-browse-all-line"></div>
+              <span class="btn-browse-all-text">Browse All</span>
+              <div class="btn-browse-all-line"></div>
+            </a>
           </div>
         <?php else: ?>
           <div class="products-grid">

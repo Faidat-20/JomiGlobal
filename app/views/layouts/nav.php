@@ -96,6 +96,7 @@
       <i class="ti ti-chevron-down mobile-drop-icon"></i>
     </div>
     <div class="mobile-panel-sub" id="shopDropSub">
+      <a href="<?= APP_URL ?>/shop?category=" class="mobile-panel-sub-link">All Products</a>
       <a href="<?= APP_URL ?>/category/jewelry" class="mobile-panel-sub-link">Jewelry</a>
       <a href="<?= APP_URL ?>/category/perfume" class="mobile-panel-sub-link">Perfume</a>
       <a href="<?= APP_URL ?>/category/glasses" class="mobile-panel-sub-link">Glasses</a>
@@ -106,6 +107,7 @@
       <i class="ti ti-chevron-down mobile-drop-icon"></i>
     </div>
     <div class="mobile-panel-sub" id="colDropSub">
+      <a href="<?= APP_URL ?>/collections" class="mobile-panel-sub-link">All Collections</a>
       <a href="<?= APP_URL ?>/collections/for-her" class="mobile-panel-sub-link">For Her</a>
       <a href="<?= APP_URL ?>/collections/for-him" class="mobile-panel-sub-link">For Him</a>
       <a href="<?= APP_URL ?>/collections/gift-ideas" class="mobile-panel-sub-link">Gift Ideas</a>

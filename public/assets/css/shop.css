@@ -445,6 +445,17 @@
   }
 }
 
+.collection-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 /* --- Empty State --- */
 .shop-empty {
   text-align: center;
@@ -468,6 +479,89 @@
 .shop-empty p {
   margin-bottom: 24px;
   font-size: 14px;
+}
+
+/* --- Browse All CTA --- */
+.btn-browse-all {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 13px 36px;
+  background: #2c2d2e;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s ease;
+}
+
+.btn-browse-all::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212,175,55,0.5), transparent);
+}
+
+.btn-browse-all::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212,175,55,0.5), transparent);
+}
+
+.btn-browse-all:hover {
+  background: #1e1c24;
+}
+
+.btn-browse-all-text {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: #f0ece0;
+  text-transform: uppercase;
+  transition: letter-spacing 0.4s ease, color 0.3s ease;
+}
+
+.btn-browse-all:hover .btn-browse-all-text {
+  letter-spacing: 0.22em;
+  color: #d4af37;
+}
+
+.btn-browse-all-line {
+  width: 20px;
+  height: 1px;
+  background: rgba(212,175,55,0.4);
+  transition: all 0.4s ease;
+  flex-shrink: 0;
+}
+
+.btn-browse-all:hover .btn-browse-all-line {
+  width: 30px;
+  background: #d4af37;
+}
+
+@media (max-width: 768px) {
+  .btn-browse-all {
+    padding: 11px 28px;
+    gap: 12px;
+  }
+
+  .btn-browse-all-text {
+    font-size: 13px;
+    letter-spacing: 0.15em;
+  }
+
+  .btn-browse-all-line {
+    width: 16px;
+  }
+  .btn-browse-all:hover .btn-browse-all-line {
+    width: 20px;
+  }
+
 }
 
 /* --- Pagination --- */

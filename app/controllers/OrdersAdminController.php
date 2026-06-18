@@ -17,11 +17,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'update-status') {
   $tracking = trim($_POST['tracking_number'] ?? '');
   $notes = trim($_POST['notes'] ?? '');
 
+  // Get current status before updating (to detect change)
+  $stmt = $pdo->prepare('SELECT status FROM orders WHERE id = ?');
+  $stmt->execute([$id]);
+  $oldOrder = $stmt->fetch();
+  $oldStatus = $oldOrder['status'] ?? null;
+
   $stmt = $pdo->prepare('
     UPDATE orders SET status = ?, tracking_number = ?, notes = ?
     WHERE id = ?
   ');
   $stmt->execute([$status, $tracking, $notes, $id]);
+
+  // Send email if status changed to shipped or delivered
+  if ($oldStatus !== $status && in_array($status, ['shipped', 'delivered'])) {
+    $stmt = $pdo->prepare('SELECT * FROM orders WHERE id = ?');
+    $stmt->execute([$id]);
+    $updatedOrder = $stmt->fetch();
+
+    require_once ROOT . '/app/helpers/email.php';
+    require_once ROOT . '/app/helpers/email-templates.php';
+
+    if ($status === 'shipped') {
+      sendEmail(
+        $updatedOrder['shipping_email'],
+        $updatedOrder['shipping_first_name'],
+        'Your JomiGlobal Order Has Shipped! 🚚',
+        orderShippedTemplate($updatedOrder)
+      );
+    } elseif ($status === 'delivered') {
+      sendEmail(
+        $updatedOrder['shipping_email'],
+        $updatedOrder['shipping_first_name'],
+        'Your JomiGlobal Order Has Been Delivered! 📦',
+        orderDeliveredTemplate($updatedOrder)
+      );
+    }
+  }
+
   header('Location: ' . APP_URL . '/admin/orders');
   exit;
 }

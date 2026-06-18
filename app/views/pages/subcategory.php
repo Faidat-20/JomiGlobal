@@ -9,13 +9,9 @@
         <a href="<?= APP_URL ?>/category/<?= $categorySlug ?>"><?= htmlspecialchars($category['name']) ?></a>
         <?php if (isset($group)): ?>
           <span>/</span>
-          <?php if (isset($subcategory)): ?>
-            <a href="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>"><?= htmlspecialchars($group['name']) ?></a>
-          <?php else: ?>
-             <a href="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>"><?= htmlspecialchars($group['name']) ?></a>
-          <?php endif; ?>
+          <a href="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>"><?= htmlspecialchars($group['name']) ?></a>
         <?php endif; ?>
-        <?php if (isset($subcategory)): ?>
+        <?php if (isset($subcategory) && empty($isLeafGroup)): ?>
           <span>/</span>
           <a href="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>/<?= $subcategory['slug'] ?>"><?= htmlspecialchars($subcategory['name']) ?></a>
         <?php endif; ?>
@@ -26,7 +22,7 @@
     </div>
   </div>
 
-  <div class="container" style="padding:48px 24px;">
+  <div class="container" style="padding:24px 24px 80px;">
 
     <?php if (isset($subcategories)): ?>
       <!-- Show subcategory grid -->
@@ -48,7 +44,12 @@
     <?php else: ?>
       <!-- Show products -->
       <div class="shop-toolbar">
-        <p style="font-size:13px;color:var(--text-grey);"><?= count($products) ?> products</p>
+      <form method="GET" action="<?= APP_URL ?>/collections/<?= $collection['slug'] ?>" class="toolbar-price-filter">
+        <input type="number" name="min_price" placeholder="Min ₦" value="<?= $minPrice ?? '' ?>" style="width:80px;padding:8px 10px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;">
+        <span>—</span>
+        <input type="number" name="max_price" placeholder="Max ₦" value="<?= $maxPrice ?? '' ?>" style="width:80px;padding:8px 10px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;">
+        <button type="submit" class="btn btn-primary" style="padding:8px 16px;font-size:12px;">Apply</button>
+      </form>
         <div class="sort-wrapper">
           <label>Sort by:</label>
           <select onchange="window.location=this.value" class="sort-select">
@@ -64,7 +65,11 @@
           <i class="ti ti-package"></i>
           <h3>No products yet</h3>
           <p>Check back soon!</p>
-          <a href="<?= APP_URL ?>/shop" class="btn btn-primary">Browse All</a>
+          <a href="<?= APP_URL ?>/shop?category=" class="btn-browse-all">
+            <div class="btn-browse-all-line"></div>
+            <span class="btn-browse-all-text">Browse All</span>
+            <div class="btn-browse-all-line"></div>
+          </a>
         </div>
       <?php else: ?>
         <div class="products-grid">

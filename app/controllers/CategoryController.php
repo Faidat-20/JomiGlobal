@@ -78,11 +78,17 @@ if ($subSlug) {
   exit;
 }
 
-// ============ LEVEL 2: Group subcategories ============
+// ============ LEVEL 2: Group subcategories OR products ============
 if ($groupSlug) {
   $stmt = $pdo->prepare('SELECT * FROM subcategories WHERE slug = ?');
   $stmt->execute([$groupSlug]);
   $group = $stmt->fetch();
+
+  if (!$group) {
+    http_response_code(404);
+    echo "Group not found";
+    exit;
+  }
 
   // Get subcategories of this group
   $stmt = $pdo->prepare('
@@ -91,6 +97,48 @@ if ($groupSlug) {
   ');
   $stmt->execute([$group['id']]);
   $subcategories = $stmt->fetchAll();
+
+  // If this group has no children, it's a leaf — show products directly
+  if (empty($subcategories)) {
+    unset($subcategories);
+
+    $sort = $_GET['sort'] ?? 'newest';
+    $orderBy = match($sort) {
+      'price_asc'  => 'p.price ASC',
+      'price_desc' => 'p.price DESC',
+      'name_asc'   => 'p.name ASC',
+      default      => 'p.created_at DESC',
+    };
+
+    $minPrice = isset($_GET['min_price']) && $_GET['min_price'] !== '' ? (float)$_GET['min_price'] : null;
+    $maxPrice = isset($_GET['max_price']) && $_GET['max_price'] !== '' ? (float)$_GET['max_price'] : null;
+
+    $sql = "
+      SELECT p.*, c.name as category_name
+      FROM products p
+      LEFT JOIN categories c ON p.category_id = c.id
+      WHERE p.subcategory_id = ? AND p.is_active = 1
+    ";
+    $params = [$group['id']];
+
+    if ($minPrice !== null) {
+      $sql .= " AND COALESCE(p.sale_price, p.price) >= ?";
+      $params[] = $minPrice;
+    }
+    if ($maxPrice !== null) {
+      $sql .= " AND COALESCE(p.sale_price, p.price) <= ?";
+      $params[] = $maxPrice;
+    }
+
+    $sql .= " ORDER BY $orderBy";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    $products = $stmt->fetchAll();
+
+    // Leaf group — no separate subcategory level
+    $isLeafGroup = true;
+  }
 
   $pageTitle = $group['name'] . ' - ' . $category['name'];
 

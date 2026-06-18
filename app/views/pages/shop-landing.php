@@ -68,8 +68,10 @@
 
     <!-- Browse All -->
     <div style="text-align:center;margin-top:48px;">
-      <a href="<?= APP_URL ?>/shop?category=" class="btn btn-secondary">
-        Browse All Products <i class="ti ti-arrow-right"></i>
+      <a href="<?= APP_URL ?>/shop?category=" class="btn-browse-all">
+        <div class="btn-browse-all-line"></div>
+        <span class="btn-browse-all-text">Browse All</span>
+        <div class="btn-browse-all-line"></div>
       </a>
     </div>
 
