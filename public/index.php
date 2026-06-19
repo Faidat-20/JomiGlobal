@@ -130,6 +130,10 @@ switch ($url) {
     case 'newsletter/subscribe':
         require_once ROOT . '/app/controllers/NewsletterController.php';
         break;
+
+    case 'about':
+        require_once ROOT . '/app/controllers/AboutController.php';
+        break;
         
     default:
         if (strpos($url, 'product/') === 0) {
