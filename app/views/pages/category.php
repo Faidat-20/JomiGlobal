@@ -23,8 +23,8 @@
           <div class="cg-slider" data-offset="<?= ($i % 2) * 1500 ?>">
             <?php if (!empty($group['images'])): ?>
               <?php foreach ($group['images'] as $img): ?>
-                <div class="cg-slide">
-                  <img src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($img) ?>" alt="">
+                <div class="cg-slide" data-subcat="<?= htmlspecialchars($img['subcat_name']) ?>">
+                  <img src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($img['image']) ?>" alt="">
                 </div>
               <?php endforeach; ?>
             <?php else: ?>
@@ -47,6 +47,11 @@
           <!-- Corner frames -->
           <div class="cg-corner cg-tl"></div>
           <div class="cg-corner cg-bl"></div>
+
+          <!-- Subcategory pill (only shows when real images exist) -->
+          <?php if (!empty($group['images'])): ?>
+            <div class="cg-subcat-pill"></div>
+          <?php endif; ?>
 
           <!-- Overlay -->
           <div class="cg-overlay">
@@ -85,6 +90,8 @@ document.querySelectorAll('.category-group-card').forEach(function(card, cardInd
 
   function pad(n) { return String(n).padStart(2, '0'); }
 
+  const subcatPill = card.querySelector('.cg-subcat-pill');
+
   function goTo(index) {
     current = index % total;
     slider.style.transform = 'translateX(-' + (current * 100) + '%)';
@@ -92,7 +99,20 @@ document.querySelectorAll('.category-group-card').forEach(function(card, cardInd
       d.classList.toggle('active', i === current);
     });
     if (counter) counter.textContent = pad(current + 1) + ' / ' + pad(total);
+
+    if (subcatPill) {
+      const activeSlide = slides[current];
+      const subcatName = activeSlide.getAttribute('data-subcat');
+      if (subcatName) {
+        subcatPill.textContent = subcatName;
+        subcatPill.style.display = 'block';
+      } else {
+        subcatPill.style.display = 'none';
+      }
+    }
   }
+
+  goTo(0);
 
   setTimeout(function() {
     setInterval(function() { goTo(current + 1); }, 3000);

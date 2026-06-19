@@ -150,13 +150,35 @@ if ($groupSlug) {
 }
 
 // ============ LEVEL 1: Category landing ============
-// Get top level groups (parent_id IS NULL)
 $stmt = $pdo->prepare('
   SELECT * FROM subcategories
   WHERE category_id = ? AND parent_id IS NULL AND is_active = 1
 ');
 $stmt->execute([$category['id']]);
 $groups = $stmt->fetchAll();
+
+foreach ($groups as &$grp) {
+  $imgStmt = $pdo->prepare("
+    SELECT p.image, COALESCE(s.name, ?) AS subcat_name
+    FROM products p
+    LEFT JOIN subcategories s ON p.subcategory_id = s.id AND s.parent_id = ?
+    WHERE p.is_active = 1
+      AND p.image IS NOT NULL
+      AND p.image != ''
+      AND (
+        p.subcategory_id = ?
+        OR p.subcategory_id IN (
+          SELECT id FROM subcategories WHERE parent_id = ?
+        )
+      )
+    ORDER BY p.created_at DESC
+    LIMIT 5
+  ");
+  $imgStmt->execute([$grp['name'], $grp['id'], $grp['id'], $grp['id']]);
+  $imgRows = $imgStmt->fetchAll(PDO::FETCH_ASSOC);
+  $grp['images'] = $imgRows ?: [];
+}
+unset($grp);
 
 $pageTitle = $category['name'];
 
