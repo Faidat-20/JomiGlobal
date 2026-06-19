@@ -75,31 +75,47 @@
         <div class="products-grid">
           <?php foreach ($products as $p): ?>
             <a href="<?= APP_URL ?>/product/<?= $p['slug'] ?>" class="product-card reveal">
-              <div class="product-card-image">
+              <div class="card-corner c-tl"></div>
+              <div class="card-corner c-tr"></div>
+              <?php if ($p['sale_price']): ?>
+                <span class="card-badge sale">Sale</span>
+              <?php elseif ($p['is_featured']): ?>
+                <span class="card-badge">Featured</span>
+              <?php endif; ?>
+              <div class="card-img-wrap">
                 <?php if (!empty($p['image'])): ?>
-                  <img src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['name']) ?>">
+                  <img src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($p['image']) ?>"
+                      alt="<?= htmlspecialchars($p['name']) ?>">
                 <?php else: ?>
-                  <div class="product-no-image"><i class="ti ti-photo"></i></div>
+                  <div class="card-img-placeholder">
+                    <i class="ti ti-photo"></i>
+                  </div>
                 <?php endif; ?>
-                <?php if ($p['sale_price']): ?>
-                  <span class="product-badge sale">Sale</span>
-                <?php endif; ?>
-                <div class="product-card-actions">
-                  <a href="<?= APP_URL ?>/product/<?= $p['slug'] ?>" class="product-action-btn"><i class="ti ti-eye"></i></a>
-                  <button class="product-action-btn wishlist-btn" data-id="<?= $p['id'] ?>"><i class="ti ti-heart"></i></button>
-                  <button class="product-action-btn add-to-cart-btn" data-id="<?= $p['id'] ?>"><i class="ti ti-shopping-bag"></i></button>
-                </div>
               </div>
-              <div class="product-card-info">
-                <p class="product-category"><?= htmlspecialchars($p['category_name']) ?></p>
-                <h3 class="product-name"><?= htmlspecialchars($p['name']) ?></h3>
-                <div class="product-price">
-                  <?php if ($p['sale_price']): ?>
-                    <span class="price-original"><?= CURRENCY_SYMBOL . number_format($p['price'], 2) ?></span>
-                    <span class="price-sale"><?= CURRENCY_SYMBOL . number_format($p['sale_price'], 2) ?></span>
-                  <?php else: ?>
-                    <span class="price-regular"><?= CURRENCY_SYMBOL . number_format($p['price'], 2) ?></span>
-                  <?php endif; ?>
+              <div class="card-actions">
+                <button class="action-btn" title="Quick View">
+                  <i class="ti ti-eye"></i>
+                </button>
+                <button class="action-btn wishlist-btn" data-id="<?= $p['id'] ?>" title="Wishlist">
+                  <i class="ti ti-heart"></i>
+                </button>
+              </div>
+              <div class="card-divider"></div>
+              <div class="card-info">
+                <p class="card-cat"><?= htmlspecialchars($p['category_name']) ?></p>
+                <h3 class="card-name"><?= htmlspecialchars($p['name']) ?></h3>
+                <div class="card-price-row">
+                  <div>
+                    <?php if ($p['sale_price']): ?>
+                      <span class="card-price-old"><?= CURRENCY_SYMBOL . number_format($p['price'], 2) ?></span>
+                      <span class="card-price" style="color:var(--gold);"><?= CURRENCY_SYMBOL . number_format($p['sale_price'], 2) ?></span>
+                    <?php else: ?>
+                      <span class="card-price"><?= CURRENCY_SYMBOL . number_format($p['price'], 2) ?></span>
+                    <?php endif; ?>
+                  </div>
+                  <button class="card-add add-to-cart-btn" data-id="<?= $p['id'] ?>" title="Add to Cart">
+                    <i class="ti ti-shopping-bag"></i>
+                  </button>
                 </div>
               </div>
             </a>

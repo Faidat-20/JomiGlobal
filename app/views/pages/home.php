@@ -5,7 +5,7 @@
 
     <!-- Swap this src for your hero image later -->
     <div class="hero-bg">
-      <!-- <img src="<?= APP_URL ?>/uploads/hero.jpg" alt="" class="hero-bg-img"> -->
+      <img src="<?= APP_URL ?>/assets/images/header image.jpg" alt="" class="hero-bg-img">
     </div>
 
     <div class="hero-glow" id="heroGlow"></div>
@@ -207,5 +207,83 @@
 
     </div>
   </section>
+
+  <!-- Featured Products Section -->
+  <?php
+    $pdo = connectDB();
+    $stmt = $pdo->prepare('
+      SELECT p.*, c.name as category_name
+      FROM products p
+      LEFT JOIN categories c ON p.category_id = c.id
+      WHERE p.is_featured = 1 AND p.is_active = 1
+      ORDER BY p.created_at DESC
+      LIMIT 8
+    ');
+    $stmt->execute();
+    $featuredProducts = $stmt->fetchAll();
+  ?>
+  <?php if (!empty($featuredProducts)): ?>
+  <section class="section featured-section">
+    <div class="container">
+      <div class="cat-section-header">
+        <span class="cat-section-label">Hand Picked</span>
+        <h2 class="cat-section-title reveal">Featured Products</h2>
+        <div class="cat-section-divider"></div>
+      </div>
+      <div class="products-grid">
+        <?php foreach ($featuredProducts as $p): ?>
+          <a href="<?= APP_URL ?>/product/<?= $p['slug'] ?>" class="product-card reveal">
+            <div class="card-corner c-tl"></div>
+            <div class="card-corner c-tr"></div>
+            <?php if ($p['sale_price']): ?>
+              <span class="card-badge sale">Sale</span>
+            <?php else: ?>
+              <span class="card-badge">Featured</span>
+            <?php endif; ?>
+            <div class="card-img-wrap">
+              <?php if (!empty($p['image'])): ?>
+                <img src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($p['image']) ?>"
+                    alt="<?= htmlspecialchars($p['name']) ?>">
+              <?php else: ?>
+                <div class="card-img-placeholder">
+                  <i class="ti ti-photo"></i>
+                </div>
+              <?php endif; ?>
+            </div>
+            <div class="card-actions">
+              <button class="action-btn" title="Quick View">
+                <i class="ti ti-eye"></i>
+              </button>
+              <button class="action-btn wishlist-btn" data-id="<?= $p['id'] ?>" title="Wishlist">
+                <i class="ti ti-heart"></i>
+              </button>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card-info">
+              <p class="card-cat"><?= htmlspecialchars($p['category_name']) ?></p>
+              <h3 class="card-name"><?= htmlspecialchars($p['name']) ?></h3>
+              <div class="card-price-row">
+                <div>
+                  <?php if ($p['sale_price']): ?>
+                    <span class="card-price-old"><?= CURRENCY_SYMBOL . number_format($p['price'], 2) ?></span>
+                    <span class="card-price" style="color:var(--gold);"><?= CURRENCY_SYMBOL . number_format($p['sale_price'], 2) ?></span>
+                  <?php else: ?>
+                    <span class="card-price"><?= CURRENCY_SYMBOL . number_format($p['price'], 2) ?></span>
+                  <?php endif; ?>
+                </div>
+                <button class="card-add add-to-cart-btn" data-id="<?= $p['id'] ?>" title="Add to Cart">
+                  <i class="ti ti-shopping-bag"></i>
+                </button>
+              </div>
+            </div>
+          </a>
+        <?php endforeach; ?>
+      </div>
+      <div style="text-align:center;margin-top:40px;">
+        <a href="<?= APP_URL ?>/shop?category=" class="btn btn-secondary">View All Products</a>
+      </div>
+    </div>
+  </section>
+  <?php endif; ?>
 
 </main>

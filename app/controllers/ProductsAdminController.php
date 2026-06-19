@@ -17,20 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($action === 'add') {
     $data = [
-      'category_id' => $_POST['category_id'],
-      'name'        => trim($_POST['name']),
-      'slug'        => $product->generateSlug($_POST['name']),
-      'description' => trim($_POST['description']),
-      'price'       => $_POST['price'],
-      'sale_price'  => $_POST['sale_price'] ?: null,
-      'stock'       => $_POST['stock'],
-      'sku'         => trim($_POST['sku']),
-      'brand'       => trim($_POST['brand']),
-      'is_featured' => isset($_POST['is_featured']) ? 1 : 0,
-      'is_active'   => isset($_POST['is_active']) ? 1 : 0,
+      'category_id'    => $_POST['category_id'],
+      'subcategory_id' => $_POST['subcategory_id'] ?: null,
+      'name'           => trim($_POST['name']),
+      'slug'           => $product->generateSlug($_POST['name']),
+      'description'    => trim($_POST['description']),
+      'price'          => $_POST['price'],
+      'sale_price'     => $_POST['sale_price'] ?: null,
+      'stock'          => $_POST['stock'],
+      'sku'            => trim($_POST['sku']),
+      'brand'          => trim($_POST['brand']),
+      'is_featured'    => isset($_POST['is_featured']) ? 1 : 0,
+      'is_active'      => isset($_POST['is_active']) ? 1 : 0,
     ];
 
-    // Handle image upload — images[] array
     if (!empty($_FILES['images']['name'][0])) {
       $file = [
         'name'     => $_FILES['images']['name'][0],
@@ -50,6 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($error)) {
       $newId = $product->create($data);
       if ($newId) {
+        // Save collections
+        $collections = $_POST['collections'] ?? [];
+        $product->saveCollections($newId, $collections);
         header('Location: ' . APP_URL . '/admin/products');
         exit;
       } else {
@@ -60,21 +63,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($action === 'edit' && $id) {
     $data = [
-      'category_id' => $_POST['category_id'],
+      'category_id'    => $_POST['category_id'],
       'subcategory_id' => $_POST['subcategory_id'] ?: null,
-      'name'        => trim($_POST['name']),
-      'slug'        => $_POST['slug'],
-      'description' => trim($_POST['description']),
-      'price'       => $_POST['price'],
-      'sale_price'  => $_POST['sale_price'] ?: null,
-      'stock'       => $_POST['stock'],
-      'sku'         => trim($_POST['sku']),
-      'brand'       => trim($_POST['brand']),
-      'is_featured' => isset($_POST['is_featured']) ? 1 : 0,
-      'is_active'   => isset($_POST['is_active']) ? 1 : 0,
+      'name'           => trim($_POST['name']),
+      'slug'           => $_POST['slug'],
+      'description'    => trim($_POST['description']),
+      'price'          => $_POST['price'],
+      'sale_price'     => $_POST['sale_price'] ?: null,
+      'stock'          => $_POST['stock'],
+      'sku'            => trim($_POST['sku']),
+      'brand'          => trim($_POST['brand']),
+      'is_featured'    => isset($_POST['is_featured']) ? 1 : 0,
+      'is_active'      => isset($_POST['is_active']) ? 1 : 0,
     ];
 
-    // Handle image upload — images[] array
     if (!empty($_FILES['images']['name'][0])) {
       $file = [
         'name'     => $_FILES['images']['name'][0],
@@ -94,6 +96,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!isset($error)) {
       $product->update($id, $data);
+      // Save collections
+      $collections = $_POST['collections'] ?? [];
+      $product->saveCollections($id, $collections);
       header('Location: ' . APP_URL . '/admin/products');
       exit;
     }
@@ -112,27 +117,21 @@ function uploadProductImage($file) {
   if ($file['error'] !== UPLOAD_ERR_OK) {
     return ['success' => false, 'error' => 'Upload error code: ' . $file['error']];
   }
-
   $allowedTypes = ['jpg', 'jpeg', 'png', 'webp'];
   $maxSize = 5 * 1024 * 1024;
   $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-
   if (!in_array($ext, $allowedTypes)) {
-    return ['success' => false, 'error' => 'Invalid file type. Only JPG, PNG, WEBP allowed.'];
+    return ['success' => false, 'error' => 'Invalid file type.'];
   }
-
   if ($file['size'] > $maxSize) {
-    return ['success' => false, 'error' => 'File too large. Maximum size is 5MB.'];
+    return ['success' => false, 'error' => 'File too large.'];
   }
-
   $filename = 'product_' . uniqid() . '.' . $ext;
   $uploadPath = ROOT . '/public/uploads/' . $filename;
-
   if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
     return ['success' => true, 'filename' => $filename];
   }
-
-  return ['success' => false, 'error' => 'Failed to move file to: ' . $uploadPath];
+  return ['success' => false, 'error' => 'Failed to move file.'];
 }
 
 // Load views
@@ -142,12 +141,14 @@ if ($action === 'add') {
   $pageTitle = 'Add Product';
   $categories = $product->getCategories();
   $subcategories = $product->getSubcategories();
+  $productCollections = [];
   require_once ROOT . '/app/views/admin/add-product.php';
 } elseif ($action === 'edit' && $id) {
   $pageTitle = 'Edit Product';
   $categories = $product->getCategories();
   $subcategories = $product->getSubcategories();
   $editProduct = $product->getById($id);
+  $productCollections = $product->getProductCollections($id);
   require_once ROOT . '/app/views/admin/add-product.php';
 } else {
   $pageTitle = 'Products';

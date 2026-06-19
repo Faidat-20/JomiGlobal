@@ -140,6 +140,7 @@
                 type="checkbox"
                 name="collections[]"
                 value="<?= $col['id'] ?>"
+                <?= in_array($col['id'], $productCollections ?? []) ? 'checked' : '' ?>
               >
               <?= htmlspecialchars($col['name']) ?>
             </label>
@@ -232,14 +233,37 @@ const categorySelect = document.querySelector('select[name="category_id"]');
 const subcategorySelect = document.getElementById('subcategorySelect');
 
 if (categorySelect && subcategorySelect) {
-  function loadSubcategories(catId) {
+  function loadSubcategories(catId, selectedId = null) {
     subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
-    const filtered = subcategoriesData.filter(s => s.category_id == catId);
-    filtered.forEach(sub => {
-      const option = document.createElement('option');
-      option.value = sub.id;
-      option.textContent = sub.name;
-      subcategorySelect.appendChild(option);
+
+    // Get top level groups for this category
+    const groups = subcategoriesData.filter(s => s.category_id == catId && s.parent_id === null);
+    
+    groups.forEach(group => {
+      // Add group as optgroup
+      const optgroup = document.createElement('optgroup');
+      optgroup.label = group.name;
+      
+      // Add children of this group
+      const children = subcategoriesData.filter(s => s.parent_id == group.id);
+      
+      if (children.length > 0) {
+        children.forEach(child => {
+          const option = document.createElement('option');
+          option.value = child.id;
+          option.textContent = child.name;
+          if (selectedId && child.id == selectedId) option.selected = true;
+          optgroup.appendChild(option);
+        });
+        subcategorySelect.appendChild(optgroup);
+      } else {
+        // No children — add group itself as option
+        const option = document.createElement('option');
+        option.value = group.id;
+        option.textContent = group.name;
+        if (selectedId && group.id == selectedId) option.selected = true;
+        subcategorySelect.appendChild(option);
+      }
     });
   }
 
@@ -247,9 +271,9 @@ if (categorySelect && subcategorySelect) {
     loadSubcategories(this.value);
   });
 
-  // Load on page load if editing
+  // On page load for edit
   if (categorySelect.value) {
-    loadSubcategories(categorySelect.value);
+    loadSubcategories(categorySelect.value, <?= json_encode($editProduct['subcategory_id'] ?? null) ?>);
   }
 }
 </script>

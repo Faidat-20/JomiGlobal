@@ -154,6 +154,7 @@ class Product {
       $stmt = $this->pdo->prepare('
         SELECT * FROM subcategories 
         WHERE category_id = ? AND is_active = 1
+        ORDER BY parent_id ASC, name ASC
       ');
       $stmt->execute([$category_id]);
     } else {
@@ -162,13 +163,36 @@ class Product {
         FROM subcategories s
         LEFT JOIN categories c ON s.category_id = c.id
         WHERE s.is_active = 1
-        ORDER BY s.category_id
+        ORDER BY s.category_id, s.parent_id ASC, s.name ASC
       ');
       $stmt->execute();
     }
     return $stmt->fetchAll();
   }
 
+  public function getProductCollections($productId) {
+    $stmt = $this->pdo->prepare('
+      SELECT collection_id FROM product_collections WHERE product_id = ?
+    ');
+    $stmt->execute([$productId]);
+    return array_column($stmt->fetchAll(), 'collection_id');
+  }
+
+  public function saveCollections($productId, $collectionIds) {
+    // Delete existing
+    $stmt = $this->pdo->prepare('DELETE FROM product_collections WHERE product_id = ?');
+    $stmt->execute([$productId]);
+
+    // Insert new
+    if (!empty($collectionIds)) {
+      $stmt = $this->pdo->prepare('
+        INSERT INTO product_collections (product_id, collection_id) VALUES (?, ?)
+      ');
+      foreach ($collectionIds as $collectionId) {
+        $stmt->execute([$productId, (int)$collectionId]);
+      }
+    }
+  }
   // Count total products
   public function count() {
     $stmt = $this->pdo->prepare('SELECT COUNT(*) as total FROM products');
