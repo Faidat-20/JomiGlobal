@@ -134,6 +134,10 @@ switch ($url) {
     case 'about':
         require_once ROOT . '/app/controllers/AboutController.php';
         break;
+
+    case 'contact':
+        require_once ROOT . '/app/controllers/ContactController.php';
+        break;
         
     default:
         if (strpos($url, 'product/') === 0) {
