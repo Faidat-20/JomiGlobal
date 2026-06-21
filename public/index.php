@@ -139,6 +139,10 @@ switch ($url) {
         require_once ROOT . '/app/controllers/ContactController.php';
         break;
         
+    case 'privacy-policy':
+        require_once ROOT . '/app/controllers/PrivacyController.php';
+        break;
+        
     default:
         if (strpos($url, 'product/') === 0) {
             require_once ROOT . '/app/controllers/ProductDetailController.php';
