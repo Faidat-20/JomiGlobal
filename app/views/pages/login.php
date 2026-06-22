@@ -3,9 +3,12 @@
 
     <!-- Left Side -->
     <div class="auth-left">
+      <div class="auth-corner tl"></div>
+      <div class="auth-corner br"></div>
       <div class="auth-brand">
-        <img src="<?= APP_URL ?>/assets/images/logo.png" alt="JomiGlobal">
-        <p>Luxury Jewelry, Perfume & Glasses</p>
+        <p class="brand-logo">Jomi<span>Global</span></p>
+        <div class="brand-divider"></div>
+        <p class="brand-tagline">Luxury Jewelry · Perfume · Eyewear</p>
       </div>
     </div>
 
@@ -13,6 +16,7 @@
     <div class="auth-right">
       <div class="auth-form-wrapper">
 
+        <p class="auth-eyebrow">Member Access</p>
         <h2 class="auth-title">Welcome Back</h2>
         <p class="auth-subtitle">Sign in to your JomiGlobal account</p>
 
@@ -25,7 +29,7 @@
 
         <form class="auth-form" method="POST" action="<?= APP_URL ?>/login">
           <div class="form-group">
-            <label for="email">Email Address</label>
+            <label class="form-label" for="email">Email Address</label>
             <div class="input-wrapper">
               <i class="ti ti-mail"></i>
               <input
@@ -40,7 +44,7 @@
           </div>
 
           <div class="form-group">
-            <label for="password">Password</label>
+            <label class="form-label" for="password">Password</label>
             <div class="input-wrapper">
               <i class="ti ti-lock"></i>
               <input
@@ -64,7 +68,7 @@
             <a href="<?= APP_URL ?>/forgot-password" class="forgot-link">Forgot password?</a>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-full">
+          <button type="submit" class="btn-luxury-submit">
             Sign In <i class="ti ti-arrow-right"></i>
           </button>
         </form>

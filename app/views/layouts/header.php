@@ -30,6 +30,7 @@ if (isset($_SESSION['user_id']) && !isset($_SESSION['cart_db_loaded'])) {
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/checkout.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/pages.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/wishlist.css">
+    <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/login.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/account.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/category.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/collections.css">

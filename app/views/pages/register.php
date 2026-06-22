@@ -3,9 +3,12 @@
 
     <!-- Left Side -->
     <div class="auth-left">
+      <div class="auth-corner tl"></div>
+      <div class="auth-corner br"></div>
       <div class="auth-brand">
-        <img src="<?= APP_URL ?>/assets/images/logo.png" alt="JomiGlobal">
-        <p>Luxury Jewelry, Perfume & Glasses</p>
+        <p class="brand-logo">Jomi<span>Global</span></p>
+        <div class="brand-divider"></div>
+        <p class="brand-tagline">Luxury Jewelry · Perfume · Eyewear</p>
       </div>
     </div>
 
@@ -13,6 +16,7 @@
     <div class="auth-right">
       <div class="auth-form-wrapper">
 
+        <p class="auth-eyebrow">Join Us</p>
         <h2 class="auth-title">Create Account</h2>
         <p class="auth-subtitle">Join JomiGlobal and shop luxury</p>
 
@@ -27,7 +31,7 @@
 
           <div class="form-row">
             <div class="form-group">
-              <label for="first_name">First Name</label>
+              <label class="form-label" for="first_name">First Name</label>
               <div class="input-wrapper">
                 <i class="ti ti-user"></i>
                 <input
@@ -42,7 +46,7 @@
             </div>
 
             <div class="form-group">
-              <label for="last_name">Last Name</label>
+              <label class="form-label" for="last_name">Last Name</label>
               <div class="input-wrapper">
                 <i class="ti ti-user"></i>
                 <input
@@ -58,7 +62,7 @@
           </div>
 
           <div class="form-group">
-            <label for="email">Email Address</label>
+            <label class="form-label" for="email">Email Address</label>
             <div class="input-wrapper">
               <i class="ti ti-mail"></i>
               <input
@@ -73,7 +77,7 @@
           </div>
 
           <div class="form-group">
-            <label for="password">Password</label>
+            <label class="form-label" for="password">Password</label>
             <div class="input-wrapper">
               <i class="ti ti-lock"></i>
               <input
@@ -90,7 +94,7 @@
           </div>
 
           <div class="form-group">
-            <label for="confirm_password">Confirm Password</label>
+            <label class="form-label" for="confirm_password">Confirm Password</label>
             <div class="input-wrapper">
               <i class="ti ti-lock"></i>
               <input
@@ -103,7 +107,7 @@
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-full">
+          <button type="submit" class="btn-luxury-submit">
             Create Account <i class="ti ti-arrow-right"></i>
           </button>
 
