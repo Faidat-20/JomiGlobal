@@ -11,21 +11,37 @@
   <!-- Body -->
   <div class="policy-body">
 
-    <!-- Table of Contents -->
-    <ul class="policy-toc-list">
-        <li><a href="#introduction">1. Introduction</a></li>
-        <li><a href="#information">2. Information We Collect</a></li>
-        <li><a href="#usage">3. How We Use It</a></li>
-        <li><a href="#protection">4. How We Protect It</a></li>
-        <li><a href="#sharing">5. Sharing Your Data</a></li>
-        <li><a href="#rights">6. Your Rights</a></li>
-        <li><a href="#retention">7. Data Retention</a></li>
-        <li><a href="#cookies">8. Cookies</a></li>
-        <li><a href="#children">9. Children's Privacy</a></li>
-        <li><a href="#changes">10. Changes</a></li>
-        <li><a href="#contact">11. Contact Us</a></li>
-    </ul>
+    <!-- Mobile TOC Toggle -->
+    <button class="policy-toc-toggle" id="policyTocToggle">
+      <i class="ti ti-list"></i>
+      <span>Contents</span>
+    </button>
 
+    <!-- Mobile TOC Overlay -->
+    <div class="policy-toc-overlay" id="policyTocOverlay"></div>
+
+    <!-- Table of Contents -->
+    <div class="policy-toc" id="policyToc">
+      <div class="policy-toc-header">
+        <div class="policy-toc-title">Contents</div>
+        <button class="policy-toc-close" id="policyTocClose">
+          <i class="ti ti-x"></i>
+        </button>
+      </div>
+      <ul class="policy-toc-list">
+          <li><a href="#introduction">1. Introduction</a></li>
+          <li><a href="#information">2. Information We Collect</a></li>
+          <li><a href="#usage">3. How We Use It</a></li>
+          <li><a href="#protection">4. How We Protect It</a></li>
+          <li><a href="#sharing">5. Sharing Your Data</a></li>
+          <li><a href="#rights">6. Your Rights</a></li>
+          <li><a href="#retention">7. Data Retention</a></li>
+          <li><a href="#cookies">8. Cookies</a></li>
+          <li><a href="#children">9. Children's Privacy</a></li>
+          <li><a href="#changes">10. Changes</a></li>
+          <li><a href="#contact">11. Contact Us</a></li>
+      </ul>
+    </div>
     <!-- Content -->
     <div class="policy-content">
 
@@ -167,4 +183,31 @@
     </div>
   </div>
 
+  <script>
+    (function() {
+      const toggleBtn = document.getElementById('policyTocToggle');
+      const closeBtn = document.getElementById('policyTocClose');
+      const overlay = document.getElementById('policyTocOverlay');
+      const toc = document.getElementById('policyToc');
+
+      function openToc() {
+        toc.classList.add('open');
+        overlay.classList.add('show');
+      }
+
+      function closeToc() {
+        toc.classList.remove('open');
+        overlay.classList.remove('show');
+      }
+
+      if (toggleBtn) toggleBtn.addEventListener('click', openToc);
+      if (closeBtn) closeBtn.addEventListener('click', closeToc);
+      if (overlay) overlay.addEventListener('click', closeToc);
+
+      // Close TOC after clicking a link (mobile)
+      document.querySelectorAll('.policy-toc-list a').forEach(link => {
+        link.addEventListener('click', closeToc);
+      });
+    })();
+  </script>
 </main>

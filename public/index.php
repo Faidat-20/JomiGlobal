@@ -147,6 +147,10 @@ switch ($url) {
         require_once ROOT . '/app/controllers/FaqController.php';
         break;
 
+    case 'terms':
+        require_once ROOT . '/app/controllers/TermsController.php';
+        break;
+        
     default:
         if (strpos($url, 'product/') === 0) {
             require_once ROOT . '/app/controllers/ProductDetailController.php';
