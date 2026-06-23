@@ -2,6 +2,9 @@
 
   <!-- Shop Header -->
   <div class="shop-header">
+    <div class="header-banner-bg">
+      <img src="<?= APP_URL ?>/uploads/product_6a3514a3c7c6a.png" alt="" class="header-banner-img" id="headerBannerImg">
+    </div>
     <div class="container">
       <div class="shop-header-content">
         <div>

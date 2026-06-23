@@ -1310,7 +1310,45 @@ h4 { font-size: 1.25rem; }
   opacity: 1;
 }
 
+.js-enabled .hc-card,
+.js-enabled .cat-card,
+.js-enabled .featured-section .product-card {
+  opacity: 0;
+}
 
+.category-hero,
+.shop-header {
+  position: relative;
+  overflow: hidden;
+}
+
+.header-banner-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.header-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.35);
+}
+
+.category-hero::after,
+.shop-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);
+  z-index: 1;
+}
+
+.category-hero .container,
+.shop-header .container {
+  position: relative;
+  z-index: 2;
+}
 
 /* --- Responsive --- */
 @media (max-width: 1024px) {

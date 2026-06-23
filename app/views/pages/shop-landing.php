@@ -1,6 +1,9 @@
 <main class="category-page">
 
   <div class="category-hero">
+    <div class="header-banner-bg">
+      <img src="<?= APP_URL ?>/uploads/product_6a3514a3c7c6a.png" alt="" class="header-banner-img" id="headerBannerImg">
+    </div>
     <div class="container">
       <div class="breadcrumb" style="margin-bottom:16px;">
         <a href="<?= APP_URL ?>">Home</a>

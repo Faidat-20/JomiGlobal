@@ -2,6 +2,17 @@
 
   <!-- Category Header -->
   <div class="category-hero">
+    <div class="header-banner-bg">
+      <?php
+        $headerImages = [
+          'jewelry' => '/uploads/product_6a3514a3c7c6a.png',
+          'perfume' => '/assets/images/laura-chouette-2H_8WbVPRxM-unsplash.jpg',
+          'glasses' => '/assets/images/category eyewear.jpg',
+        ];
+        $headerImg = $headerImages[$categorySlug] ?? $headerImages['jewelry'];
+      ?>
+      <img src="<?= APP_URL . $headerImg ?>" alt="" class="header-banner-img" id="headerBannerImg">
+    </div>
     <div class="container">
       <div class="breadcrumb" style="margin-bottom:16px;">
         <a href="<?= APP_URL ?>">Home</a>

@@ -41,6 +41,10 @@ if (isset($_SESSION['user_id']) && !isset($_SESSION['cart_db_loaded'])) {
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/faq.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/returns.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/shipping-delivery.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
     <link rel="icon" type="image/svg+xml" href="<?= APP_URL ?>/assets/images/icon.svg">
     <link rel="alternate icon" href="<?= APP_URL ?>/assets/images/Icon-54.svg">
     <script>
@@ -60,3 +64,4 @@ if (isset($_SESSION['user_id']) && !isset($_SESSION['cart_db_loaded'])) {
         </script>
 </head>
 <body>
+    <script>document.documentElement.classList.add('js-enabled');</script>

@@ -49,8 +49,9 @@
           <div class="cat-card-bg cat-bg-1"></div>
           <div class="cat-corner tl"></div><div class="cat-corner tr"></div>
           <div class="cat-corner bl"></div><div class="cat-corner br"></div>
-          <!-- Swap for image later -->
-          <!-- <img src="<?= APP_URL ?>/uploads/cat-jewelry.jpg" class="cat-card-img" alt="Jewelry"> -->
+
+          <img src="<?= APP_URL ?>/uploads/product_6a3514a3c7c6a.png" class="cat-card-img" alt="Jewelry">
+           
           <div class="cat-card-inner">
             <div class="cat-icon-wrap">
               <i class="ti ti-diamond" aria-hidden="true"></i>
@@ -65,7 +66,7 @@
           <div class="cat-card-bg cat-bg-2"></div>
           <div class="cat-corner tl"></div><div class="cat-corner tr"></div>
           <div class="cat-corner bl"></div><div class="cat-corner br"></div>
-          <!-- <img src="<?= APP_URL ?>/uploads/cat-perfume.jpg" class="cat-card-img" alt="Perfume"> -->
+          <img src="<?= APP_URL ?>/assets/images/laura-chouette-2H_8WbVPRxM-unsplash.jpg" class="cat-card-img" alt="Perfume">
           <div class="cat-card-inner">
             <div class="cat-icon-wrap">
               <i class="ti ti-bottle" aria-hidden="true"></i>
@@ -80,7 +81,7 @@
           <div class="cat-card-bg cat-bg-3"></div>
           <div class="cat-corner tl"></div><div class="cat-corner tr"></div>
           <div class="cat-corner bl"></div><div class="cat-corner br"></div>
-          <!-- <img src="<?= APP_URL ?>/uploads/cat-glasses.jpg" class="cat-card-img" alt="Glasses"> -->
+          <img src="<?= APP_URL ?>/assets/images/category eyewear.jpg" class="cat-card-img" alt="Glasses">
           <div class="cat-card-inner">
             <div class="cat-icon-wrap">
               <i class="ti ti-eyeglass" aria-hidden="true"></i>
