@@ -154,7 +154,11 @@ switch ($url) {
     case 'returns':
         require_once ROOT . '/app/controllers/ReturnsController.php';
         break;
-                
+    
+    case 'shipping':
+        require_once ROOT . '/app/controllers/ShippingPageController.php';
+        break;
+        
     default:
         if (strpos($url, 'product/') === 0) {
             require_once ROOT . '/app/controllers/ProductDetailController.php';

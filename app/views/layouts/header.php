@@ -40,6 +40,7 @@ if (isset($_SESSION['user_id']) && !isset($_SESSION['cart_db_loaded'])) {
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/privacy-policy.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/faq.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/returns.css">
+    <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/shipping-delivery.css">
     <link rel="icon" type="image/svg+xml" href="<?= APP_URL ?>/assets/images/icon.svg">
     <link rel="alternate icon" href="<?= APP_URL ?>/assets/images/Icon-54.svg">
     <script>
