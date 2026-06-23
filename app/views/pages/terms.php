@@ -11,36 +11,24 @@
   <!-- Body -->
   <div class="policy-body">
 
-    <!-- Mobile TOC Toggle -->
-    <button class="policy-toc-toggle" id="policyTocToggle">
-        <i class="ti ti-list"></i>
-        <span>Contents</span>
-    </button>
 
-    <!-- Mobile TOC Overlay -->
-    <div class="policy-toc-overlay" id="policyTocOverlay"></div>
 
     <!-- Table of Contents -->
     <div class="policy-toc" id="policyToc">
-        <div class="policy-toc-header">
-            <div class="policy-toc-title">Contents</div>
-            <button class="policy-toc-close" id="policyTocClose">
-            <i class="ti ti-x"></i>
-            </button>
-        </div>
+      <div class="policy-toc-title">Contents</div>
         <ul class="policy-toc-list">
-            <li><a href="#agreement">1. Agreement</a></li>
-            <li><a href="#use">2. Use of Website</a></li>
-            <li><a href="#products">3. Products & Pricing</a></li>
-            <li><a href="#orders">4. Orders & Payment</a></li>
-            <li><a href="#account">5. Account Responsibilities</a></li>
-            <li><a href="#shipping">6. Shipping</a></li>
-            <li><a href="#returns">7. Returns</a></li>
-            <li><a href="#ip">8. Intellectual Property</a></li>
-            <li><a href="#liability">9. Limitation of Liability</a></li>
-            <li><a href="#force-majeure">10. Force Majeure</a></li>
-            <li><a href="#law">11. Governing Law</a></li>
-            <li><a href="#contact">12. Contact Us</a></li>
+          <li><a href="#agreement">1. Agreement</a></li>
+          <li><a href="#use">2. Use of Website</a></li>
+          <li><a href="#products">3. Products & Pricing</a></li>
+          <li><a href="#orders">4. Orders & Payment</a></li>
+          <li><a href="#account">5. Account Responsibilities</a></li>
+          <li><a href="#shipping">6. Shipping</a></li>
+          <li><a href="#returns">7. Returns</a></li>
+          <li><a href="#ip">8. Intellectual Property</a></li>
+          <li><a href="#liability">9. Limitation of Liability</a></li>
+          <li><a href="#force-majeure">10. Force Majeure</a></li>
+          <li><a href="#law">11. Governing Law</a></li>
+          <li><a href="#contact">12. Contact Us</a></li>
         </ul>
     </div>
 
@@ -177,32 +165,4 @@
 
     </div>
   </div>
-
-  <script>
-    (function() {
-    const toggleBtn = document.getElementById('policyTocToggle');
-    const closeBtn = document.getElementById('policyTocClose');
-    const overlay = document.getElementById('policyTocOverlay');
-    const toc = document.getElementById('policyToc');
-
-    function openToc() {
-        toc.classList.add('open');
-        overlay.classList.add('show');
-    }
-
-    function closeToc() {
-        toc.classList.remove('open');
-        overlay.classList.remove('show');
-    }
-
-    if (toggleBtn) toggleBtn.addEventListener('click', openToc);
-    if (closeBtn) closeBtn.addEventListener('click', closeToc);
-    if (overlay) overlay.addEventListener('click', closeToc);
-
-    // Close TOC after clicking a link (mobile)
-    document.querySelectorAll('.policy-toc-list a').forEach(link => {
-        link.addEventListener('click', closeToc);
-    });
-    })();
-  </script>
 </main>

@@ -231,18 +231,7 @@
   color: var(--ash);
 }
 
-/* Mobile TOC toggle button (hidden on desktop) */
-.policy-toc-toggle {
-  display: none;
-}
 
-.policy-toc-overlay {
-  display: none;
-}
-
-.policy-toc-header {
-  display: none;
-}
 
 @media (max-width: 768px) {
   .policy-body {
@@ -270,34 +259,6 @@
     transition: var(--transition);
   }
 
-  .policy-toc-toggle:hover {
-    background: var(--gold);
-    color: var(--white);
-  }
-
-  .policy-toc-toggle i {
-    font-size: 14px;
-  }
-
-  /* Overlay — starts below navbar */
-  .policy-toc-overlay {
-    display: block;
-    position: fixed;
-    top: 80px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0);
-    z-index: 1100;
-    pointer-events: none;
-    transition: background 0.4s ease;
-  }
-
-  .policy-toc-overlay.show {
-    background: rgba(0,0,0,0.5);
-    pointer-events: all;
-  }
-
   /* Slide-in panel */
   .policy-toc {
     position: fixed;
@@ -319,45 +280,6 @@
 
   .policy-toc.open {
     left: 0;
-  }
-
-  /* Header inside panel */
-  .policy-toc-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 20px;
-    border-bottom: 1px solid #f0e8e0;
-    background: var(--off-white);
-    flex-shrink: 0;
-  }
-
-  .policy-toc-header .policy-toc-title {
-    font-size: 9px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    background: none;
-    padding: 0;
-    font-weight: 700;
-  }
-
-  .policy-toc-close {
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    border: none;
-    color: var(--text-grey);
-    font-size: 16px;
-    cursor: pointer;
-    transition: color 0.2s ease;
-  }
-
-  .policy-toc-close:hover {
-    color: var(--gold);
   }
 
   /* TOC list */
@@ -403,3 +325,14 @@
     padding: 28px 20px;
   }
 }
+
+/* @media (max-width: 768px) {
+  .policy-body {
+    grid-template-columns: 1fr;
+    padding: 48px 24px;
+  }
+
+  .policy-toc {
+    position: static;
+  }
+} */
