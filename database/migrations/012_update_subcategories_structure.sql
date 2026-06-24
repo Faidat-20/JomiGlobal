@@ -31,3 +31,9 @@ INSERT INTO subcategories (category_id, parent_id, name, slug) VALUES (3, NULL, 
 INSERT INTO subcategories (category_id, parent_id, name, slug) VALUES (3, NULL, 'Eyeglasses', 'glasses-eyeglasses');
 INSERT INTO subcategories (category_id, parent_id, name, slug) VALUES (3, NULL, 'Reading Glasses', 'glasses-reading');
 INSERT INTO subcategories (category_id, parent_id, name, slug) VALUES (3, NULL, 'Sports Glasses', 'glasses-sports');
+
+-- Add Watches to Jewelry For Her
+INSERT INTO subcategories (category_id, parent_id, name, slug) VALUES (1, 1, 'Watches', 'watches-her');
+
+-- Add Watches to Jewelry For Him
+INSERT INTO subcategories (category_id, parent_id, name, slug) VALUES (1, 2, 'Watches', 'watches-him');
