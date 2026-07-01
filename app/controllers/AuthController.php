@@ -5,6 +5,17 @@ session_start();
 
 require_once ROOT . '/app/helpers/auth.php';
 
+// Auto-login via remember me cookie
+if (!isLoggedIn() && isset($_COOKIE['remember_token'])) {
+  $pdo = connectDB();
+  $stmt = $pdo->prepare('SELECT * FROM users WHERE remember_token = ? AND is_active = 1');
+  $stmt->execute([$_COOKIE['remember_token']]);
+  $rememberedUser = $stmt->fetch();
+  if ($rememberedUser) {
+    loginUser($rememberedUser);
+  }
+}
+
 // If already logged in redirect away
 if (isLoggedIn()) {
   if (isAdmin()) {
@@ -24,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if ($action === 'login') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
+    $rememberMe = isset($_POST['remember_me']);
 
     if (empty($email) || empty($password)) {
       $error = 'Please fill in all fields';
@@ -52,6 +64,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Load fresh cart and wishlist from DB
         $_SESSION['cart']    = loadCartFromDB($pdo, $user['id']);
         $_SESSION['wishlist'] = loadWishlistFromDB($pdo, $user['id']);
+
+        // Remember me — set cookie for 30 days
+        if ($rememberMe) {
+          $token = bin2hex(random_bytes(32));
+          $stmt = $pdo->prepare('UPDATE users SET remember_token = ? WHERE id = ?');
+          $stmt->execute([$token, $user['id']]);
+          setcookie('remember_token', $token, time() + (30 * 24 * 60 * 60), '/');
+        }
 
         if (isAdmin()) {
           header('Location: ' . APP_URL . '/admin');
@@ -83,7 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
       $pdo = connectDB();
 
-      // Check if email already exists
       $stmt = $pdo->prepare('SELECT id FROM users WHERE email = ?');
       $stmt->execute([$email]);
 
@@ -97,7 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ');
         $stmt->execute([$first_name, $last_name, $email, $hashedPassword]);
 
-        // Log them in immediately
         $user = [
           'id' => $pdo->lastInsertId(),
           'first_name' => $first_name,
@@ -107,7 +125,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
         loginUser($user);
 
-        // Send welcome email
         require_once ROOT . '/app/helpers/email.php';
         require_once ROOT . '/app/helpers/email-templates.php';
         sendEmail(
@@ -122,10 +139,131 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       }
     }
   }
+
+  // Forgot password — send reset link
+  if ($action === 'forgot-password') {
+    $email = trim($_POST['email'] ?? '');
+
+    if (empty($email)) {
+      $error = 'Please enter your email address';
+    } else {
+      $pdo = connectDB();
+      $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?');
+      $stmt->execute([$email]);
+      $user = $stmt->fetch();
+
+      // Always show success message even if email doesn't exist (security)
+      $success = 'If an account exists with that email, a password reset link has been sent.';
+
+      if ($user) {
+        $token = bin2hex(random_bytes(32));
+        $expiresAt = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+        // Delete old tokens for this email
+        $stmt = $pdo->prepare('DELETE FROM password_resets WHERE email = ?');
+        $stmt->execute([$email]);
+
+        $stmt = $pdo->prepare('
+          INSERT INTO password_resets (email, token, expires_at)
+          VALUES (?, ?, ?)
+        ');
+        $stmt->execute([$email, $token, $expiresAt]);
+
+        $resetLink = APP_URL . '/reset-password?token=' . $token;
+
+        require_once ROOT . '/app/helpers/email.php';
+        require_once ROOT . '/app/helpers/email-templates.php';
+
+        $resetHtml = '
+        <!DOCTYPE html>
+        <html><head><style>
+          body { font-family:Arial,sans-serif; background:#f5ede0; margin:0; padding:0; }
+          .container { max-width:600px; margin:0 auto; background:#fff; }
+          .header { background:#414042; padding:32px; text-align:center; }
+          .header img { height:40px; }
+          .body { padding:40px 32px; color:#414042; }
+          .body h2 { font-size:22px; margin-bottom:16px; }
+          .body p { font-size:14px; line-height:1.7; color:#666; margin-bottom:16px; }
+          .btn { display:inline-block; background:#ffd05c; color:#414042; padding:14px 32px; text-decoration:none; font-weight:700; font-size:13px; letter-spacing:0.1em; }
+          .footer { background:#faf6f0; padding:24px 32px; text-align:center; font-size:12px; color:#999; }
+        </style></head>
+        <body>
+          <div class="container">
+            <div class="header"><img src="' . APP_URL . '/assets/images/logo.png" alt="JomiGlobal"></div>
+            <div class="body">
+              <h2>Reset Your Password</h2>
+              <p>We received a request to reset your password. Click the button below to set a new password. This link expires in 1 hour.</p>
+              <a href="' . $resetLink . '" class="btn">Reset Password</a>
+              <p style="margin-top:24px;font-size:12px;color:#999;">If you did not request this, you can safely ignore this email.</p>
+            </div>
+            <div class="footer">&copy; ' . date('Y') . ' JomiGlobal. All rights reserved.</div>
+          </div>
+        </body></html>';
+
+        sendEmail($email, $user['first_name'], 'Reset Your JomiGlobal Password', $resetHtml);
+      }
+    }
+  }
+
+  // Reset password — set new password
+  if ($action === 'reset-password') {
+    $token = $_POST['token'] ?? '';
+    $newPassword = $_POST['new_password'] ?? '';
+    $confirmPassword = $_POST['confirm_password'] ?? '';
+
+    if (empty($newPassword) || empty($confirmPassword)) {
+      $error = 'Please fill in all fields';
+    } elseif (strlen($newPassword) < 8) {
+      $error = 'Password must be at least 8 characters';
+    } elseif ($newPassword !== $confirmPassword) {
+      $error = 'Passwords do not match';
+    } else {
+      $pdo = connectDB();
+      $stmt = $pdo->prepare('SELECT * FROM password_resets WHERE token = ? AND expires_at > NOW()');
+      $stmt->execute([$token]);
+      $reset = $stmt->fetch();
+
+      if (!$reset) {
+        $error = 'This reset link is invalid or has expired. Please request a new one.';
+      } else {
+        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+        $stmt = $pdo->prepare('UPDATE users SET password = ? WHERE email = ?');
+        $stmt->execute([$hashedPassword, $reset['email']]);
+
+        // Delete used token
+        $stmt = $pdo->prepare('DELETE FROM password_resets WHERE email = ?');
+        $stmt->execute([$reset['email']]);
+
+        $success = 'Your password has been reset successfully! You can now login.';
+      }
+    }
+  }
+}
+
+// Handle reset-password GET (validate token before showing form)
+if ($action === 'reset-password' && $_SERVER['REQUEST_METHOD'] === 'GET') {
+  $token = $_GET['token'] ?? '';
+  if (empty($token)) {
+    header('Location: ' . APP_URL . '/login?action=forgot-password');
+    exit;
+  }
+  $pdo = connectDB();
+  $stmt = $pdo->prepare('SELECT * FROM password_resets WHERE token = ? AND expires_at > NOW()');
+  $stmt->execute([$token]);
+  $resetCheck = $stmt->fetch();
+  if (!$resetCheck) {
+    $error = 'This reset link is invalid or has expired. Please request a new one.';
+  }
 }
 
 // Load the view
-$pageTitle = $action === 'register' ? 'Create Account' : 'Login';
+$pageTitles = [
+  'register' => 'Create Account',
+  'forgot-password' => 'Forgot Password',
+  'reset-password' => 'Reset Password',
+];
+$pageTitle = $pageTitles[$action] ?? 'Login';
+
 require_once ROOT . '/app/views/layouts/header.php';
 require_once ROOT . '/app/views/layouts/nav.php';
 require_once ROOT . '/app/views/pages/' . $action . '.php';

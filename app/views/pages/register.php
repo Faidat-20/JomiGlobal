@@ -104,6 +104,9 @@
                 placeholder="Repeat your password"
                 required
               >
+              <button type="button" class="password-toggle" id="togglePassword">
+                <i class="ti ti-eye"></i>
+              </button>
             </div>
           </div>
 
@@ -122,4 +125,13 @@
     </div>
 
   </div>
+  <script>
+    document.getElementById('toggleConfirmPassword')?.addEventListener('click', function() {
+      const input = document.getElementById('confirm_password');
+      const icon = this.querySelector('i');
+      input.type = input.type === 'password' ? 'text' : 'password';
+      icon.classList.toggle('ti-eye');
+      icon.classList.toggle('ti-eye-off');
+    });
+  </script>
 </main>

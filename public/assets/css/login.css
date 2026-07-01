@@ -307,6 +307,42 @@
   border: 1px solid #bbf7d0;
 }
 
+/* Remember Me */
+.auth-remember {
+  margin-bottom: 20px;
+}
+
+.remember-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-grey);
+  cursor: pointer;
+}
+
+.remember-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+
+.auth-footer-links {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+.auth-footer-links a {
+  color: var(--gold);
+  transition: var(--transition);
+}
+
+.auth-footer-links a:hover {
+  color: var(--mustard);
+}
+
 @media (max-width: 768px) {
   .auth-container {
     grid-template-columns: 1fr;

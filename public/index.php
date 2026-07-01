@@ -158,6 +158,11 @@ switch ($url) {
     case 'shipping':
         require_once ROOT . '/app/controllers/ShippingPageController.php';
         break;
+
+    case 'reset-password':
+        $_GET['action'] = 'reset-password';
+        require_once ROOT . '/app/controllers/AuthController.php';
+        break;
         
     default:
         if (strpos($url, 'product/') === 0) {

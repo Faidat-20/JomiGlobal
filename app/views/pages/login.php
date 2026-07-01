@@ -28,6 +28,7 @@
         <?php endif; ?>
 
         <form class="auth-form" method="POST" action="<?= APP_URL ?>/login">
+          <!-- Email -->
           <div class="form-group">
             <label class="form-label" for="email">Email Address</label>
             <div class="input-wrapper">
@@ -43,6 +44,7 @@
             </div>
           </div>
 
+          <!-- Password -->
           <div class="form-group">
             <label class="form-label" for="password">Password</label>
             <div class="input-wrapper">
@@ -60,12 +62,13 @@
             </div>
           </div>
 
+          <!-- Remember Me & Forgot Password -->
           <div class="form-options">
             <label class="checkbox-label">
-              <input type="checkbox" name="remember">
+              <input type="checkbox" name="remember_me" value="1">
               <span>Remember me</span>
             </label>
-            <a href="<?= APP_URL ?>/forgot-password" class="forgot-link">Forgot password?</a>
+            <a href="<?= APP_URL ?>/login?action=forgot-password" class="forgot-link">Forgot password?</a>
           </div>
 
           <button type="submit" class="btn-luxury-submit">
