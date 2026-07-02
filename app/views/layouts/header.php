@@ -63,5 +63,15 @@ if (isset($_SESSION['user_id']) && !isset($_SESSION['cart_db_loaded'])) {
         const wishlistIds = <?= json_encode(array_map('intval', $wishlistIds)) ?>;
         </script>
 </head>
-<body>
+<body class="<?= !empty($showPageLoader) ? 'show-loader' : '' ?>">
+    <div class="page-loader" id="pageLoader">
+  <div class="page-loader-inner">
+    <div class="loader-track"></div>
+    <div class="loader-ring"></div>
+    <div class="loader-logo">
+      <img src="<?= APP_URL ?>/assets/images/Icon-54.png" alt="JomiGlobal">
+    </div>
+  </div>
+  <p class="loader-text">Loading</p>
+</div>
     <script>document.documentElement.classList.add('js-enabled');</script>

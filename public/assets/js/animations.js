@@ -1,4 +1,5 @@
-(function () {
+// GSAP ANIMATIONS
+(function() {
   if (typeof gsap === 'undefined') return;
 
   gsap.registerPlugin(ScrollTrigger);
@@ -6,12 +7,11 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (reduceMotion) {
-    // Skip all motion, just reveal everything instantly
     gsap.set('.reveal, .cat-card, .hc-card, .product-card', { opacity: 1, y: 0, scale: 1 });
     return;
   }
 
-  // ============ HERO ENTRANCE ============
+  // HERO ENTRANCE
   function initHero() {
     const hero = document.getElementById('hero');
     if (!hero) return;
@@ -24,12 +24,10 @@
     const btns = hero.querySelector('.hero-btns');
     const scrollInd = hero.querySelector('.scroll-indicator');
 
-    // Kill the old CSS keyframe animations so GSAP fully controls timing
     [labelRow, title, text, btns].forEach(el => {
       if (el) el.style.animation = 'none';
     });
 
-    // Background: starts slightly zoomed in, eases out — cinematic settle
     if (bgImg) {
       gsap.fromTo(bgImg,
         { scale: 1.12 },
@@ -37,7 +35,6 @@
       );
     }
 
-    // Text entrance timeline — tighter choreography than independent CSS delays
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
     tl.fromTo(labelRow, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7 }, 0.2)
@@ -47,7 +44,6 @@
       .fromTo(btns, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7 }, 1.0)
       .fromTo(scrollInd, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 1.4);
 
-    // Slow parallax drift on hero background as user scrolls past it
     if (bgImg) {
       gsap.to(bgImg, {
         yPercent: 12,
@@ -62,7 +58,7 @@
     }
   }
 
-  // ============ SECTION HEADER REVEAL (label → title → divider line draw) ============
+  // SECTION HEADER REVEAL
   function initSectionHeaders() {
     document.querySelectorAll('.cat-section-header, .home-collections-header').forEach(header => {
       const label = header.querySelector('.cat-section-label, .hc-section-label');
@@ -86,7 +82,7 @@
     });
   }
 
-  // ============ CATEGORY CARDS — clip reveal + parallax image drift ============
+  // CATEGORY CARDS
   function initCategoryCards() {
     const cards = gsap.utils.toArray('.cat-card');
     if (!cards.length) return;
@@ -104,7 +100,6 @@
         }
       );
 
-      // Subtle parallax drift inside the card (image or color bg)
       const target = img || bg;
       if (target) {
         gsap.fromTo(target,
@@ -124,7 +119,7 @@
     });
   }
 
-  // ============ COLLECTIONS CARDS — stagger scale+fade ============
+  // COLLECTIONS CARDS
   function initCollectionCards() {
     const cards = gsap.utils.toArray('.hc-card');
     if (!cards.length) return;
@@ -143,7 +138,7 @@
     );
   }
 
-  // ============ FEATURED PRODUCTS — row stagger ============
+  // FEATURED PRODUCTS
   function initFeaturedProducts() {
     const section = document.querySelector('.featured-section .products-grid');
     if (!section) return;
@@ -164,74 +159,69 @@
     );
   }
 
-    // ============ DARK HEADER BANNERS — breadcrumb/title/subtitle cascade + parallax bg ============
-    function initHeaderBanners() {
-        const headers = document.querySelectorAll('.category-hero, .shop-header');
+  // DARK HEADER BANNERS
+  function initHeaderBanners() {
+    const headers = document.querySelectorAll('.category-hero, .shop-header');
 
-        headers.forEach(header => {
-        const breadcrumb = header.querySelector('.breadcrumb');
-        const label = header.querySelector('.section-label');
-        const title = header.querySelector('.category-hero-title, .shop-title');
-        const subtitle = header.querySelector('p');
-        const bgImg = header.querySelector('.header-banner-img');
+    headers.forEach(header => {
+      const breadcrumb = header.querySelector('.breadcrumb');
+      const label = header.querySelector('.section-label');
+      const title = header.querySelector('.category-hero-title, .shop-title');
+      const subtitle = header.querySelector('p');
+      const bgImg = header.querySelector('.header-banner-img');
 
-        // Background: gentle zoom-settle on load, like the home hero
-        if (bgImg) {
-            gsap.fromTo(bgImg,
-            { scale: 1.1 },
-            { scale: 1, duration: 1.8, ease: 'power2.out' }
-            );
-
-            // Parallax drift as user scrolls past this banner
-            gsap.to(bgImg, {
-            yPercent: 10,
-            ease: 'none',
-            scrollTrigger: {
-                trigger: header,
-                start: 'top top',
-                end: 'bottom top',
-                scrub: true
-            }
-            });
-        }
-
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-        if (breadcrumb) tl.fromTo(breadcrumb, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5 }, 0.1);
-        if (label) tl.fromTo(label, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5 }, 0.15);
-        if (title) tl.fromTo(title, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7 }, 0.25);
-        if (subtitle) tl.fromTo(subtitle, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6 }, 0.45);
-        });
-    }
-
-    // ============ SHOP PAGE PRODUCT GRID — stagger reveal ============
-    function initShopProductGrid() {
-        const grid = document.querySelector('.shop-main .products-grid');
-        if (!grid) return;
-
-        const cards = gsap.utils.toArray(grid.querySelectorAll('.product-card'));
-        if (!cards.length) return;
-
-        // Disable the plain CSS .reveal class behavior for these cards —
-        // GSAP now owns their entrance instead
-        cards.forEach(c => c.classList.remove('reveal'));
-
-        gsap.fromTo(cards,
-        { opacity: 0, y: 36, scale: 0.97 },
-        {
-            opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power3.out',
-            stagger: { each: 0.07, grid: 'auto', from: 'start' },
-            scrollTrigger: {
-            trigger: grid,
-            start: 'top 88%',
-            once: true
-            }
-        }
+      if (bgImg) {
+        gsap.fromTo(bgImg,
+          { scale: 1.1 },
+          { scale: 1, duration: 1.8, ease: 'power2.out' }
         );
-    }
 
+        gsap.to(bgImg, {
+          yPercent: 10,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: header,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true
+          }
+        });
+      }
 
-  document.addEventListener('DOMContentLoaded', function () {
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      if (breadcrumb) tl.fromTo(breadcrumb, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5 }, 0.1);
+      if (label) tl.fromTo(label, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5 }, 0.15);
+      if (title) tl.fromTo(title, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7 }, 0.25);
+      if (subtitle) tl.fromTo(subtitle, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6 }, 0.45);
+    });
+  }
+
+  // SHOP PRODUCT GRID
+  function initShopProductGrid() {
+    const grid = document.querySelector('.shop-main .products-grid');
+    if (!grid) return;
+
+    const cards = gsap.utils.toArray(grid.querySelectorAll('.product-card'));
+    if (!cards.length) return;
+
+    cards.forEach(c => c.classList.remove('reveal'));
+
+    gsap.fromTo(cards,
+      { opacity: 0, y: 36, scale: 0.97 },
+      {
+        opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power3.out',
+        stagger: { each: 0.07, grid: 'auto', from: 'start' },
+        scrollTrigger: {
+          trigger: grid,
+          start: 'top 88%',
+          once: true
+        }
+      }
+    );
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
     initHero();
     initSectionHeaders();
     initCategoryCards();
@@ -240,4 +230,5 @@
     initHeaderBanners();
     initShopProductGrid();
   });
+
 })();

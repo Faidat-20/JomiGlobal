@@ -3,6 +3,7 @@
 session_name(SESSION_NAME);
 session_start();
 
+$showPageLoader = true;
 require_once ROOT . '/app/helpers/auth.php';
 
 requireLogin();

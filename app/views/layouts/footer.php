@@ -115,5 +115,19 @@
 <script src="<?= APP_URL ?>/assets/js/cart.js"></script>
 <script src="<?= APP_URL ?>/assets/js/shop.js"></script>
 <script src="<?= APP_URL ?>/assets/js/animations.js"></script>
+
+<script>
+window.addEventListener('load', function() {
+  const loader = document.getElementById('pageLoader');
+  if (!loader) return;
+  setTimeout(function() {
+    loader.classList.add('hidden');
+    document.body.classList.remove('show-loader');
+    setTimeout(function() {
+      loader.style.display = 'none';
+    }, 400);
+  }, 800);
+});
+</script>
 </body>
 </html>
