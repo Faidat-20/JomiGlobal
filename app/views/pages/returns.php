@@ -97,7 +97,7 @@
         <span class="policy-section-num">03</span>
         <h2>How to Return</h2>
         <ul>
-          <li>Email <strong>hello@jomiglobal.com</strong> with your order number and reason for return</li>
+          <li>Email <a href="mailto:jomijewels11@gmail.com"><strong>jomijewels11@gmail.com</strong></a> with your order number and reason for return</li>
           <li>Wait for our team to approve your return request (within 24 hours)</li>
           <li>Pack the item securely in its original packaging</li>
           <li>Ship the item to the address provided in our return approval email</li>
@@ -153,8 +153,8 @@
         <h2>Contact Us</h2>
         <p>For all return and exchange enquiries, please contact our customer care team:</p>
         <ul>
-          <li><strong>Email</strong> — hello@jomiglobal.com</li>
-          <li><strong>Phone</strong> — +234 904 047 2851</li>
+          <li><strong>Email</strong> — <a href="mailto:jomijewels11@gmail.com">jomijewels11@gmail.com</a></li>
+          <li><strong>Phone</strong> — <a href="tel:+2348163195023">+234 816 319 5023</a> &nbsp;·&nbsp; <a href="tel:+2348065239959">+234 806 523 9959</a></li>
           <li><strong>Hours</strong> — Monday to Saturday, 9am – 6pm</li>
         </ul>
       </div>

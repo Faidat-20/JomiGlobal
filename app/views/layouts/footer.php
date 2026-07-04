@@ -1,4 +1,5 @@
 <footer class="footer">
+  <div class="footer-gold-line"></div>
     
   <!-- Top Footer -->
   <div class="footer-top">
@@ -37,10 +38,10 @@
       <div class="footer-col">
         <h4 class="footer-heading">Help</h4>
         <ul class="footer-links">
-          <li><a href="<?= APP_URL ?>/order-tracking">Track Your Order</a></li>
           <li><a href="<?= APP_URL ?>/faq">FAQ</a></li>
           <li><a href="<?= APP_URL ?>/shipping">Shipping & Delivery</a></li>
           <li><a href="<?= APP_URL ?>/returns">Returns & Exchanges</a></li>
+          <li><a href="<?= APP_URL ?>/order-tracking">Track Your Order</a></li>
           <li><a href="<?= APP_URL ?>/contact">Contact Us</a></li>
         </ul>
       </div>
@@ -56,8 +57,9 @@
 
         <!-- Contact Info -->
         <div class="footer-contact">
-          <p><i class="ti ti-mail"></i> hello@jomiglobal.com</p>
-          <p><i class="ti ti-phone"></i> +234 800 000 0000</p>
+          <p><i class="ti ti-mail"></i> <a href="mailto:jomijewels11@gmail.com">jomijewels11@gmail.com</a></p>
+          <p><i class="ti ti-phone"></i> <a href="tel:+2348163195023">+234 816 319 5023</a></p>
+          <p><i class="ti ti-phone"></i> <a href="tel:+2348065239959">+234 806 523 9959</a></p>
         </div>
       </div>
     </div>

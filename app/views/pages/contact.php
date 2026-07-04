@@ -20,21 +20,22 @@
         <div class="contact-card">
           <div class="contact-card-icon"><i class="ti ti-mail"></i></div>
           <h4>Email Us</h4>
-          <a href="mailto:hello@jomiglobal.com">hello@jomiglobal.com</a>
+          <a href="mailto:jomijewels11@gmail.com">jomijewels11@gmail.com</a>
           <p>We reply within 24 hours</p>
         </div>
 
         <div class="contact-card">
           <div class="contact-card-icon"><i class="ti ti-phone"></i></div>
           <h4>Call Us</h4>
-          <p>+234 800 000 0000</p>
+          <a href="tel:+2348163195023">+234 816 319 5023</a>
+          <a href="tel:+2348065239959">+234 806 523 9959</a>
           <p>Mon–Sat, 9am–6pm</p>
         </div>
 
         <div class="contact-card">
           <div class="contact-card-icon"><i class="ti ti-map-pin"></i></div>
           <h4>Location</h4>
-          <p>Lagos, Nigeria</p>
+          <p>Osun State, Nigeria</p>
           <p>Worldwide Delivery</p>
         </div>
 

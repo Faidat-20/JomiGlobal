@@ -110,7 +110,7 @@
           <li>Unsubscribe from our newsletter at any time</li>
           <li>Withdraw consent for data processing</li>
         </ul>
-        <p>To exercise any of these rights, please contact us at <strong>hello@jomiglobal.com</strong></p>
+        <p>To exercise any of these rights, please contact us at <a href="mailto:jomijewels11@gmail.com"><strong>jomijewels11@gmail.com</strong></a></p>
       </div>
 
       <div class="policy-section" id="retention">
@@ -155,9 +155,9 @@
         <h2>Contact Us</h2>
         <p>If you have any questions about this Privacy Policy or how we handle your data, please contact us:</p>
         <ul>
-          <li><strong>Email</strong> — hello@jomiglobal.com</li>
-          <li><strong>Phone</strong> — +234 904 047 2851</li>
-          <li><strong>Location</strong> — Lagos, Nigeria</li>
+          <li><strong>Email</strong> — <a href="mailto:jomijewels11@gmail.com">jomijewels11@gmail.com</a></li>
+          <li><strong>Phone</strong> — <a href="tel:+2348163195023">+234 816 319 5023</a> &nbsp;·&nbsp; <a href="tel:+2348065239959">+234 806 523 9959</a></li>
+          <li><strong>Location</strong> — Osun State, Nigeria</li>
         </ul>
       </div>
 

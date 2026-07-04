@@ -165,7 +165,7 @@
           <div class="faq-icon"><i class="ti ti-plus"></i></div>
         </div>
         <div class="faq-answer">
-          <p>To start a return, contact us at <strong>hello@jomiglobal.com</strong> with your order number and reason for return within 7 days of receiving your order. Our team will guide you through the process.</p>
+          <p>To start a return, contact us at <a href="mailto:jomijewels11@gmail.com"><strong>jomijewels11@gmail.com</strong></a> with your order number and reason for return within 7 days of receiving your order. Our team will guide you through the process.</p>
         </div>
       </div>
 
@@ -210,7 +210,7 @@
           <div class="faq-icon"><i class="ti ti-plus"></i></div>
         </div>
         <div class="faq-answer">
-          <p>You can unsubscribe from our newsletter at any time by clicking the "Unsubscribe" link at the bottom of any newsletter email, or by contacting us at <strong>hello@jomiglobal.com</strong>.</p>
+          <p>You can unsubscribe from our newsletter at any time by clicking the "Unsubscribe" link at the bottom of any newsletter email, or by contacting us at <a href="mailto:jomijewels11@gmail.com"><strong>jomijewels11@gmail.com</strong></a>.</p>
         </div>
       </div>
     </div>

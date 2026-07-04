@@ -116,15 +116,24 @@
 }
 
 .faq-answer a {
-  color: var(--gold);
+  color: var(--text-grey);
   text-decoration: none;
-  border-bottom: 1px solid rgba(218,158,40,0.3);
-  transition: var(--transition);
+  transition: color 0.2s ease;
 }
 
 .faq-answer a:hover {
-  border-bottom-color: var(--gold);
+  color: var(--gold);
 }
+
+.faq-answer a strong {
+  color: var(--text-grey);
+  transition: color 0.2s ease;
+}
+
+.faq-answer a:hover strong {
+  color: var(--gold);
+}
+
 
 /* CTA */
 .faq-cta {

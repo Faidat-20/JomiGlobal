@@ -231,7 +231,25 @@
   color: var(--ash);
 }
 
+.policy-section a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
 
+.policy-section li a strong {
+  color: var(--text-grey);
+  transition: color 0.2s ease;
+}
+
+.policy-section li a:hover,
+.policy-section li a:hover strong {
+  color: var(--gold) !important;
+}
+
+.policy-section p a:hover strong {
+  color: var(--gold);
+}
 
 @media (max-width: 768px) {
   .policy-body {

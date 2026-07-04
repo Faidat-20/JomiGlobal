@@ -145,8 +145,8 @@
         <h2>Contact Us</h2>
         <p>If you have any questions about your delivery, please contact us:</p>
         <ul>
-          <li><strong>Email</strong> — hello@jomiglobal.com</li>
-          <li><strong>Phone</strong> — +234 904 047 2851</li>
+          <li><strong>Email</strong> — <a href="mailto:jomijewels11@gmail.com">jomijewels11@gmail.com</a></li>
+          <li><strong>Phone</strong> — <a href="tel:+2348163195023">+234 816 319 5023</a> &nbsp;·&nbsp; <a href="tel:+2348065239959">+234 806 523 9959</a></li>
           <li><strong>Hours</strong> — Monday to Saturday, 9am – 6pm</li>
         </ul>
       </div>
