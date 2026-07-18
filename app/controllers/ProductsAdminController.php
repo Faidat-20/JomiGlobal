@@ -123,11 +123,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // ---- EDIT PRODUCT ----
   if ($action === 'edit' && $id) {
+    $newSlug = $product->generateSlug(trim($_POST['name']));
     $data = [
       'category_id'    => $_POST['category_id'],
       'subcategory_id' => $_POST['subcategory_id'] ?: null,
       'name'           => trim($_POST['name']),
-      'slug'           => $_POST['slug'],
+      'slug'           => $newSlug,
       'description'    => trim($_POST['description']),
       'price'          => $_POST['price'],
       'sale_price'     => $_POST['sale_price'] ?: null,
