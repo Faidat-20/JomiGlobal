@@ -181,35 +181,69 @@
         ><?= htmlspecialchars($editProduct['description'] ?? $_POST['description'] ?? '') ?></textarea>
       </div>
 
+      <!-- Images -->
       <div class="admin-form-group">
         <label>Product Images</label>
-        <?php if (isset($editProduct['image']) && $editProduct['image']): ?>
-          <div style="margin-bottom:12px;">
-            <img
-              src="<?= APP_URL ?>/uploads/<?= $editProduct['image'] ?>"
-              style="width:120px;height:120px;object-fit:cover;border-radius:8px;"
-            >
+        <div class="image-upload-area" id="imageUploadArea">
+          <input type="file" name="images[]" id="imageInput" multiple accept="image/*" style="display:none;">
+          <input type="hidden" name="images_section_present" value="1">
+          <div class="upload-placeholder" onclick="document.getElementById('imageInput').click()">
+            <i class="ti ti-photo-plus"></i>
+            <p>Click to upload images</p>
+            <span>First image will be the main image. JPG, PNG, WEBP up to 5MB each.</span>
           </div>
-        <?php endif; ?>
-        <div id="imagePreviewGrid" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;"></div>
-        <input
-          type="file"
-          name="images[]"
-          id="imageInput"
-          accept=".jpg,.jpeg,.png,.webp"
-          multiple
-          style="display:none;"
-        >
-        <button
-          type="button"
-          onclick="document.getElementById('imageInput').click()"
-          style="padding:10px 20px;border:1px dashed #ccc;border-radius:8px;background:white;cursor:pointer;font-size:13px;font-family:inherit;"
-        >
-          + Add Image
+
+          <!-- Show existing images when editing -->
+          <?php if (!empty($editImages)): ?>
+            <div id="existingImagePreviews" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;">
+              <?php foreach ($editImages as $i => $img): ?>
+                <div class="existing-image-item" style="position:relative;width:100px;height:100px;">
+                  <img
+                    src="<?= APP_URL ?>/uploads/<?= htmlspecialchars($img['image']) ?>"
+                    style="width:100px;height:100px;object-fit:cover;border-radius:8px;"
+                  >
+                  <?php if ($i === 0): ?>
+                    <span class="main-badge" style="position:absolute;bottom:4px;left:4px;background:var(--mustard);color:var(--ash);font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">Main</span>
+                  <?php endif; ?>
+                  <button type="button" onclick="removeExistingImage(this)" style="position:absolute;top:-6px;right:-6px;background:#e74c3c;color:white;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;">×</button>
+                  <input type="hidden" name="existing_images[]" value="<?= htmlspecialchars($img['image']) ?>">
+                </div>
+              <?php endforeach; ?>
+            </div>
+          <?php endif; ?>
+
+          <div class="image-previews" id="imagePreviews"></div>
+        </div>
+      </div>
+
+      <!-- Variants -->
+      <div class="admin-form-group">
+        <label>Product Variants</label>
+        <div id="variantsContainer">
+          <?php if (!empty($editVariants)): ?>
+            <?php foreach ($editVariants as $variant): ?>
+              <div class="variant-row">
+                <select name="variant_type[]" class="variant-type-select">
+                  <option value="size" <?= $variant['type'] === 'size' ? 'selected' : '' ?>>Size</option>
+                  <option value="color" <?= $variant['type'] === 'color' ? 'selected' : '' ?>>Color</option>
+                  <option value="material" <?= $variant['type'] === 'material' ? 'selected' : '' ?>>Material</option>
+                  <option value="weight" <?= $variant['type'] === 'weight' ? 'selected' : '' ?>>Weight</option>
+                  <option value="volume" <?= $variant['type'] === 'volume' ? 'selected' : '' ?>>Volume</option>
+                </select>
+                <input type="text" name="variant_value[]" placeholder="e.g. Gold, Large, 100ml" value="<?= htmlspecialchars($variant['value']) ?>">
+                <input type="number" name="variant_price[]" placeholder="Price modifier (e.g. 500)" step="0.01" value="<?= $variant['price_modifier'] ?>">
+                <input type="number" name="variant_stock[]" placeholder="Stock" value="<?= $variant['stock'] ?>">
+                <button type="button" class="remove-variant-btn" onclick="this.closest('.variant-row').remove()">
+                  <i class="ti ti-x"></i>
+                </button>
+              </div>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </div>
+        <button type="button" class="btn-admin btn-admin-secondary" id="addVariantBtn" style="margin-top:12px;">
+          <i class="ti ti-plus"></i> Add Variant
         </button>
-        <p style="font-size:12px;color:#a0a0a0;margin-top:8px;">
-          You can select multiple images. First image will be the main image.
-        </p>
+        <p style="font-size:12px;color:#a0a0a0;margin-top:8px;">Price modifier: positive = adds to base price, negative = subtracts. Leave 0 for no change.</p>
       </div>
     </div>
 

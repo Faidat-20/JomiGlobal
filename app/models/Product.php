@@ -199,4 +199,78 @@ class Product {
     $stmt->execute();
     return $stmt->fetch()['total'];
   }
+
+  // Get all images for a product
+  public function getImages($productId) {
+    $stmt = $this->pdo->prepare('
+      SELECT * FROM product_images
+      WHERE product_id = ?
+      ORDER BY is_main DESC, sort_order ASC
+    ');
+    $stmt->execute([$productId]);
+    return $stmt->fetchAll();
+  }
+
+  // Save product images
+  public function saveImages($productId, $images, $mainIndex = 0) {
+    // Delete existing images
+    $stmt = $this->pdo->prepare('DELETE FROM product_images WHERE product_id = ?');
+    $stmt->execute([$productId]);
+
+    // Insert new images
+    $stmt = $this->pdo->prepare('
+      INSERT INTO product_images (product_id, image, is_main, sort_order)
+      VALUES (?, ?, ?, ?)
+    ');
+    foreach ($images as $i => $image) {
+      $stmt->execute([$productId, $image, ($i === $mainIndex) ? 1 : 0, $i]);
+    }
+  }
+
+  // Get variants for a product
+  public function getVariants($productId) {
+    $stmt = $this->pdo->prepare('
+      SELECT * FROM product_variants
+      WHERE product_id = ? AND is_active = 1
+      ORDER BY type, value
+    ');
+    $stmt->execute([$productId]);
+    return $stmt->fetchAll();
+  }
+
+  // Save product variants
+  public function saveVariants($productId, $variants) {
+    // Delete existing variants
+    $stmt = $this->pdo->prepare('DELETE FROM product_variants WHERE product_id = ?');
+    $stmt->execute([$productId]);
+
+    // Insert new variants
+    if (!empty($variants)) {
+      $stmt = $this->pdo->prepare('
+        INSERT INTO product_variants (product_id, type, value, price_modifier, stock)
+        VALUES (?, ?, ?, ?, ?)
+      ');
+      foreach ($variants as $variant) {
+        if (!empty($variant['value'])) {
+          $stmt->execute([
+            $productId,
+            $variant['type'],
+            $variant['value'],
+            $variant['price_modifier'] ?? 0,
+            $variant['stock'] ?? 0,
+          ]);
+        }
+      }
+    }
+  }
+
+  // Get grouped variants
+  public function getGroupedVariants($productId) {
+    $variants = $this->getVariants($productId);
+    $grouped = [];
+    foreach ($variants as $variant) {
+      $grouped[$variant['type']][] = $variant;
+    }
+    return $grouped;
+  }
 }

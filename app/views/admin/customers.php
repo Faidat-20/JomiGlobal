@@ -63,7 +63,7 @@
             <td><?= date('M j, Y', strtotime($c['created_at'])) ?></td>
             <td>
               
-                href="<?= APP_URL ?>/admin/customers?action=toggle&id=<?= $c['id'] ?>"
+              <a  href="<?= APP_URL ?>/admin/customers?action=toggle&id=<?= $c['id'] ?>"
                 class="btn-admin <?= $c['is_active'] ? 'btn-admin-danger' : 'btn-admin-secondary' ?> btn-sm"
                 onclick="return confirm('Are you sure?')"
               >

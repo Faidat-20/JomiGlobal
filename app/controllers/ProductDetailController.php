@@ -26,6 +26,20 @@ if (!$currentProduct) {
   exit;
 }
 
+// Get product images
+$productImages = $product->getImages($currentProduct['id']);
+
+// If no images in product_images table, use main image from products table
+if (empty($productImages) && !empty($currentProduct['image'])) {
+  $productImages = [[
+    'image'   => $currentProduct['image'],
+    'is_main' => 1,
+  ]];
+}
+
+// Get grouped variants
+$groupedVariants = $product->getGroupedVariants($currentProduct['id']);
+
 // Get related products
 $stmt = $pdo->prepare('
   SELECT p.*, c.name as category_name

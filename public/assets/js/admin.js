@@ -38,31 +38,77 @@ alerts.forEach(alert => {
   }, 4000);
 });
 
-// Image upload preview
+// Image upload — accumulate files
 const imageInput = document.getElementById('imageInput');
-const imagePreviewGrid = document.getElementById('imagePreviewGrid');
+const imagePreviewGrid = document.getElementById('imagePreviews');
+let allFiles = []; // store all selected files
 
-if (imageInput) {
+if (imageInput && imagePreviewGrid) {
   imageInput.addEventListener('change', function() {
-    const files = this.files;
-    if (files.length > 0) {
-      imagePreviewGrid.innerHTML = '';
-      Array.from(files).forEach(function(file, index) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const div = document.createElement('div');
-          div.style.cssText = 'position:relative;width:100px;height:100px;';
-          div.innerHTML = `
-            <img src="${e.target.result}" style="width:100px;height:100px;object-fit:cover;border-radius:8px;">
-            ${index === 0 ? '<span style="position:absolute;bottom:4px;left:4px;background:var(--mustard);color:var(--ash);font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">Main</span>' : ''}
-            <button type="button" onclick="this.parentElement.remove()" style="position:absolute;top:-6px;right:-6px;background:#e74c3c;color:white;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;">×</button>
-          `;
-          imagePreviewGrid.appendChild(div);
-        };
-        reader.readAsDataURL(file);
-      });
-    }
+    const newFiles = Array.from(this.files);
+    
+    // Add new files to our collection
+    newFiles.forEach(file => {
+      allFiles.push(file);
+    });
+    // Rebuild previews
+    renderPreviews();
+    // Keep the real file input in sync with our tracked files
+    syncInputFiles();
   });
+}
+function syncInputFiles() {
+  const dt = new DataTransfer();
+  allFiles.forEach(file => dt.items.add(file));
+  if (imageInput) imageInput.files = dt.files;
+}
+
+function renderPreviews() {
+  if (!imagePreviewGrid) return;
+  imagePreviewGrid.innerHTML = '';
+
+  const hasExistingImages = document.querySelectorAll('#existingImagePreviews .existing-image-item').length > 0;
+
+  allFiles.forEach(function(file, index) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const isMain = index === 0 && !hasExistingImages;
+      const div = document.createElement('div');
+      div.style.cssText = 'position:relative;width:100px;height:100px;';
+      div.innerHTML = `
+        <img src="${e.target.result}" style="width:100px;height:100px;object-fit:cover;border-radius:8px;">
+        ${isMain ? '<span style="position:absolute;bottom:4px;left:4px;background:var(--mustard);color:var(--ash);font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;">Main</span>' : ''}
+        <button type="button" onclick="removeImage(${index})" style="position:absolute;top:-6px;right:-6px;background:#e74c3c;color:white;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;">×</button>
+      `;
+      imagePreviewGrid.appendChild(div);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function removeImage(index) {
+  allFiles.splice(index, 1);
+  renderPreviews();
+  syncInputFiles();
+}
+
+function removeExistingImage(btn) {
+  const item = btn.closest('.existing-image-item');
+  if (item) item.remove();
+  reassignMainBadge();
+}
+
+function reassignMainBadge() {
+  document.querySelectorAll('#existingImagePreviews .main-badge').forEach(el => el.remove());
+  const firstItem = document.querySelector('#existingImagePreviews .existing-image-item');
+  if (firstItem) {
+    const badge = document.createElement('span');
+    badge.className = 'main-badge';
+    badge.style.cssText = 'position:absolute;bottom:4px;left:4px;background:var(--mustard);color:var(--ash);font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;';
+    badge.textContent = 'Main';
+    firstItem.appendChild(badge);
+  }
+  renderPreviews();
 }
 
 // Order search
@@ -88,5 +134,32 @@ if (customerSearch) {
       const text = row.textContent.toLowerCase();
       row.style.display = text.includes(search) ? '' : 'none';
     });
+  });
+}
+
+// Add variant row
+const addVariantBtn = document.getElementById('addVariantBtn');
+const variantsContainer = document.getElementById('variantsContainer');
+
+if (addVariantBtn && variantsContainer) {
+  addVariantBtn.addEventListener('click', function() {
+    const row = document.createElement('div');
+    row.className = 'variant-row';
+    row.innerHTML = `
+      <select name="variant_type[]" class="variant-type-select">
+        <option value="size">Size</option>
+        <option value="color">Color</option>
+        <option value="material">Material</option>
+        <option value="weight">Weight</option>
+        <option value="volume">Volume</option>
+      </select>
+      <input type="text" name="variant_value[]" placeholder="e.g. Gold, Large, 100ml">
+      <input type="number" name="variant_price[]" placeholder="Price modifier" step="0.01" value="0">
+      <input type="number" name="variant_stock[]" placeholder="Stock" value="0">
+      <button type="button" class="remove-variant-btn" onclick="this.closest('.variant-row').remove()">
+        <i class="ti ti-x"></i>
+      </button>
+    `;
+    variantsContainer.appendChild(row);
   });
 }
