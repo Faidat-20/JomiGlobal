@@ -137,29 +137,99 @@ if (customerSearch) {
   });
 }
 
-// Add variant row
-const addVariantBtn = document.getElementById('addVariantBtn');
-const variantsContainer = document.getElementById('variantsContainer');
+// ===== Variant Groups =====
+const variantGroupsContainer = document.getElementById('variantGroupsContainer');
+const addVariantGroupBtn = document.getElementById('addVariantGroupBtn');
 
-if (addVariantBtn && variantsContainer) {
-  addVariantBtn.addEventListener('click', function() {
-    const row = document.createElement('div');
-    row.className = 'variant-row';
-    row.innerHTML = `
-      <select name="variant_type[]" class="variant-type-select">
+function createOptionRow(type) {
+  const row = document.createElement('div');
+  row.className = 'variant-option-row';
+  row.innerHTML = `
+    <input type="hidden" name="variant_type[]" value="${type}" class="variant-type-hidden">
+    <input type="text" name="variant_value[]" placeholder="e.g. Gold, Large, 100ml">
+    <input type="number" name="variant_price[]" placeholder="Price (₦)" step="0.01" value="0">
+    <button type="button" class="remove-option-btn">
+      <i class="ti ti-x"></i>
+    </button>
+  `;
+  return row;
+}
+
+function createVariantGroup() {
+  const group = document.createElement('div');
+  group.className = 'variant-group-block';
+  group.innerHTML = `
+    <div class="variant-group-header">
+      <select class="variant-group-type">
         <option value="size">Size</option>
         <option value="color">Color</option>
-        <option value="material">Material</option>
-        <option value="weight">Weight</option>
-        <option value="volume">Volume</option>
+        <option value="quantity">Quantity</option>
+        <option value="custom">Custom</option>
       </select>
-      <input type="text" name="variant_value[]" placeholder="e.g. Gold, Large, 100ml">
-      <input type="number" name="variant_price[]" placeholder="Price modifier" step="0.01" value="0">
-      <input type="number" name="variant_stock[]" placeholder="Stock" value="0">
-      <button type="button" class="remove-variant-btn" onclick="this.closest('.variant-row').remove()">
-        <i class="ti ti-x"></i>
+      <input type="text" class="variant-group-custom-label" placeholder="e.g. Material" style="display:none;">
+      <button type="button" class="remove-group-btn">
+        <i class="ti ti-trash"></i>
       </button>
-    `;
-    variantsContainer.appendChild(row);
+    </div>
+    <div class="variant-options-list"></div>
+    <button type="button" class="add-option-btn">
+      <i class="ti ti-plus"></i> Add Option
+    </button>
+  `;
+  group.querySelector('.variant-options-list').appendChild(createOptionRow('size'));
+  return group;
+}
+
+if (addVariantGroupBtn && variantGroupsContainer) {
+  addVariantGroupBtn.addEventListener('click', function() {
+    variantGroupsContainer.appendChild(createVariantGroup());
+  });
+}
+
+function getGroupType(group) {
+  const select = group.querySelector('.variant-group-type');
+  const customInput = group.querySelector('.variant-group-custom-label');
+  if (select.value === 'custom') {
+    const label = customInput.value.trim().toLowerCase().replace(/\s+/g, '_');
+    return label || 'custom';
+  }
+  return select.value;
+}
+
+function syncGroupType(group) {
+  const type = getGroupType(group);
+  group.querySelectorAll('.variant-type-hidden').forEach(input => {
+    input.value = type;
+  });
+}
+
+if (variantGroupsContainer) {
+  variantGroupsContainer.addEventListener('change', function(e) {
+    if (e.target.classList.contains('variant-group-type')) {
+      const group = e.target.closest('.variant-group-block');
+      const customInput = group.querySelector('.variant-group-custom-label');
+      customInput.style.display = e.target.value === 'custom' ? 'block' : 'none';
+      syncGroupType(group);
+    }
+  });
+
+  variantGroupsContainer.addEventListener('input', function(e) {
+    if (e.target.classList.contains('variant-group-custom-label')) {
+      syncGroupType(e.target.closest('.variant-group-block'));
+    }
+  });
+
+  variantGroupsContainer.addEventListener('click', function(e) {
+    if (e.target.closest('.add-option-btn')) {
+      const group = e.target.closest('.variant-group-block');
+      const type = getGroupType(group);
+      group.querySelector('.variant-options-list').appendChild(createOptionRow(type));
+    }
+    if (e.target.closest('.remove-option-btn')) {
+      e.target.closest('.variant-option-row').remove();
+    }
+    if (e.target.closest('.remove-group-btn')) {
+      e.target.closest('.variant-group-block').remove();
+    }
   });
 }

@@ -277,11 +277,19 @@ function formatPrice(price) {
 }
 
 function updatePrice() {
-  let modifier = 0;
-  Object.values(selectedVariants).forEach(v => {
-    modifier += parseFloat(v.priceModifier || 0);
-  });
-  const newPrice = basePrice + modifier;
+  const selected = Object.values(selectedVariants);
+
+  const setPrices = selected
+    .map(v => parseFloat(v.priceModifier || 0))
+    .filter(p => p > 0);
+
+  let newPrice;
+  if (setPrices.length > 0) {
+    newPrice = setPrices.reduce((sum, p) => sum + p, 0);
+  } else {
+    newPrice = basePrice;
+  }
+
   const priceEl = document.getElementById('displayPrice');
   if (priceEl) priceEl.textContent = formatPrice(newPrice);
 }

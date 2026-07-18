@@ -219,31 +219,64 @@
       <!-- Variants -->
       <div class="admin-form-group">
         <label>Product Variants</label>
-        <div id="variantsContainer">
-          <?php if (!empty($editVariants)): ?>
-            <?php foreach ($editVariants as $variant): ?>
-              <div class="variant-row">
-                <select name="variant_type[]" class="variant-type-select">
-                  <option value="size" <?= $variant['type'] === 'size' ? 'selected' : '' ?>>Size</option>
-                  <option value="color" <?= $variant['type'] === 'color' ? 'selected' : '' ?>>Color</option>
-                  <option value="material" <?= $variant['type'] === 'material' ? 'selected' : '' ?>>Material</option>
-                  <option value="weight" <?= $variant['type'] === 'weight' ? 'selected' : '' ?>>Weight</option>
-                  <option value="volume" <?= $variant['type'] === 'volume' ? 'selected' : '' ?>>Volume</option>
+        <p style="font-size:12px;color:#888;margin-bottom:12px;">
+          Add a group for each option type this product needs (e.g. Color, Size). Leave this empty if the product has no options — it'll just use the price and stock above.
+        </p>
+
+        <div id="variantGroupsContainer">
+          <?php
+            // Group existing variants by type for editing
+            $groupedForEdit = [];
+            if (!empty($editVariants)) {
+              foreach ($editVariants as $v) {
+                $groupedForEdit[$v['type']][] = $v;
+              }
+            }
+          ?>
+          <?php foreach ($groupedForEdit as $type => $items): ?>
+            <?php $isPreset = in_array($type, ['size', 'color', 'quantity']); ?>
+            <div class="variant-group-block">
+              <div class="variant-group-header">
+                <select class="variant-group-type">
+                  <option value="size" <?= $type === 'size' ? 'selected' : '' ?>>Size</option>
+                  <option value="color" <?= $type === 'color' ? 'selected' : '' ?>>Color</option>
+                  <option value="quantity" <?= $type === 'quantity' ? 'selected' : '' ?>>Quantity</option>
+                  <option value="custom" <?= !$isPreset ? 'selected' : '' ?>>Custom</option>
                 </select>
-                <input type="text" name="variant_value[]" placeholder="e.g. Gold, Large, 100ml" value="<?= htmlspecialchars($variant['value']) ?>">
-                <input type="number" name="variant_price[]" placeholder="Price modifier (e.g. 500)" step="0.01" value="<?= $variant['price_modifier'] ?>">
-                <input type="number" name="variant_stock[]" placeholder="Stock" value="<?= $variant['stock'] ?>">
-                <button type="button" class="remove-variant-btn" onclick="this.closest('.variant-row').remove()">
-                  <i class="ti ti-x"></i>
+                <input
+                  type="text"
+                  class="variant-group-custom-label"
+                  placeholder="e.g. Material"
+                  value="<?= !$isPreset ? htmlspecialchars($type) : '' ?>"
+                  style="<?= !$isPreset ? '' : 'display:none;' ?>"
+                >
+                <button type="button" class="remove-group-btn" onclick="this.closest('.variant-group-block').remove()">
+                  <i class="ti ti-trash"></i>
                 </button>
               </div>
-            <?php endforeach; ?>
-          <?php endif; ?>
+              <div class="variant-options-list">
+                <?php foreach ($items as $variant): ?>
+                  <div class="variant-option-row">
+                    <input type="hidden" name="variant_type[]" value="<?= htmlspecialchars($type) ?>" class="variant-type-hidden">
+                    <input type="text" name="variant_value[]" placeholder="e.g. Gold, Large, 100ml" value="<?= htmlspecialchars($variant['value']) ?>">
+                    <input type="number" name="variant_price[]" placeholder="Price (₦)" step="0.01" value="<?= $variant['price_modifier'] ?>">
+                    <button type="button" class="remove-option-btn" onclick="this.closest('.variant-option-row').remove()">
+                      <i class="ti ti-x"></i>
+                    </button>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+              <button type="button" class="add-option-btn">
+                <i class="ti ti-plus"></i> Add Option
+              </button>
+            </div>
+          <?php endforeach; ?>
         </div>
-        <button type="button" class="btn-admin btn-admin-secondary" id="addVariantBtn" style="margin-top:12px;">
-          <i class="ti ti-plus"></i> Add Variant
+
+        <button type="button" class="btn-admin btn-admin-secondary" id="addVariantGroupBtn" style="margin-top:12px;">
+          <i class="ti ti-plus"></i> Add Variant Group
         </button>
-        <p style="font-size:12px;color:#a0a0a0;margin-top:8px;">Price modifier: positive = adds to base price, negative = subtracts. Leave 0 for no change.</p>
+        <p style="font-size:12px;color:#a0a0a0;margin-top:8px;">Price: leave 0 if this option doesn't change the base price.</p>
       </div>
     </div>
 
