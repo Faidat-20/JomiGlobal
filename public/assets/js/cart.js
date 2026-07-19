@@ -51,20 +51,21 @@ function showEmptyCart() {
 // ============ UPDATE ITEM ============
 function updateCartItem(input) {
   const productId = input.getAttribute('data-product-id');
+  const variantId = input.getAttribute('data-variant-id') || '';
+  const cartKey = input.getAttribute('data-cart-key') || productId;
   const quantity = input.value;
-
   fetch(APP_URL + '/cart?action=update', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'X-Requested-With': 'XMLHttpRequest'
     },
-    body: 'product_id=' + productId + '&quantity=' + quantity
+    body: 'product_id=' + productId + '&variant_id=' + variantId + '&quantity=' + quantity
   })
   .then(res => res.json())
   .then(data => {
     if (data.success) {
-      const itemTotal = document.getElementById('item-total-' + productId);
+      const itemTotal = document.getElementById('item-total-' + cartKey);
       if (itemTotal) itemTotal.textContent = CURRENCY + data.item_total;
       updateSummary(data);
       updateCartCount(data.cart_count);
@@ -108,14 +109,15 @@ document.querySelectorAll('.cart-remove').forEach(btn => {
   btn.addEventListener('click', function(e) {
     e.preventDefault();
     const id = this.getAttribute('data-id');
-
-    fetch(APP_URL + '/cart?action=remove&id=' + id, {
+    const variantId = this.getAttribute('data-variant-id') || '';
+    const cartKey = this.getAttribute('data-cart-key') || id;
+    fetch(APP_URL + '/cart?action=remove&id=' + id + '&variant_id=' + variantId, {
       headers: { 'X-Requested-With': 'XMLHttpRequest' }
     })
     .then(res => res.json())
     .then(data => {
       if (data.success) {
-        const item = document.getElementById('cart-item-' + id);
+        const item = document.getElementById('cart-item-' + cartKey);
         if (item) {
           item.style.opacity = '0';
           item.style.transform = 'translateX(20px)';
@@ -154,7 +156,7 @@ if (clearBtn) {
   });
 }
 
-// ============ ADD TO CART (shop & product pages) ============
+// ADD TO CART
 function markAddedProducts() {
   document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
     const id = parseInt(btn.getAttribute('data-id'));
@@ -174,16 +176,23 @@ document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
 
     const productId = this.getAttribute('data-id');
     const qty = document.getElementById('productQty') ? document.getElementById('productQty').value : 1;
+    const variantId = (document.getElementById('selectedVariantIds') || {}).value || '';
+    const variantLabel = (document.getElementById('selectedVariantLabel') || {}).value || '';
+    const variantPrice = (document.getElementById('selectedVariantPrice') || {}).value || '';
+
     const self = this;
     const alreadyInCart = self.classList.contains('in-cart');
-
     fetch(APP_URL + '/cart?action=add', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'X-Requested-With': 'XMLHttpRequest'
       },
-      body: 'product_id=' + productId + '&quantity=' + qty
+      body: 'product_id=' + productId +
+            '&quantity=' + qty +
+            '&variant_id=' + variantId +
+            '&variant_label=' + encodeURIComponent(variantLabel) +
+            '&variant_price=' + variantPrice
     })
     .then(res => res.json())
     .then(data => {

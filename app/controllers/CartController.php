@@ -23,29 +23,38 @@ if ($userId && $action === 'view' && empty($_SESSION['cart_loaded'])) {
 
 // ============ ADD ============
 if ($action === 'add' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-  $productId = (int)$_POST['product_id'];
-  $quantity  = (int)($_POST['quantity'] ?? 1);
+  $productId   = (int)$_POST['product_id'];
+  $quantity    = (int)($_POST['quantity'] ?? 1);
+  $variantId   = !empty($_POST['variant_id']) ? (int)$_POST['variant_id'] : null;
+  $variantLabel = trim($_POST['variant_label'] ?? '');
+  $variantPrice = !empty($_POST['variant_price']) ? (float)$_POST['variant_price'] : null;
 
   $stmt = $pdo->prepare('SELECT * FROM products WHERE id = ? AND is_active = 1');
   $stmt->execute([$productId]);
   $product = $stmt->fetch();
 
   if ($product && $quantity > 0) {
-    // Set quantity (not add)
+    $basePrice = $product['sale_price'] ?: $product['price'];
+    $finalPrice = $variantPrice ?? $basePrice;
+    $cartKey = $productId . ($variantId ? '_' . $variantId : '');
+
     $newQty = min($quantity, $product['stock']);
-    $_SESSION['cart'][$productId] = [
-      'id'       => $product['id'],
-      'name'     => $product['name'],
-      'price'    => $product['sale_price'] ?: $product['price'],
-      'image'    => $product['image'],
-      'slug'     => $product['slug'],
-      'stock'    => $product['stock'],
-      'quantity' => $newQty,
+    $_SESSION['cart'][$cartKey] = [
+      'id'            => $product['id'],
+      'name'          => $product['name'],
+      'price'         => $finalPrice,
+      'base_price'    => $basePrice,
+      'image'         => $product['image'],
+      'slug'          => $product['slug'],
+      'stock'         => $product['stock'],
+      'quantity'      => $newQty,
+      'variant_id'    => $variantId,
+      'variant_label' => $variantLabel ?: null,
+      'variant_price' => $variantPrice,
     ];
 
-    // Save to DB if logged in
     if ($userId) {
-      saveCartToDB($pdo, $userId, $productId, $newQty);
+      saveCartToDB($pdo, $userId, $productId, $newQty, $variantId, $variantLabel ?: null, $variantPrice);
     }
   }
 
@@ -66,17 +75,22 @@ if ($action === 'add' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 // ============ UPDATE ============
 if ($action === 'update' && $_SERVER['REQUEST_METHOD'] === 'POST') {
   $productId = (int)$_POST['product_id'];
+  $variantId = !empty($_POST['variant_id']) ? (int)$_POST['variant_id'] : null;
   $quantity  = (int)$_POST['quantity'];
+  $cartKey   = $productId . ($variantId ? '_' . $variantId : '');
 
   if ($quantity <= 0) {
-    unset($_SESSION['cart'][$productId]);
-    if ($userId) saveCartToDB($pdo, $userId, $productId, 0);
+    unset($_SESSION['cart'][$cartKey]);
+    if ($userId) saveCartToDB($pdo, $userId, $productId, 0, $variantId);
   } else {
-    if (isset($_SESSION['cart'][$productId])) {
-      $stock = $_SESSION['cart'][$productId]['stock'];
+    if (isset($_SESSION['cart'][$cartKey])) {
+      $stock = $_SESSION['cart'][$cartKey]['stock'];
       $newQty = min($quantity, $stock);
-      $_SESSION['cart'][$productId]['quantity'] = $newQty;
-      if ($userId) saveCartToDB($pdo, $userId, $productId, $newQty);
+      $_SESSION['cart'][$cartKey]['quantity'] = $newQty;
+      if ($userId) {
+        $item = $_SESSION['cart'][$cartKey];
+        saveCartToDB($pdo, $userId, $productId, $newQty, $variantId, $item['variant_label'] ?? null, $item['variant_price'] ?? null);
+      }
     }
   }
 
@@ -91,22 +105,23 @@ if ($action === 'update' && $_SERVER['REQUEST_METHOD'] === 'POST') {
       'cart_count' => count($_SESSION['cart']),
       'subtotal'   => number_format($subtotal, 2),
       'total'      => number_format($subtotal, 2),
-      'item_total' => isset($_SESSION['cart'][$productId])
-        ? number_format($_SESSION['cart'][$productId]['price'] * $_SESSION['cart'][$productId]['quantity'], 2)
+      'item_total' => isset($_SESSION['cart'][$cartKey])
+        ? number_format($_SESSION['cart'][$cartKey]['price'] * $_SESSION['cart'][$cartKey]['quantity'], 2)
         : '0.00',
     ]);
     exit;
   }
-
   header('Location: ' . APP_URL . '/cart');
   exit;
 }
-
 // ============ REMOVE ============
 if ($action === 'remove') {
   $productId = (int)$_GET['id'];
-  unset($_SESSION['cart'][$productId]);
-  if ($userId) saveCartToDB($pdo, $userId, $productId, 0);
+  $variantId = !empty($_GET['variant_id']) ? (int)$_GET['variant_id'] : null;
+  $cartKey   = $productId . ($variantId ? '_' . $variantId : '');
+
+  unset($_SESSION['cart'][$cartKey]);
+  if ($userId) saveCartToDB($pdo, $userId, $productId, 0, $variantId);
 
   if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
     $subtotal = 0;
@@ -123,7 +138,6 @@ if ($action === 'remove') {
     ]);
     exit;
   }
-
   header('Location: ' . APP_URL . '/cart');
   exit;
 }

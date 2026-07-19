@@ -47,8 +47,8 @@
           </div>
 
           <div class="cart-table-body">
-            <?php foreach ($cartItems as $item): ?>
-              <div class="cart-item" id="cart-item-<?= $item['id'] ?>">
+            <?php foreach ($cartItems as $cartKey => $item): ?>
+              <div class="cart-item" id="cart-item-<?= $cartKey ?>">
 
                 <!-- Product col -->
                 <div class="cart-item-product">
@@ -63,12 +63,20 @@
                     <a href="<?= APP_URL ?>/product/<?= $item['slug'] ?>" class="cart-item-name">
                       <?= htmlspecialchars($item['name']) ?>
                     </a>
+
+                    <?php if (!empty($item['variant_label'])): ?>
+                      <p style="font-size:12px;color:var(--gold);margin-top:3px;">
+                        <?= htmlspecialchars($item['variant_label']) ?>
+                      </p>
+                    <?php endif; ?>
+
                     <?php if ($item['stock'] <= 5 && $item['stock'] > 0): ?>
                       <p class="cart-item-stock low"><i class="ti ti-alert-triangle"></i> <?= $item['stock'] ?> left</p>
                     <?php else: ?>
                       <p class="cart-item-stock in"><i class="ti ti-circle-check"></i> In Stock</p>
                     <?php endif; ?>
-                    <a href="#" class="cart-remove-link cart-remove" data-action="remove" data-id="<?= $item['id'] ?>">
+
+                    <a href="#" class="cart-remove-link cart-remove" data-id="<?= $item['id'] ?>" data-variant-id="<?= $item['variant_id'] ?? '' ?>" data-cart-key="<?= $cartKey ?>">
                       <i class="ti ti-x"></i> Remove
                     </a>
                   </div>
@@ -78,6 +86,7 @@
                 <div class="cart-item-qty">
                   <form method="POST" action="<?= APP_URL ?>/cart?action=update" class="qty-form">
                     <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                    <input type="hidden" name="variant_id" value="<?= $item['variant_id'] ?? '' ?>">
                     <div class="qty-control">
                       <button type="button" class="qty-btn cart-qty-minus">−</button>
                       <input
@@ -88,6 +97,8 @@
                         max="<?= $item['stock'] ?>"
                         class="cart-qty-input"
                         data-product-id="<?= $item['id'] ?>"
+                        data-variant-id="<?= $item['variant_id'] ?? '' ?>"
+                        data-cart-key="<?= $cartKey ?>"
                       >
                       <button type="button" class="qty-btn cart-qty-plus">+</button>
                     </div>
@@ -100,7 +111,7 @@
                 </div>
 
                 <!-- Subtotal col -->
-                <div class="cart-item-subtotal" id="item-total-<?= $item['id'] ?>">
+                <div class="cart-item-subtotal" id="item-total-<?= $cartKey ?>">
                   <?= CURRENCY_SYMBOL . number_format($item['price'] * $item['quantity'], 2) ?>
                 </div>
 

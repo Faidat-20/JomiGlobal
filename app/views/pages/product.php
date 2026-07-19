@@ -158,6 +158,9 @@
                 <button type="button" class="pd-qty-btn" id="qtyPlus">+</button>
               </div>
             </div>
+            <input type="hidden" id="selectedVariantIds" value="">
+            <input type="hidden" id="selectedVariantLabel" value="">
+            <input type="hidden" id="selectedVariantPrice" value="<?= $currentProduct['sale_price'] ?: $currentProduct['price'] ?>">
             <div class="pd-btns-row">
               <button class="pd-btn-cart add-to-cart-btn"
                       data-id="<?= $currentProduct['id'] ?>" id="addToCartBtn">
@@ -278,20 +281,33 @@ function formatPrice(price) {
 
 function updatePrice() {
   const selected = Object.values(selectedVariants);
-
   const setPrices = selected
     .map(v => parseFloat(v.priceModifier || 0))
     .filter(p => p > 0);
-
   let newPrice;
   if (setPrices.length > 0) {
     newPrice = setPrices.reduce((sum, p) => sum + p, 0);
   } else {
     newPrice = basePrice;
   }
-
   const priceEl = document.getElementById('displayPrice');
   if (priceEl) priceEl.textContent = formatPrice(newPrice);
+
+  syncSelectedVariantInputs(newPrice);
+}
+
+function syncSelectedVariantInputs(computedPrice) {
+  const ids = Object.values(selectedVariants).map(v => v.id).filter(Boolean);
+  const labelParts = Object.entries(selectedVariants).map(([type, v]) => {
+    const typeLabel = type.charAt(0).toUpperCase() + type.slice(1);
+    return `${typeLabel}: ${v.value}`;
+  });
+  const idsField = document.getElementById('selectedVariantIds');
+  const labelField = document.getElementById('selectedVariantLabel');
+  const priceField = document.getElementById('selectedVariantPrice');
+  if (idsField) idsField.value = ids.join(',');
+  if (labelField) labelField.value = labelParts.join(', ');
+  if (priceField) priceField.value = computedPrice;
 }
 
 document.querySelectorAll('.variant-btn, .variant-color-btn').forEach(btn => {
