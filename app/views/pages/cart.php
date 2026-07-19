@@ -121,7 +121,7 @@
 
           <!-- Table Footer -->
           <div class="cart-table-footer">
-            <a href="<?= APP_URL ?>/shop" class="continue-shopping">
+            <a href="<?= APP_URL ?>/shop?category=" class="continue-shopping">
               <i class="ti ti-arrow-left"></i> Continue Shopping
             </a>
             <a href="#" class="clear-cart-link" id="clearCartBtn">

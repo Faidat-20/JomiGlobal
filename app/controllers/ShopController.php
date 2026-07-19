@@ -40,7 +40,7 @@ if ($subcategorySlug) {
 // Get subcategories for sidebar
 $subcategoriesForSidebar = [];
 if ($currentCategory) {
-  $stmt = $pdo->prepare('SELECT * FROM subcategories WHERE category_id = ? AND is_active = 1');
+  $stmt = $pdo->prepare('SELECT * FROM subcategories WHERE category_id = ? AND is_active = 1 ORDER BY parent_id ASC, name ASC');
   $stmt->execute([$currentCategory['id']]);
   $subcategoriesForSidebar = $stmt->fetchAll();
 }

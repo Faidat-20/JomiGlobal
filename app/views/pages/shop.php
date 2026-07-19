@@ -41,7 +41,7 @@
           <h3 class="sidebar-title">Categories</h3>
           <ul class="sidebar-list">
             <li>
-              <a href="<?= APP_URL ?>/shop" class="<?= !$currentCategory ? 'active' : '' ?>">
+              <a href="<?= APP_URL ?>/shop?category=" class="<?= !$currentCategory ? 'active' : '' ?>">
                 All Products
               </a>
             </li>
@@ -62,14 +62,46 @@
               <h3 class="sidebar-title" style="margin-bottom:0;">Filter by Type</h3>
               <i class="ti ti-chevron-down sidebar-accordion-icon"></i>
             </div>
+            <?php
+              // Group subcategories by parent
+              $parents = [];
+              $children = [];
+              foreach ($subcategoriesForSidebar as $sub) {
+                if (is_null($sub['parent_id'])) {
+                  $parents[] = $sub;
+                } else {
+                  $children[$sub['parent_id']][] = $sub;
+                }
+              }
+            ?>
             <ul class="sidebar-list sidebar-accordion-body" id="subcatList">
-              <?php foreach ($subcategoriesForSidebar as $sub): ?>
-                <li>
-                  <a href="<?= APP_URL ?>/shop?category=<?= $currentCategory['slug'] ?>&subcategory=<?= $sub['slug'] ?>" 
-                    class="<?= ($currentSubcategory && $currentSubcategory['id'] == $sub['id']) ? 'active' : '' ?>">
-                    <?= htmlspecialchars($sub['name']) ?>
-                  </a>
-                </li>
+              <?php foreach ($parents as $parent): ?>
+                <?php if (!empty($children[$parent['id']])): ?>
+                  <!-- Has children -> collapsible dropdown -->
+                  <li class="sidebar-subgroup">
+                    <details>
+                      <summary><?= htmlspecialchars($parent['name']) ?></summary>
+                      <ul class="sidebar-subgroup-list">
+                        <?php foreach ($children[$parent['id']] as $child): ?>
+                          <li>
+                            <a href="<?= APP_URL ?>/shop?category=<?= $currentCategory['slug'] ?>&subcategory=<?= $child['slug'] ?>"
+                              class="<?= ($currentSubcategory && $currentSubcategory['id'] == $child['id']) ? 'active' : '' ?>">
+                              <?= htmlspecialchars($child['name']) ?>
+                            </a>
+                          </li>
+                        <?php endforeach; ?>
+                      </ul>
+                    </details>
+                  </li>
+                <?php else: ?>
+                  <!-- No children -> normal link -->
+                  <li>
+                    <a href="<?= APP_URL ?>/shop?category=<?= $currentCategory['slug'] ?>&subcategory=<?= $parent['slug'] ?>"
+                      class="<?= ($currentSubcategory && $currentSubcategory['id'] == $parent['id']) ? 'active' : '' ?>">
+                      <?= htmlspecialchars($parent['name']) ?>
+                    </a>
+                  </li>
+                <?php endif; ?>
               <?php endforeach; ?>
             </ul>
           </div>

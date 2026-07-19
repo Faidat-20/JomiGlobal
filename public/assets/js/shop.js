@@ -72,3 +72,20 @@ if (subcatToggle && subcatList) {
     subcatList.classList.toggle('open');
   });
 }
+
+// For Her / For Him dropdowns - only one open at a time
+if (subcatList) {
+  const allDetails = subcatList.querySelectorAll('.sidebar-subgroup > details');
+
+  allDetails.forEach(function (details) {
+    details.addEventListener('toggle', function () {
+      if (details.open) {
+        allDetails.forEach(function (other) {
+          if (other !== details) {
+            other.open = false;
+          }
+        });
+      }
+    });
+  });
+}

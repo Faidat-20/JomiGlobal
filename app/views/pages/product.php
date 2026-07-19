@@ -364,13 +364,4 @@ const prevBtn = document.getElementById('prevImage');
 const nextBtn = document.getElementById('nextImage');
 if (prevBtn) prevBtn.addEventListener('click', () => goToImage(currentIndex - 1));
 if (nextBtn) nextBtn.addEventListener('click', () => goToImage(currentIndex + 1));
-
-// Qty controls
-const qtyInput = document.getElementById('productQty');
-document.getElementById('qtyMinus')?.addEventListener('click', () => {
-  if (qtyInput && parseInt(qtyInput.value) > 1) qtyInput.value = parseInt(qtyInput.value) - 1;
-});
-document.getElementById('qtyPlus')?.addEventListener('click', () => {
-  if (qtyInput && parseInt(qtyInput.value) < parseInt(qtyInput.max)) qtyInput.value = parseInt(qtyInput.value) + 1;
-});
 </script>

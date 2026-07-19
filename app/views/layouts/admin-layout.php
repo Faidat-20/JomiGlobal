@@ -23,7 +23,8 @@
 
     <!-- Logo -->
     <div class="sidebar-logo">
-      <img src="<?= APP_URL ?>/assets/images/logo.png" alt="JomiGlobal">
+      <img src="<?= APP_URL ?>/assets/images/logo.png" alt="JomiGlobal" class="logo-full">
+      <img src="<?= APP_URL ?>/assets/images/Icon-54.png" alt="JomiGlobal" class="logo-icon">
       <span>Admin</span>
     </div>
 

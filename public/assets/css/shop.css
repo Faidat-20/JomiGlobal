@@ -634,7 +634,7 @@
 }
 
 .sidebar-accordion-body.open {
-  max-height: 500px;
+  max-height: 1200px;
   opacity: 1;
   margin-top: 12px;
 }
@@ -650,6 +650,54 @@
 
 .sidebar-section:has(.sidebar-accordion-body.open) {
   margin-bottom: 0;
+}
+
+/* For Her / For Him dropdown groups */
+.sidebar-subgroup {
+  margin-bottom: 4px;
+}
+
+.sidebar-subgroup summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+}
+
+.sidebar-subgroup summary::-webkit-details-marker {
+  display: none;
+}
+
+.sidebar-subgroup summary::after {
+  content: '\ea62'; /* tabler chevron-down, swap if using a different icon font */
+  font-family: 'tabler-icons';
+  font-size: 14px;
+  color: var(--text-grey);
+  transition: transform 0.3s ease;
+}
+
+.sidebar-subgroup details[open] summary::after {
+  transform: rotate(180deg);
+}
+
+.sidebar-subgroup summary:hover {
+  background: var(--off-white);
+  color: var(--gold);
+}
+
+.sidebar-subgroup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 8px;
+  margin-top: 2px;
 }
 
 /* Subcategory grid */
