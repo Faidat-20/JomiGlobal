@@ -47,20 +47,20 @@
     <?php else: ?>
       <!-- Show products -->
       <div class="shop-toolbar">
-      <form method="GET" action="<?= APP_URL ?>/collections/<?= $collection['slug'] ?>" class="toolbar-price-filter">
-        <input type="number" name="min_price" placeholder="Min ₦" value="<?= $minPrice ?? '' ?>" style="width:80px;padding:8px 10px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;">
-        <span>—</span>
-        <input type="number" name="max_price" placeholder="Max ₦" value="<?= $maxPrice ?? '' ?>" style="width:80px;padding:8px 10px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;">
-        <button type="submit" class="btn btn-primary" style="padding:8px 16px;font-size:12px;">Apply</button>
-      </form>
-        <div class="sort-wrapper">
-          <label>Sort by:</label>
-          <select onchange="window.location=this.value" class="sort-select">
-            <option value="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>/<?= $subcategory['slug'] ?>?sort=newest" <?= ($sort ?? 'newest') === 'newest' ? 'selected' : '' ?>>Newest</option>
-            <option value="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>/<?= $subcategory['slug'] ?>?sort=price_asc" <?= ($sort ?? '') === 'price_asc' ? 'selected' : '' ?>>Price: Low to High</option>
-            <option value="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>/<?= $subcategory['slug'] ?>?sort=price_desc" <?= ($sort ?? '') === 'price_desc' ? 'selected' : '' ?>>Price: High to Low</option>
-          </select>
-        </div>
+        <form method="GET" action="<?= APP_URL ?>/collections/<?= $collection['slug'] ?>" class="toolbar-price-filter">
+          <input type="number" name="min_price" placeholder="Min ₦" value="<?= $minPrice ?? '' ?>" style="width:80px;padding:8px 10px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;">
+          <span>—</span>
+          <input type="number" name="max_price" placeholder="Max ₦" value="<?= $maxPrice ?? '' ?>" style="width:80px;padding:8px 10px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;">
+          <button type="submit" class="btn btn-primary" style="padding:8px 16px;font-size:12px;">Apply</button>
+        </form>
+          <div class="sort-wrapper">
+            <label>Sort by:</label>
+            <select onchange="window.location=this.value" class="sort-select">
+              <option value="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>/<?= $subcategory['slug'] ?>?sort=newest" <?= ($sort ?? 'newest') === 'newest' ? 'selected' : '' ?>>Newest</option>
+              <option value="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>/<?= $subcategory['slug'] ?>?sort=price_asc" <?= ($sort ?? '') === 'price_asc' ? 'selected' : '' ?>>Price: Low to High</option>
+              <option value="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>/<?= $subcategory['slug'] ?>?sort=price_desc" <?= ($sort ?? '') === 'price_desc' ? 'selected' : '' ?>>Price: High to Low</option>
+            </select>
+          </div>
       </div>
 
       <?php if (empty($products)): ?>
