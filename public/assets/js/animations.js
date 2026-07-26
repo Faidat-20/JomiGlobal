@@ -221,6 +221,213 @@
     );
   }
 
+  function initFeaturedCarousel() {
+    const carousel = document.getElementById('featuredCarousel');
+    const track = document.getElementById('featuredTrack');
+    const dotsContainer = document.getElementById('featuredDots');
+    if (!carousel || !track) return;
+
+    const cards = Array.from(track.querySelectorAll('.product-card'));
+    if (!cards.length) return;
+
+    let currentIndex = 0;
+    let autoTimer = null;
+    let touchStartX = 0;
+    let isDragging = false;
+    let dragStartX = 0;
+
+    function getVisible() {
+      if (window.innerWidth <= 480) return 1;
+      if (window.innerWidth <= 768) return 2;
+      if (window.innerWidth <= 1024) return 3;
+      return 4;
+    }
+
+    function getMaxIndex() {
+      return Math.max(0, cards.length - getVisible());
+    }
+
+    function getCardWidth() {
+      return cards[0].getBoundingClientRect().width + 20;
+    }
+
+    const MAX_VISIBLE_DOTS = 5;
+
+    function buildDots() {
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      dotsContainer.style.display = 'flex';
+      const total = getMaxIndex() + 1;
+      const count = Math.min(total, MAX_VISIBLE_DOTS);
+      for (let i = 0; i < count; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'featured-dot';
+        dot.addEventListener('click', () => {
+          const total = getMaxIndex() + 1;
+          const windowStart = getDotWindowStart();
+          goTo(windowStart + i);
+          resetAuto();
+        });
+        dotsContainer.appendChild(dot);
+      }
+      updateDots();
+    }
+
+    function getDotWindowStart() {
+      const total = getMaxIndex() + 1;
+      const half = Math.floor(MAX_VISIBLE_DOTS / 2);
+      let start = currentIndex - half;
+      start = Math.max(0, start);
+      start = Math.min(start, Math.max(0, total - MAX_VISIBLE_DOTS));
+      return start;
+    }
+
+    function updateDots() {
+      if (!dotsContainer) return;
+      const dots = dotsContainer.querySelectorAll('.featured-dot');
+      const windowStart = getDotWindowStart();
+      dots.forEach((dot, i) => {
+        const slideIndex = windowStart + i;
+        dot.classList.toggle('active', slideIndex === currentIndex);
+        // Scale effect — smaller dots at edges like Instagram
+        const distFromActive = Math.abs(slideIndex - currentIndex);
+        if (distFromActive === 0) {
+          dot.style.transform = 'scale(1.3)';
+          dot.style.background = 'var(--mustard)';
+        } else if (distFromActive === 1) {
+          dot.style.transform = 'scale(1.0)';
+          dot.style.background = 'rgba(65,64,66,0.3)';
+        } else {
+          dot.style.transform = 'scale(0.7)';
+          dot.style.background = 'rgba(65,64,66,0.15)';
+        }
+      });
+    }
+
+    function goTo(index) {
+      const max = getMaxIndex();
+      // Loop back to start when exceeding max
+      if (index > max) {
+        currentIndex = 0;
+      } else if (index < 0) {
+        currentIndex = max;
+      } else {
+        currentIndex = index;
+      }
+      const offset = currentIndex * getCardWidth();
+      track.style.transition = 'transform 0.6s cubic-bezier(0.4,0,0.2,1)';
+      track.style.transform = `translateX(-${offset}px)`;
+      updateDots();
+    }
+
+    function next() {
+      goTo(currentIndex + 1);
+    }
+
+    function startAuto() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(next, 2500);
+    }
+
+    function resetAuto() {
+      startAuto();
+    }
+
+    function stopAuto() {
+      clearInterval(autoTimer);
+    }
+
+    // Touch support
+    carousel.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      stopAuto();
+      track.style.transition = 'none';
+    }, { passive: true });
+
+    carousel.addEventListener('touchmove', (e) => {
+      const diff = e.touches[0].clientX - touchStartX;
+      const currentOffset = currentIndex * getCardWidth();
+      track.style.transform = `translateX(${-currentOffset + diff}px)`;
+    }, { passive: true });
+
+    carousel.addEventListener('touchend', (e) => {
+      const diff = e.changedTouches[0].clientX - touchStartX;
+      if (diff < -50) {
+        goTo(currentIndex + 1);
+      } else if (diff > 50) {
+        goTo(currentIndex - 1);
+      } else {
+        goTo(currentIndex);
+      }
+      resetAuto();
+    });
+
+    // Mouse drag support
+    carousel.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      dragStartX = e.clientX;
+      stopAuto();
+      track.style.transition = 'none';
+      carousel.style.cursor = 'grabbing';
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const diff = e.clientX - dragStartX;
+      const currentOffset = currentIndex * getCardWidth();
+      track.style.transform = `translateX(${-currentOffset + diff}px)`;
+    });
+
+    window.addEventListener('mouseup', (e) => {
+      if (!isDragging) return;
+      const diff = e.clientX - dragStartX;
+      isDragging = false;
+      carousel.style.cursor = 'grab';
+      if (diff < -50) {
+        goTo(currentIndex + 1);
+      } else if (diff > 50) {
+        goTo(currentIndex - 1);
+      } else {
+        goTo(currentIndex);
+      }
+      resetAuto();
+    });
+
+    // Pause on hover
+    carousel.addEventListener('mouseenter', stopAuto);
+    carousel.addEventListener('mouseleave', startAuto);
+
+    // Rebuild on resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        buildDots();
+        goTo(0);
+      }, 200);
+    });
+
+    // Init
+    buildDots();
+    startAuto();
+
+    // Entrance animation
+    gsap.fromTo(cards,
+      { opacity: 0, y: 36, scale: 0.97 },
+      {
+        opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power3.out',
+        stagger: { each: 0.08, from: 'start' },
+        scrollTrigger: {
+          trigger: carousel,
+          start: 'top 88%',
+          once: true
+        }
+      }
+    );
+  }
+
+  function initFeaturedProducts() {}
+
   document.addEventListener('DOMContentLoaded', function() {
     initHero();
     initSectionHeaders();
@@ -229,6 +436,7 @@
     initFeaturedProducts();
     initHeaderBanners();
     initShopProductGrid();
+    initFeaturedCarousel();
   });
 
 })();

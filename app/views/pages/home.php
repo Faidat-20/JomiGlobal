@@ -231,15 +231,15 @@
         <h2 class="cat-section-title reveal">Featured Products</h2>
         <div class="cat-section-divider"></div>
       </div>
-      <div class="products-grid">
+      <div class="featured-carousel-wrapper">
+        <div class="featured-carousel" id="featuredCarousel">
+          <div class="products-grid featured-track" id="featuredTrack">
         <?php foreach ($featuredProducts as $p): ?>
           <a href="<?= APP_URL ?>/product/<?= $p['slug'] ?>" class="product-card reveal">
             <div class="card-corner c-tl"></div>
             <div class="card-corner c-tr"></div>
             <?php if ($p['sale_price']): ?>
               <span class="card-badge sale">Sale</span>
-            <?php else: ?>
-              <span class="card-badge">Featured</span>
             <?php endif; ?>
             <div class="card-img-wrap">
               <?php if (!empty($p['image'])): ?>
@@ -279,6 +279,10 @@
             </div>
           </a>
         <?php endforeach; ?>
+          </div>
+        </div>
+        <!-- Dots -->
+        <div class="featured-dots" id="featuredDots"></div>
       </div>
       <div style="text-align:center;margin-top:40px;">
         <a href="<?= APP_URL ?>/shop?category=" class="btn btn-secondary">View All Products</a>
