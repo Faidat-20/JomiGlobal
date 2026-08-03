@@ -43,31 +43,69 @@ if (!$category) {
 
 // ============ LEVEL 3: Subcategory products ============
 if ($subSlug) {
-  $stmt = $pdo->prepare('SELECT * FROM subcategories WHERE slug = ?');
-  $stmt->execute([$subSlug]);
+  $stmt = $pdo->prepare('SELECT * FROM subcategories WHERE slug = ? AND category_id = ?');
+  $stmt->execute([$subSlug, $category['id']]);
   $subcategory = $stmt->fetch();
-
-  $stmt = $pdo->prepare('SELECT * FROM subcategories WHERE slug = ?');
-  $stmt->execute([$groupSlug]);
+  $stmt = $pdo->prepare('SELECT * FROM subcategories WHERE slug = ? AND category_id = ?');
+  $stmt->execute([$groupSlug, $category['id']]);
   $group = $stmt->fetch();
 
-  // Get products
-  $sort = $_GET['sort'] ?? 'newest';
-  $orderBy = match($sort) {
-    'price_asc'  => 'p.price ASC',
-    'price_desc' => 'p.price DESC',
-    'name_asc'   => 'p.name ASC',
-    default      => 'p.created_at DESC',
+  // Get sort, filters and pagination
+  $sort     = $_GET['sort'] ?? 'newest';
+  $minPrice = isset($_GET['min_price']) && $_GET['min_price'] !== '' ? (float) $_GET['min_price'] : null;
+  $maxPrice = isset($_GET['max_price']) && $_GET['max_price'] !== '' ? (float) $_GET['max_price'] : null;
+  $page     = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+  $perPage  = ITEMS_PER_PAGE;
+  $offset   = ($page - 1) * $perPage;
+
+  $orderBy = match ($sort) {
+      'price_asc'  => 'p.price ASC',
+      'price_desc' => 'p.price DESC',
+      'name_asc'   => 'p.name ASC',
+      default      => 'p.created_at DESC',
   };
 
-  $stmt = $pdo->prepare("
-    SELECT p.*, c.name as category_name
-    FROM products p
-    LEFT JOIN categories c ON p.category_id = c.id
-    WHERE p.subcategory_id = ? AND p.is_active = 1
-    ORDER BY $orderBy
+  $where = [
+      'p.subcategory_id = ?',
+      'p.is_active = 1'
+  ];
+
+  $params = [$subcategory['id']];
+
+  if ($minPrice !== null) {
+      $where[] = 'p.price >= ?';
+      $params[] = $minPrice;
+  }
+
+  if ($maxPrice !== null) {
+      $where[] = 'p.price <= ?';
+      $params[] = $maxPrice;
+  }
+
+  $whereClause = implode(' AND ', $where);
+
+  // Count products
+  $countStmt = $pdo->prepare("
+      SELECT COUNT(*)
+      FROM products p
+      WHERE $whereClause
   ");
-  $stmt->execute([$subcategory['id']]);
+
+  $countStmt->execute($params);
+  $totalProducts = $countStmt->fetchColumn();
+  $totalPages = ceil($totalProducts / $perPage);
+
+  // Get products
+  $stmt = $pdo->prepare("
+      SELECT p.*, c.name AS category_name
+      FROM products p
+      LEFT JOIN categories c ON p.category_id = c.id
+      WHERE $whereClause
+      ORDER BY $orderBy
+      LIMIT $perPage OFFSET $offset
+  ");
+
+  $stmt->execute($params);
   $products = $stmt->fetchAll();
 
   $pageTitle = $subcategory['name'] . ' - ' . $category['name'];
@@ -81,8 +119,8 @@ if ($subSlug) {
 
 // ============ LEVEL 2: Group subcategories OR products ============
 if ($groupSlug) {
-  $stmt = $pdo->prepare('SELECT * FROM subcategories WHERE slug = ?');
-  $stmt->execute([$groupSlug]);
+  $stmt = $pdo->prepare('SELECT * FROM subcategories WHERE slug = ? AND category_id = ?');
+  $stmt->execute([$groupSlug, $category['id']]);
   $group = $stmt->fetch();
 
   if (!$group) {

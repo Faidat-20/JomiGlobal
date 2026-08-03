@@ -34,10 +34,10 @@
       <div class="sort-wrapper">
         <label>Sort by:</label>
         <select onchange="window.location=this.value" class="sort-select">
-          <option value="<?= APP_URL ?>/collections/<?= $collection['slug'] ?>?sort=newest" <?= $sort === 'newest' ? 'selected' : '' ?>>Newest</option>
-          <option value="<?= APP_URL ?>/collections/<?= $collection['slug'] ?>?sort=price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>Price: Low to High</option>
-          <option value="<?= APP_URL ?>/collections/<?= $collection['slug'] ?>?sort=price_desc" <?= $sort === 'price_desc' ? 'selected' : '' ?>>Price: High to Low</option>
-          <option value="<?= APP_URL ?>/collections/<?= $collection['slug'] ?>?sort=name_asc" <?= $sort === 'name_asc' ? 'selected' : '' ?>>Name: A–Z</option>
+          <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'newest'])) ?>" <?= $sort === 'newest' ? 'selected' : '' ?>>Newest</option>
+          <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'price_asc'])) ?>" <?= $sort === 'price_asc' ? 'selected' : '' ?>>Price: Low to High</option>
+          <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'price_desc'])) ?>" <?= $sort === 'price_desc' ? 'selected' : '' ?>>Price: High to Low</option>
+          <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'name_asc'])) ?>" <?= $sort === 'name_asc' ? 'selected' : '' ?>>Name: A–Z</option>
         </select>
       </div>
     </div>
@@ -105,6 +105,27 @@
         <?php endforeach; ?>
       </div>
     <?php endif; ?>
-
   </div>
+  <!-- Pagination -->
+  <?php if ($totalPages > 1): ?>
+    <div class="pagination">
+      <?php if ($page > 1): ?>
+        <a href="?<?= http_build_query(array_merge($_GET, ['page' => $page - 1])) ?>" class="page-btn">
+          <i class="ti ti-chevron-left"></i>
+        </a>
+      <?php endif; ?>
+
+      <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+        <a href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>" class="page-btn <?= $i === $page ? 'active' : '' ?>">
+          <?= $i ?>
+        </a>
+      <?php endfor; ?>
+
+      <?php if ($page < $totalPages): ?>
+        <a href="?<?= http_build_query(array_merge($_GET, ['page' => $page + 1])) ?>" class="page-btn">
+          <i class="ti ti-chevron-right"></i>
+        </a>
+      <?php endif; ?>
+    </div>
+  <?php endif; ?>
 </main>

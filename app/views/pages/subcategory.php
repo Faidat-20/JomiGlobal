@@ -47,7 +47,7 @@
     <?php else: ?>
       <!-- Show products -->
       <div class="shop-toolbar">
-        <form method="GET" action="<?= APP_URL ?>/collections/<?= $collection['slug'] ?>" class="toolbar-price-filter">
+        <form method="GET" action="" class="toolbar-price-filter">
           <input type="number" name="min_price" placeholder="Min ₦" value="<?= $minPrice ?? '' ?>" style="width:80px;padding:8px 10px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;">
           <span>—</span>
           <input type="number" name="max_price" placeholder="Max ₦" value="<?= $maxPrice ?? '' ?>" style="width:80px;padding:8px 10px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;">
@@ -56,9 +56,10 @@
           <div class="sort-wrapper">
             <label>Sort by:</label>
             <select onchange="window.location=this.value" class="sort-select">
-              <option value="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>/<?= $subcategory['slug'] ?>?sort=newest" <?= ($sort ?? 'newest') === 'newest' ? 'selected' : '' ?>>Newest</option>
-              <option value="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>/<?= $subcategory['slug'] ?>?sort=price_asc" <?= ($sort ?? '') === 'price_asc' ? 'selected' : '' ?>>Price: Low to High</option>
-              <option value="<?= APP_URL ?>/category/<?= $categorySlug ?>/<?= $group['slug'] ?>/<?= $subcategory['slug'] ?>?sort=price_desc" <?= ($sort ?? '') === 'price_desc' ? 'selected' : '' ?>>Price: High to Low</option>
+              <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'newest'])) ?>" <?= $sort === 'newest' ? 'selected' : '' ?>>Newest</option>
+              <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'price_asc'])) ?>" <?= $sort === 'price_asc' ? 'selected' : '' ?>>Price: Low to High</option>
+              <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'price_desc'])) ?>" <?= $sort === 'price_desc' ? 'selected' : '' ?>>Price: High to Low</option>
+              <option value="?<?= http_build_query(array_merge($_GET, ['sort' => 'name_asc'])) ?>" <?= $sort === 'name_asc' ? 'selected' : '' ?>>Name: A–Z</option>
             </select>
           </div>
       </div>
@@ -127,5 +128,27 @@
       <?php endif; ?>
     <?php endif; ?>
 
+    <!-- Pagination -->
+    <?php if (!empty($totalPages) && $totalPages > 1): ?>
+      <div class="pagination">
+        <?php if ($page > 1): ?>
+          <a href="?<?= http_build_query(array_merge($_GET, ['page' => $page - 1])) ?>" class="page-btn">
+            <i class="ti ti-chevron-left"></i>
+          </a>
+        <?php endif; ?>
+
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+          <a href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>" class="page-btn <?= $i === $page ? 'active' : '' ?>">
+            <?= $i ?>
+          </a>
+        <?php endfor; ?>
+
+        <?php if ($page < $totalPages): ?>
+          <a href="?<?= http_build_query(array_merge($_GET, ['page' => $page + 1])) ?>" class="page-btn">
+            <i class="ti ti-chevron-right"></i>
+          </a>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
   </div>
 </main>

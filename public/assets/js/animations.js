@@ -344,11 +344,25 @@
       track.style.transition = 'none';
     }, { passive: true });
 
-    carousel.addEventListener('touchmove', (e) => {
-      const diff = e.touches[0].clientX - touchStartX;
-      const currentOffset = currentIndex * getCardWidth();
-      track.style.transform = `translateX(${-currentOffset + diff}px)`;
+    let touchStartY = 0;
+
+    carousel.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      stopAuto();
+      track.style.transition = 'none';
     }, { passive: true });
+
+    carousel.addEventListener('touchmove', (e) => {
+      const diffX = e.touches[0].clientX - touchStartX;
+      const diffY = e.touches[0].clientY - touchStartY;
+
+      if (Math.abs(diffX) > Math.abs(diffY)) {
+        e.preventDefault(); // block browser back/forward
+        const currentOffset = currentIndex * getCardWidth();
+        track.style.transform = `translateX(${-currentOffset + diffX}px)`;
+      }
+    }, { passive: false });
 
     carousel.addEventListener('touchend', (e) => {
       const diff = e.changedTouches[0].clientX - touchStartX;

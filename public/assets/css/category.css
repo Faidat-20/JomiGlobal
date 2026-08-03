@@ -8,7 +8,7 @@
   padding: 48px 0;
   position: relative;
   overflow: hidden;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
 }
 
 .category-hero::before {
@@ -51,7 +51,7 @@
 .category-group-card {
   display: block;
   position: relative;
-  aspect-ratio: 2/3;
+  aspect-ratio: 3/4;
   overflow: hidden;
   cursor: pointer;
   background: #1c1b1f;
@@ -75,6 +75,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
 }
 
 /* Counter */
@@ -248,9 +249,8 @@
   .category-groups {
     grid-template-columns: repeat(2, 1fr);
   }
-
   .category-group-card {
-    aspect-ratio: 3/4;
+    aspect-ratio: 1/1;
   }
 }
 
