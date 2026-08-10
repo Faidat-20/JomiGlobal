@@ -327,7 +327,7 @@ h4 { font-size: 1.25rem; }
   position: absolute;
   top: -8px;
   right: -8px;
-  background: var(--error);
+  background: var(--mustard);
   color: var(--ash);
   font-size: 10px;
   font-weight: 600;
